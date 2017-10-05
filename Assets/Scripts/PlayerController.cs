@@ -4,11 +4,11 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-   
     public float speed;
     public Text countText;
     public Text winText;
     public Transform bomb;
+    public GameObject gun;
 
     private Rigidbody rb;
     private int count;// Reference to the UI's health bar.
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         count = 0;
         SetCountText();
         winText.text = "";
-    }
+}
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Pick Up"))
@@ -47,9 +47,13 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        /*if (Input.GetKeyDown("space"))
+        {
+            Instantiate(bomb, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 10f, gameObject.transform.position.z), Quaternion.identity);
+        }*/
         if (Input.GetKeyDown("space"))
         {
-            Instantiate(bomb, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 10f, gameObject.transform.position.z), Quaternion.identity); ;
+            gun.GetComponent<GunController>().use();
         }
     }
 
