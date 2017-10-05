@@ -22,7 +22,6 @@ public class SwordController : MonoBehaviour
     private void Update()
     {
         changeInX = Input.GetAxis("Mouse X") * sensitivityX;
-        print(changeInX);
         currentX += changeInX;
     }
     void OnCollisionEnter(Collision collision)

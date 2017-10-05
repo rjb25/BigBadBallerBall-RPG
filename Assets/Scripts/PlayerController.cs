@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public Text countText;
     public Text winText;
+    public Transform bomb;
 
     private Rigidbody rb;
     private int count;// Reference to the UI's health bar.
@@ -40,10 +41,17 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = Vector3.Normalize((new Vector3(Direction.z * (moveHorizontal), 0f, Direction.x * (-moveHorizontal)) + Vector3.Scale(Direction, new Vector3(moveVertical, 0f, moveVertical)))/2);
-  
+        
         rb.AddForce(movement * speed);
+       
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Instantiate(bomb, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 10f, gameObject.transform.position.z), Quaternion.identity); ;
+        }
+    }
 
     void SetCountText()
     {
