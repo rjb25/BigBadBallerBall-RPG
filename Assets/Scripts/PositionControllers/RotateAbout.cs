@@ -1,0 +1,33 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class RotateAbout: MonoBehaviour {
+    public Transform lookAt;
+    public float distance = 1.5f;
+    public float xRotOff = 0;
+    public float yRotOff = 0;
+    public float xObjRotOff = 0;
+    public float yObjRotOff = 0;
+    public float lookAhead = 0;
+
+
+    // Update is called once per frame
+
+    private void LateUpdate()
+        {
+            Vector3 dir = new Vector3(0, 0, distance);
+            Quaternion updatedDirection = lookAt.rotation * Quaternion.Euler(xRotOff, yRotOff, 0f);
+
+
+            gameObject.transform.position = (lookAt.position + updatedDirection * dir);
+        Vector3 difference = lookAhead * (lookAt.position - gameObject.transform.position);
+        difference[1] = 0;
+
+        gameObject.transform.LookAt(lookAt.position + difference);
+            gameObject.transform.rotation *= Quaternion.Euler(xObjRotOff, yObjRotOff, 0f);
+
+
+    }
+ 
+}

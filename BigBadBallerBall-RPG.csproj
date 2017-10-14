@@ -78,18 +78,66 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AlwaysVisible.cs" />
-    <Compile Include="Assets\Scripts\BombController.cs" />
-    <Compile Include="Assets\Scripts\BulletController.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
-    <Compile Include="Assets\Scripts\Follow.cs" />
-    <Compile Include="Assets\Scripts\GunController.cs" />
+    <Compile Include="Assets\Scripts\AI\AccelerateAI.cs" />
+    <Compile Include="Assets\Scripts\AI\ChargeAI.cs" />
+    <Compile Include="Assets\Scripts\AI\KiteAI.cs" />
+    <Compile Include="Assets\Scripts\AI\MoveAI.cs" />
+    <Compile Include="Assets\Scripts\AI\Priority.cs" />
+    <Compile Include="Assets\Scripts\AI\TargetsNearest.cs" />
+    <Compile Include="Assets\Scripts\AI\TargetsPriority.cs" />
+    <Compile Include="Assets\Scripts\Create.cs" />
+    <Compile Include="Assets\Scripts\GetInterfaces.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Rotator.cs" />
+    <Compile Include="Assets\Scripts\Interfaces.cs" />
+    <Compile Include="Assets\Scripts\Money\BalanceScript.cs" />
+    <Compile Include="Assets\Scripts\Money\DropScatter.cs" />
+    <Compile Include="Assets\Scripts\Money\MenuScript.cs" />
+    <Compile Include="Assets\Scripts\Money\Money.cs" />
+    <Compile Include="Assets\Scripts\Money\Purchases.cs" />
+    <Compile Include="Assets\Scripts\NetworkTest\MultiPlayerController.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\AlwaysVisible.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\CenterMass.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\Follow.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\HavePlayerVelocity.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\MaxSpeed.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\Orbiter.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\RotateAbout.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\RotateWithVelocity.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\RotationController.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\BombController.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\BulletController.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\Duration.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\HealController.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\ImpactDamage.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\PlayerSpeedDamage.cs" />
+    <Compile Include="Assets\Scripts\ProjectileControllers\Sendable.cs" />
+    <Compile Include="Assets\Scripts\RandomTerrain.cs" />
+    <Compile Include="Assets\Scripts\Repulse.cs" />
+    <Compile Include="Assets\Scripts\Repulsion.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
-    <Compile Include="Assets\Scripts\SwordController.cs" />
+    <Compile Include="Assets\Scripts\StartingUnits.cs" />
+    <Compile Include="Assets\Scripts\ToolController\BomberController.cs" />
+    <Compile Include="Assets\Scripts\ToolController\GunController.cs" />
+    <Compile Include="Assets\Scripts\ToolController\ToolScript.cs" />
+    <Compile Include="Assets\Scripts\Triggers\Always.cs" />
+    <Compile Include="Assets\Scripts\Triggers\OnDestroyed.cs" />
+    <Compile Include="Assets\Scripts\Triggers\OnInterval.cs" />
+    <Compile Include="Assets\Scripts\Triggers\OnKey.cs" />
+    <Compile Include="Assets\Scripts\Vars.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
+    <None Include="Assets\Standard Assets\Effects\ImageEffects\Readme.txt" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
+    <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
+    <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
+    <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

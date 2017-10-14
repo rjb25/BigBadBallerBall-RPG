@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Pick Up
   - Enemy
+  - Barrier
+  - External
+  - Character
   layers:
   - Default
   - TransparentFX
@@ -19,16 +22,16 @@ TagManager:
   - Player
   - Gun
   - Projectile
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Spawner
+  - Enemy
+  - EnemyWeapon
+  - PlayerShield
+  - Terrain
+  - AllyTool
+  - Ally
+  - Rolling
+  - Coin
+  - Main Character
   - 
   - 
   - 
