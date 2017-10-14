@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/_NetworkTesting.unity
-  isLoaded: 1
-  isActive: 1
