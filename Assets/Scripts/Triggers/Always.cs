@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Always: MonoBehaviour {
-    public UnityEvent myUnityEvent;
-
+public class Always : MonoBehaviour {
+        public Actor action;
+        public void  SetAlways(Actor doWhat)
+        {//could put these out into functions if desired.
+            action = doWhat;
+        }
     private void Update()
     {
-            myUnityEvent.Invoke();
+        action();
     }
 }

@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
     public Transform healthBox;// The current health the player has.
     public Slider healthSlider; // Whether the player is dead.
     private float scaleMax;
+    public bool noBreak = false;
 
 
    
@@ -60,8 +61,20 @@ public class Health : MonoBehaviour
                 //could call directly for better performance, but send message allows the most flexibility for now.
                     BroadcastMessage("OnDeath");
 
-            
-            Destroy(gameObject);
+            if (noBreak)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {if (gameObject.name == "body")
+                {
+                    Destroy(gameObject.transform.parent.gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

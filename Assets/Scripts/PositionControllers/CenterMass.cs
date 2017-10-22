@@ -7,11 +7,11 @@ public class CenterMass : MonoBehaviour {
     // Use this for initialization
     public void Start()
     {
-        GetComponent<Rigidbody>().centerOfMass = center.position-transform.position;
+        GetComponent<Rigidbody>().centerOfMass = (center.position-transform.position);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }

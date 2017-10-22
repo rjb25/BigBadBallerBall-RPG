@@ -4,40 +4,21 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Sendable : MonoBehaviour{
+    //make this a function class. for performance of AI being integrated
     public List<string> targets;
+    public List<string> affected;
     public bool hitsBarriers = true;
-    public IAffect[] affects;
-    private bool affectsSet = false;
-    public void Start()
+    private void Start()
     {
-        affects = GetInterfaces.Affects(gameObject);
+        affected = affected ?? targets;
     }
-    void OnCollisionEnter(Collision collision)
+    public bool IsReceiver(GameObject other)
     {
-        if (targets.Contains(collision.gameObject.tag) || (hitsBarriers && collision.gameObject.CompareTag("Barrier")))
-        {
-            foreach (IAffect affect in affects)
-            {
-                affect.Affects(collision.gameObject, collision);
-            }
-        }
-    }
-    void OnTriggerEnter(Collider other)
-    {
-        if (!affectsSet)
-        {
-            affects = GetInterfaces.Affects(gameObject);
-            affectsSet = true;
-        }
         if (targets.Contains(other.gameObject.tag) || (hitsBarriers && other.gameObject.CompareTag("Barrier")))
-            {
-            foreach (IAffect affect in affects)
-                {
-                
-
-                    affect.Affects(other.gameObject, null);
-
-                }
-            }
+        {
+            return true;
+        }
+        return false;
     }
+
 }

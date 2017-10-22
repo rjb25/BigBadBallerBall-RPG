@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerSpeedDamage : MonoBehaviour, IAffect
+public class PlayerSpeedDamage : MonoBehaviour
 {
     public int minDamage = 0;
     public float damageMultiplier = 1;
@@ -10,17 +10,20 @@ public class PlayerSpeedDamage : MonoBehaviour, IAffect
     public float reloadTime = 1;
     private bool reloaded = true;
     private Rigidbody playerRotation;
+    private Sendable to;
     private Rigidbody playerVelocity;
     void Start()
     {
+        to = GetComponent<Sendable>();
         playerRotation = GameObject.Find("PlayerRotation").GetComponent<Rigidbody>();
         playerVelocity = GameObject.Find("PlayerBody").GetComponent<Rigidbody>();
     }
 
-    public void Affects(GameObject collision, Collision impact = null)
+    public void OnCollisionEnter(Collision impact)
     {
-
-        if (reloaded)
+        
+        GameObject collision = impact.gameObject;
+        if (reloaded && to.IsReceiver(collision))
         {
             reloaded = false;
             Invoke("Reload", reloadTime);
@@ -35,12 +38,13 @@ public class PlayerSpeedDamage : MonoBehaviour, IAffect
             }
             
             int damage = Mathf.Max(Mathf.FloorToInt(damageMultiplier * (relativeVelocity * velocityDmgMult + playerRotation.angularVelocity.magnitude * rotationDmgMult)), minDamage);
-            impact.collider.gameObject.GetComponentInParent<Health>().TakeDamage(damage);
+            collision.gameObject.GetComponentInParent<Health>().TakeDamage(damage);
         }
 
     }
     public void Reload()
     {
+ 
         reloaded = true;
     }
  }

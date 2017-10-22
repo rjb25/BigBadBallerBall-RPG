@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour {
         timeLeft = spawnRate;
 
     }
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
         if(amount > 0 && amount <= count)

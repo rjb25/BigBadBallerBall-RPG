@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HealController : MonoBehaviour , IAffect
+public class HealController : MonoBehaviour
 {
     public int collisionsAllowed = 1;
     private int collisionCount = 0;

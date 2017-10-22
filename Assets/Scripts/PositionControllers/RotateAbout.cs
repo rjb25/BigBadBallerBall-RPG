@@ -10,6 +10,10 @@ public class RotateAbout: MonoBehaviour {
     public float xObjRotOff = 0;
     public float yObjRotOff = 0;
     public float lookAhead = 0;
+    public bool fixForward = true;
+    public bool lookAway = true;
+    private float fixX = 0f;
+    private float fixY = 0f;
 
 
     // Update is called once per frame
@@ -25,7 +29,21 @@ public class RotateAbout: MonoBehaviour {
         difference[1] = 0;
 
         gameObject.transform.LookAt(lookAt.position + difference);
-            gameObject.transform.rotation *= Quaternion.Euler(xObjRotOff, yObjRotOff, 0f);
+        if (fixForward)
+        {
+            fixX = -xRotOff;
+            fixY = -yRotOff;
+        }
+        if (lookAway)
+        {
+            gameObject.transform.rotation *= Quaternion.Euler(-xObjRotOff + fixX, yObjRotOff + 180 + fixY, 0f);
+
+        }
+        else
+        {
+
+            gameObject.transform.rotation *= Quaternion.Euler(xObjRotOff + fixX, yObjRotOff + fixY, 0f);
+        }
 
 
     }
