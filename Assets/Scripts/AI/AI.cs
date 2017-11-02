@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 public class AI : MonoBehaviour
 {
     //this will eventually be broken back into AI classes.
@@ -21,17 +22,39 @@ public class AI : MonoBehaviour
     public Vector3 holdPoint;
     public Rigidbody rb;
     private Sendable sendScript;
+    public OnRegion holdRegion;
+    public Trigger ts;
+    public Vector3 basePoint;
+
+    public int pursueRange = 10;
 
     //public Actor noTarget;
     #endregion
     public void Start(){
-        print(gameObject);
+       
         ms = GetComponent<Movement>();
         //noTarget = Forward;
         targetScript = GetComponent<Targeting>();
     sendScript = GetComponent<Sendable>();
         holdPoint = gameObject.transform.position;
+        if(basePoint == new Vector3())
+        {
+            basePoint = gameObject.transform.position;
+        }
         rb = GetComponent<Rigidbody>();
+        //The way to set triggers NOTE THIS IT IS REALLY IMPORTANT
+        ts = gameObject.AddComponent<Trigger>();
+        ts.condition = () => Vector3.Magnitude(holdPoint - gameObject.transform.position) < holdRange;
+        ts.Set(active: () => Movement.Slow(rb:ms.rb, speed:ms.speed), inactive: () => ms.defaultMovement(Vector3.Normalize(holdPoint - gameObject.transform.position), ms.rb,ms.speed));
+        ts.name = "hold motion trigger";
+        
+        ts.enabled = hold;
+
+    }
+    public void SetHold(bool isHolding)
+    {
+        ts.enabled = isHolding;
+        hold = isHolding;
     }
     /*public void Forward()
     {
@@ -47,6 +70,7 @@ public class AI : MonoBehaviour
         if(dist < distance - 5) { 
             direction = -1;
         }   
+
     }
     public void SetHold()
     {
@@ -55,6 +79,10 @@ public class AI : MonoBehaviour
     }
 void Update()
 {
+        //if out of pursue range from base, move towards hold point.
+        Vector3 baseDistance = basePoint - gameObject.transform.position;
+        hold = baseDistance.sqrMagnitude > pursueRange * pursueRange;
+        
         Vector3 where = Vector3.zero;
         if (targetScript.target) 
     {
@@ -112,27 +140,8 @@ void Update()
         }
         else
         {
-
-
-            //noTarget();
-
-    //here is waiting for new target if target set on interval
 }
-        if (hold)
-        {
-            Vector3 difference = holdPoint - gameObject.transform.position;
-            float distanceLeft = Vector3.Magnitude(difference);
-            if (distanceLeft < holdRange)
-            {
-                ms.SetMovement("slow");
 
-            }
-            else
-            {
-                ms.SetMovement("accelerate");
-            }
-            where = Vector3.Normalize(difference);
-        }
         /*
         if (where == Vector3.zero)
         {
@@ -142,8 +151,13 @@ void Update()
         {
             ms.SetMovement("accelerate");
         }*/
-    
-        ms.moveFunc(where);
+        if (hold)
+        {
+            Vector3 difference = holdPoint - gameObject.transform.position;
+            where = Vector3.Normalize(difference);
+        }
+
+        ms.defaultMovement(where,ms.rb,ms.speed);
     }
 void OnCollisionEnter(Collision collision)
     {//delegates are the answer if this section gets bogged down

@@ -82,16 +82,20 @@
     <Compile Include="Assets\Scripts\AI\Priority.cs" />
     <Compile Include="Assets\Scripts\AI\Targeting.cs" />
     <Compile Include="Assets\Scripts\ChangeScene.cs" />
+    <Compile Include="Assets\Scripts\ClickableObject.cs" />
     <Compile Include="Assets\Scripts\Create.cs" />
     <Compile Include="Assets\Scripts\Delegates.cs" />
+    <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Money\BalanceScript.cs" />
     <Compile Include="Assets\Scripts\Money\DropScatter.cs" />
     <Compile Include="Assets\Scripts\Money\MenuScript.cs" />
     <Compile Include="Assets\Scripts\Money\Money.cs" />
     <Compile Include="Assets\Scripts\Money\Purchases.cs" />
+    <Compile Include="Assets\Scripts\MoveTo.cs" />
     <Compile Include="Assets\Scripts\NetworkTest\Initializer.cs" />
     <Compile Include="Assets\Scripts\NetworkTest\MultiPlayerController.cs" />
+    <Compile Include="Assets\Scripts\No.cs" />
     <Compile Include="Assets\Scripts\NoVelocity.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\AlwaysVisible.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\CenterMass.cs" />
@@ -118,12 +122,13 @@
     <Compile Include="Assets\Scripts\Repulse.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\StartingUnits.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\ToolController\ToolController.cs" />
     <Compile Include="Assets\Scripts\Triggers\Always.cs" />
-    <Compile Include="Assets\Scripts\Triggers\OnInterval.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnKey.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnRegion.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnTargetDeath.cs" />
+    <Compile Include="Assets\Scripts\Triggers\Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

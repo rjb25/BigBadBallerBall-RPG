@@ -11,27 +11,89 @@ public class Targeting : MonoBehaviour{
     public float retargetingSpeed = 1;
     public bool retargetOnInterval = true;
     public float targetingRange = 100;
+    public float lastTargetSet;
+    private Condition newTargetWhen;
+    public string newTargetOn;
+  public string whileWaitingType = "nothing";
+    public bool waiting = true;
+    public Trigger ts;
+    public Movement ms;
+    public AI ais;
+    public Trigger wts;
     // switch case OK for now private delegate void targeting(GameObject[] objs);
     private void Start()
     {
-        if (retargetOnInterval)
-        {
-            OnInterval ois = gameObject.AddComponent<OnInterval>();
-            ois.Set(TargetAtSpeed, retargetingSpeed);
-        }
-        /*
-        if (!setTargetOnDeath)
-        {
-            //This needs a coroutine if I want to be able to update targeting speed mid game.
-            InvokeRepeating("SetTarget", targetingSpeed, targetingSpeed);
-        }
-        */
-        //print(gameObject.name);
-        TargetAtSpeed();
+        lastTargetSet = Time.time;
+        ts = gameObject.AddComponent<Trigger>();
+        ais = GetComponent<AI>();
+        ms = GetComponent<Movement>();
+        SetRetargeting(newTargetOn);
+        ts.condition = newTargetWhen;
+        ts.name = "targeting trigger";
+        wts = gameObject.AddComponent<Trigger>();
+        wts.condition = () => waiting;
+        wts.name = "waiting trigger";
+        SetWaiting(whileWaitingType);
     }
-    public void TargetAtSpeed()
+    //It does not have to be this way. I could make these conditions be set at a very high level. However for now this will work. THIS METHOD IS BEST FOR BULLET DUPLICATION THOUGH
+    public void SetWaiting(string doWhileWaiting)
     {
-        Invoke("SetTarget", targetingSpeed);
+        this.whileWaitingType = doWhileWaiting;
+        switch (doWhileWaiting)
+        {
+            case "forward":
+                Actor forward = () => Movement.Velocity(gameObject.transform.forward, ms.rb, ms.speed);
+                wts.Set(forward, active:forward);
+                break;
+            case "death":
+                wts.Set(() => Destroy(gameObject));
+                break;
+            case "hold":
+                wts.Set(() => ais.SetHold(true),() =>ais.SetHold(false));
+                break;
+            case "nothing":
+                wts.Set();
+                break;
+            default:
+                wts.Set();
+                print("wait type not recognized");
+                break;
+
+        }
+    }
+    public void SetRetargeting(string newTargetOn)
+    {
+        this.newTargetOn = newTargetOn;
+        switch (newTargetOn)
+        {
+            case "":
+                newTargetWhen = () => false;
+                break;
+            case "interval":
+                newTargetWhen = () => Time.time > lastTargetSet + retargetingSpeed;
+                ts.Set(SetTarget);
+                break;
+            case "kill":
+                newTargetWhen = () => target == null;
+                ts.Set(SetTarget, active:() => { SetTarget(); });
+                break;
+            default:
+                newTargetWhen = () => false;
+                print("retargeting type not recognized");
+                break;
+
+        }
+    }
+public void TargetAtSpeed()
+    {
+        if (targetingSpeed < 0)
+        {
+            SetTarget();
+        }
+        else
+        {
+            Invoke("SetTarget", targetingSpeed);
+        }
     }
     //this could be static if I so desired
     public static GameObject GetTarget(string[] targetTags, GameObject obj, string targeting, float range)
@@ -41,7 +103,7 @@ public class Targeting : MonoBehaviour{
         {
             gos.AddRange(GameObject.FindGameObjectsWithTag(tag));
         }
-        List<GameObject> theGos = gos.Where((go => (go.transform.position - obj.transform.position).sqrMagnitude < range)).ToList();
+        List<GameObject> theGos = gos.Where((go => (go.transform.position - obj.transform.position).sqrMagnitude < range*range)).ToList();
 
 
         switch (targeting)
@@ -60,11 +122,11 @@ public class Targeting : MonoBehaviour{
     }
 public void SetTarget()
     {
-            target = GetTarget(targetByTags,gameObject,targeting,targetingRange);
-           if(target == null)
-        {
-            // go to point
-        }
+        lastTargetSet = Time.time;
+        target = GetTarget(targetByTags,gameObject,targeting,targetingRange);
+        waiting = (target == null);
+        
+
     }
        
     

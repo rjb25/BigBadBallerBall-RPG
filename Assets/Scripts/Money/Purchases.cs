@@ -9,73 +9,95 @@ public class Purchases : MonoBehaviour {
     private Health health;
     private PlayerController playerScript;
     public GameObject menu;
+    private GameObject playerBody;
     Dictionary<string, Inf> buttons;
-    struct Inf
+    public struct Inf
     {
         public int price;
-        public int level;
+        public int upgrade;
+        public int level { get; set; }
+        public Producer produce;
     }
 
     private void Start()
     {
+        playerBody = GameObject.Find("PlayerBody");
         health = gameObject.GetComponent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
         buttons = new Dictionary<string, Inf>()
         {
-                {"Charger", new Inf{price = 1, level = 1} },
-                {"Light", new Inf{price = 1, level = 1} },
-                {"Heal", new Inf{price = 1, level = 1} },
-                {"Backwards", new Inf{price = 1, level = 1} }
+                   {"Gun", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level) => {
+                    GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true);
+        gun.transform.parent = playerBody.transform;
+        gun.transform.localPosition = new Vector3(1f, 0, 1.5f);
 
+        Create.AttachSpawner(gun, playerBody); }
+    } },
 
+                {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level) => Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player", new string[] { "Enemy" },level: level)
+    } },
+                {"Light", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
+    } },
+                {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level) =>  health.TakeDamage(-25 - (level *10))
+    } },
+                {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level) => playerScript.noBackwards = false
+    } },
+                {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level ) =>Create.Townhall(gameObject.transform.forward * 2 + new Vector3(0,0.25f,0), "Player")
+    } } ,
+            {"Sword", new Inf{price = 1, level = 1, upgrade = 1,
+            produce = (level) => print("yay sword" + level)
+            } }
 
         };
         int count = 0;
         foreach (KeyValuePair<string, Inf> pair in buttons)
         {
-         
-            
-
             GameObject buttonObj = Instantiate(Create.GetPrefab("Button"), menu.transform);
+            ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
             Button button = buttonObj.GetComponent<Button>();
-            buttonObj.GetComponentInChildren<Text>().text = "lvl" + pair.Value.price + " " + pair.Key + "(" + pair.Value.level + ")";
+            Text txt = buttonObj.GetComponentInChildren<Text>();
+            txt.text = "(" + pair.Value.upgrade + ")" +"lvl" + pair.Value.level + " " + pair.Key + "(" + pair.Value.price + ")";
             buttonObj.transform.localScale = new Vector3(1, 1, 1);
             RectTransform rect = buttonObj.GetComponent<RectTransform>();
             rect.anchoredPosition = new Vector2(count*160,0);
 
-                button.onClick.AddListener(delegate { Buy(pair.Key); });
+            cs.leftClick = delegate { Buy(pair.Key); };
+            cs.rightClick = delegate { Upgrade(pair.Key, txt); };
             count++;
 
         }
     }
+    public void Upgrade(string name, Text txt) //level
+    {
 
-    //maybe make this a switch case of buy
+        Inf item = buttons[name];
+        
+        if (balance.balance >= item.upgrade) //&& cheap contains name
+        {
+            balance.AddMoney(-item.upgrade);
+            item.level++;
+            item.upgrade += item.upgrade;
+            buttons[name] =  item;
+            print("upgraded to level " + item.level);
+            txt.text = "(" + item.upgrade + ")" + "lvl" + item.level + " " + name + "(" + item.price + ")";
+        }
+
+
+    }
     public void Buy(string name) //level
     {
-        int price = 1;
-        if (balance.balance >= price) //&& cheap contains name
+        Inf item = buttons[name];
+        if (balance.balance >= item.price) //&& cheap contains name
         {
-            balance.AddMoney(-price);
-            switch (name)
-            {
-                case "Charger":
-                    Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player", new string[] { "Enemy" });
-                    break;
-                case "Light":
-                    Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red);
-                    break;
-                case "Heal":
-                    health.TakeDamage(-25);
-                    break;
-                case "Backwards":
-                    playerScript.noBackwards = false;
-                    break;
-                default:
-                    print("no item specified");
-                    balance.AddMoney(price);
-                    break;
-            }
+            balance.AddMoney(-item.price);
+            item.produce(item.level);
         }
-      
+
     }
 }

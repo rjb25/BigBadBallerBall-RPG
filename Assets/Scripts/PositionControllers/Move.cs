@@ -12,6 +12,6 @@ public class Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void Update () {
-        ms.moveFunc(transform.forward);
+        ms.defaultMovement(transform.forward, ms.rb, ms.speed);
     }
 }

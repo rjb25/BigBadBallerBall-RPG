@@ -5,8 +5,6 @@ public class ToolController : MonoBehaviour
 {
     public GameObject projectile;
     public GameObject buffedProjectile = null;
-    public bool hasTargeting = false;
-    public Actor noTarget;
     public int kick = 0;
     public int rotKick = 0;
     public int kickVert = 0;
@@ -17,13 +15,28 @@ public class ToolController : MonoBehaviour
     // public IBuff[] buffs;
     //IBuff is an interface that will accept a GameObject and return void. Basically sets stats if object has them.
     public float reloadTime = 10;
-    public bool reloaded = false;
+    public float lastUse;
     public Rigidbody kickWhat;
     public Rigidbody kickedRot;
     public Transform kickBy;
+    public Trigger trs;
+    public bool autoUse = false;
+    public void ToggleAuto()
+    {
+        autoUse = !autoUse;
+        trs.enabled = autoUse;
+    }
+        
     private void Start()
     {
+        lastUse = Time.time;
         //SetBuffed(projectile, buffs);
+        
+            trs = gameObject.AddComponent<Trigger>();
+            trs.Set(activate: Use);
+            trs.condition = () => Time.time > lastUse + reloadTime;
+            trs.enabled = autoUse;
+        
     }
     void OnDeath()
     {
@@ -31,20 +44,26 @@ public class ToolController : MonoBehaviour
     }
     public void Use()
     {
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        projectileScript.firer = gameObject;
-                   //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
-        //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
-        GameObject proj = Instantiate(projectile, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z) + (transform.forward*projectile.GetComponent<Projectile>().distance), gameObject.transform.rotation);
-        if (!proj.activeSelf)
+        if (Time.time > lastUse + reloadTime)
         {
-            proj.SetActive(true);
-        }
-        // Targets will be handled in each projectile. Heals vs bullets, makes more sense. SetTargets(bullet, targets)
-        
-        if (hasKick)
-        {
-            ApplyKick(kickWhat,kickedRot,kickBy,randKick,kick,kickVert,rotKick,kickHor);
+            lastUse = Time.time;
+
+            Projectile ps = projectile.GetComponent<Projectile>();
+            ps.firer = gameObject;
+            //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
+            //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
+            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation);
+            if (!proj.activeSelf)
+            {
+                proj.SetActive(true);
+            }
+            proj.GetComponent<Movement>().defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
+            // Targets will be handled in each projectile. Heals vs bullets, makes more sense. SetTargets(bullet, targets)
+
+            if (hasKick)
+            {
+                ApplyKick(kickWhat, kickedRot, kickBy, randKick, kick, kickVert, rotKick, kickHor);
+            }
         }
 
     }
@@ -100,19 +119,6 @@ if (buffs)
         {
             kickWhat.AddForce(kickBy.right * fkickHor);
         }
-    }
-    public void IsActive()
-    {
-        if (reloaded)
-        {
-            Invoke("Reload", reloadTime);
-            reloaded = false;
-            Use();
-        }
-    }
-    public void Reload()
-    {
-        reloaded = true;
     }
 
 }

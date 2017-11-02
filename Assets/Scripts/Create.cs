@@ -114,14 +114,17 @@ public class Create : MonoBehaviour
         script.offset = offset;
         script.velocity = velocity;
     }
-    public static Targeting AddTargeting(GameObject obj, string[] targets, string method = "nearest", float targetingSpeed = 3, int targetingRange = 100, float retargetingSpeed = 3)
+
+    public static Targeting AddTargeting(GameObject obj, string[] targets, string method = "nearest", float targetingSpeed = 3, int targetingRange = 100, float retargetingSpeed = 3, string newTargetOn = "", string waiting = "nothing")
     {
         Targeting ts = obj.AddComponent<Targeting>();
         ts.targetByTags = targets;
         ts.targeting = method;
+        ts.whileWaitingType = waiting;
         ts.targetingSpeed = targetingSpeed;
         ts.targetingRange = targetingRange;
         ts.retargetingSpeed = retargetingSpeed;
+        ts.newTargetOn = newTargetOn;
         //Actor is a void delegate.
 
         return ts;
@@ -135,20 +138,20 @@ public class Create : MonoBehaviour
         to.targets = behaviourTargets;
         to.affected = affectedTargets;
     }
-    public static void AddMovement(GameObject obj, float speed = 30, string movement = "accelerate")
+    public static void AddMovement(GameObject obj, float speed = 30, MoveDel movement = null)
     {
         Movement ms = obj.AddComponent<Movement>();
         ms.speed = speed;
-        ms.SetMovement(movement);
-        ms.currentMovement = movement;
+        ms.defaultMovement= movement;
     }
-    public static AI AddAI(GameObject obj, float distance = 0, int retreatDuration = 1, float chaseRange = -1, bool relative = false, string ai = "charge", bool onDeath = true, float pointSpeed = 0.1f)
+    public static AI AddAI(GameObject obj, float distance = 0, int retreatDuration = 1, float chaseRange = -1, bool relative = false, string ai = "charge", bool onDeath = true, float pointSpeed = 0.1f, int pursueRange = 1000, Vector3 basePoint = new Vector3())
     {
         
         AI ais = obj.AddComponent<AI>();
         ais.pointSpeed = pointSpeed;
         ais.retreatDuration = retreatDuration;
-
+        ais.basePoint = basePoint;
+        ais.pursueRange = pursueRange;
         ais.distance = distance;
         switch (ai)
         {
@@ -234,7 +237,20 @@ public class Create : MonoBehaviour
     }
     #endregion
     #region creators
-    public static GameObject Gun(List<string> targets)
+    
+    public static GameObject Sword(List<string> targets)
+    {
+        GameObject rail = NewObject("cube");
+        SetMaterial(rail, "Steel");
+        AddRigidbody(rail,gravity: false);
+        AddSendable(rail, targets, targets);
+
+        ImpactDamage ims = rail.AddComponent<ImpactDamage>();
+        ims.impactDamage = 1;
+        SetScale(rail, 0.1f, 0.1f);
+        return rail;
+    }
+    public static GameObject Gun(List<string> targets, bool autoFire = false)
     {
 
         GameObject rail = NewObject("cube");
@@ -244,10 +260,13 @@ public class Create : MonoBehaviour
         AddRigidbody(projectile, 0.01f, gravity: false, noRot: true);
         AddSendable(projectile, targets, targets);
         AddProjectile(projectile, firer: rail, collisionsAllowed: 0, distance: 0.7f);
-        AddTargeting(projectile, targets.ToArray(),targetingSpeed:0.1f,retargetingSpeed:10f,targetingRange:1000);
+        /* tracking
+        AddTargeting(projectile,  targets.ToArray(),targetingSpeed:-1f,targetingRange:1000, newTargetOn: "kill",waiting:"forward");
         AddAI(projectile,ai: "none",pointSpeed: 1,relative:true);
-        AddMovement(projectile, speed: 30f, movement: "velocity");
-        //projectile.AddComponent<Move>();
+        */
+        AddMovement(projectile, speed: 30f, movement: Movement.Velocity);
+        projectile.transform.SetParent( rail.transform,true);
+        projectile.AddComponent<Move>();
        
         AddRigidbody(rail, gravity: false);
        
@@ -257,27 +276,20 @@ public class Create : MonoBehaviour
         ModScale(projectile, mult: 0.1f);
         Duration ds = projectile.AddComponent<Duration>();
         ds.duration = 15f;
-        AddSpawner(rail, projectile, reloadTime: 10f);
+        AddSpawner(rail, projectile, reloadTime: 10f, auto:autoFire);
         SetScale(rail, 0.1f, 0.1f);
-
-
-
-        ToolController ts = rail.GetComponent<ToolController>();
-        Actor action = ts.Use;
-        OnInterval ois = rail.AddComponent<OnInterval>();
-        ois.Set(action, ts.reloadTime);
         return rail;
     }
-    public static GameObject Charger(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float speed = 10,int reward = 1, string ai = "charge")
+    public static GameObject Charger(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float acceleration = 15,  float speed = 10,int reward = 1, string ai = "charge", float level = 1)
     {
             OpposingFactions = OpposingFactions ?? new string[] { "Player", "Character"};
 
         GameObject body = NewObject("sphere");
         body.tag = faction;
         SetMaterial(body, faction);
-        AddTargeting(body, OpposingFactions);
+        AddTargeting(body, OpposingFactions,  newTargetOn: "kill");
         AddAI(body, ai:ai, pointSpeed: -1);
-        AddMovement(body,movement:"accelerate", speed:speed);
+        AddMovement(body,movement:Movement.Accelerate, speed:acceleration);
         AddSendable(body, behaviourTargets: new List<string>(OpposingFactions));
         AddProjectile(body);
         AddImpact(body);
@@ -286,12 +298,28 @@ public class Create : MonoBehaviour
             AddReward(body, amount: reward);
         }
 
-        GameObject unit= MakeUnit(body, (faction + "Charger"), health: 10,frozen: false);
+        GameObject unit= MakeUnit(body, (faction + "Charger"), health: Mathf.FloorToInt(10 * level), frozen: false);
         unit.transform.position = location;
         return unit;
 
     }
-    public static GameObject Gunner(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float speed = 20, float pointSpeed = 0.001f,string movement = "accelerate", int reward = 1, int targetingRange = 1000, string ai = "kite")
+    public static GameObject Townhall(Vector3 location, string faction = "Player")
+    {
+
+        GameObject parent = new GameObject(faction + " Townhall");
+        
+        GameObject body = NewObject("cube");
+        body.name = "body";
+        body.transform.parent = parent.transform;
+        body.tag = faction;
+        SetMaterial(body, faction);
+        body.transform.position = location;
+        ModScale(body,mult:1f);
+        AddHealth(body,150);
+
+        return body;
+    }
+    public static GameObject Gunner(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float acceleration = 15, float speed = 10, float pointSpeed = 0.0001f,MoveDel movement = null, int reward = 1, int targetingRange = 1000, string ai = "kite", float level = 1)
     {
         OpposingFactions = OpposingFactions ?? new string[] { "Player", "Character" };
 
@@ -299,14 +327,18 @@ public class Create : MonoBehaviour
         body.tag = faction;
         SetMaterial(body, faction);
      
-        Targeting ts = AddTargeting(body, OpposingFactions,targetingRange:targetingRange);
+        Targeting ts = AddTargeting(body, OpposingFactions,targetingRange:targetingRange, newTargetOn: "interval",targetingSpeed: -1,waiting: "hold");
      AddAI(body, ai:ai, distance: 20,pointSpeed: pointSpeed);
-        AddMovement(body, movement: movement, speed: speed);
+        AddMovement(body, movement: movement, speed: acceleration);
+        MaxSpeed ms = body.AddComponent<MaxSpeed>();
+        ms.maxSpeed = speed;
+        
+
         
         
-        GameObject unit = MakeUnit(body, (faction + "Gunner"), health: 10);
+        GameObject unit = MakeUnit(body, (faction + "Gunner"), health: Mathf.FloorToInt(10 *level));
         unit.transform.position = location;
-        GameObject gun = Gun(new List<string>(OpposingFactions));
+        GameObject gun = Gun(new List<string>(OpposingFactions),autoFire: true);
         gun.transform.parent = unit.transform;
         gun.transform.localPosition = new Vector3(0, 0, 1.5f);
         if (faction != "Player")
@@ -321,7 +353,7 @@ public class Create : MonoBehaviour
         
     }
     //different method for spot lights as rotation is involved.
-    public static GameObject ALight(Vector3 position, Color? color = null, int range = 10, float intensity = 1f, float indirect = 0, Vector3 angle = new Vector3(), LightType? type = null)
+    public static GameObject ALight(Vector3 position, Color? color = null, float range = 10, float intensity = 1f, float indirect = 0, Vector3 angle = new Vector3(), LightType? type = null)
     {
 
 
@@ -344,7 +376,6 @@ public class Create : MonoBehaviour
         return lightGameObject;
     }
     #endregion
-
     #region spawner
 
 
@@ -377,11 +408,12 @@ public class Create : MonoBehaviour
     }
 
     
-    public static void AddSpawner( GameObject spawner, GameObject projectile, GameObject kickBy = null, int kick = 0, int kickVert = 0, int kickRot = 0, int kickHor = 0, float reloadTime = 10, bool randKick = false, bool hasKick = true /*,Buff[]? buffs = null*/)
+    public static void AddSpawner( GameObject spawner, GameObject projectile, GameObject kickBy = null, int kick = 0, int kickVert = 0, int kickRot = 0, int kickHor = 0, float reloadTime = 10, bool randKick = false, bool hasKick = true, bool auto = false /*,Buff[]? buffs = null*/)
     {
             kickBy = kickBy ?? spawner;
-
+        
         ToolController toolScript = spawner.AddComponent<ToolController>();
+        toolScript.autoUse = auto;
         toolScript.projectile = projectile;
         toolScript.kick = kick;
         toolScript.kickBy = kickBy.transform;
