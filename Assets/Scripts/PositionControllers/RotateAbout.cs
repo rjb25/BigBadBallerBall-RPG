@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//DEPRECATED, Could still be useful. It allows for gear to move with an object. 
+//It uses position, not velocity or acceleration. Hench the switch to joints.
 public class RotateAbout: MonoBehaviour {
     public Transform lookAt;
     public float distance = 1.5f;

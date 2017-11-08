@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Sets a maximum velocity for an object. If velocity is greater than max, velocity is max.
 public class MaxSpeed : MonoBehaviour {
     public float maxSpeed = 50;
     private Rigidbody rb;

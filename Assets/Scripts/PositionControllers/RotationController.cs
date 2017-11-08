@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+//Player specific junk don't worry about this. It is pretty hacky.
 public class RotationController : MonoBehaviour
 {
     public float rotationAboutYAxis = 0;

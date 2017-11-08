@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-//Merge all projectile classes
-
+//When a projectile with this class hits something it will damage all targets in a given radius.
 public class BombDamage : MonoBehaviour
 {
     public float radius = 5.0F;

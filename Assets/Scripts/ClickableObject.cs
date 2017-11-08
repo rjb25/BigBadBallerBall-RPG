@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+//This allows for checking which click instead of simply clicked.
 public class ClickableObject : MonoBehaviour, IPointerClickHandler
 {
     public Actor rightClick;

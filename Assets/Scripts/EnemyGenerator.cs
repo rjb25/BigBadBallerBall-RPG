@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//this is the class that controls enemy spawning.
 public class EnemyGenerator : MonoBehaviour {
 
 	// Use this for initialization

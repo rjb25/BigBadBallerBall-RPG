@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//This is another hacky class to allow player to rotate with acceleration, while not being moveable.
 public class RotateWithVelocity : MonoBehaviour {
     public Transform match;
     private Rigidbody rb;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-
+//Anything that has a use. Includes the reload time, kick and if available spawning of said use.
+//Pretty much the gun controller.
 public class ToolController : MonoBehaviour
 {
     public GameObject projectile;

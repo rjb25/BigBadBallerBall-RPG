@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+//This whole class handles getting a target.
+//If you need something changed here, have me do it. It is a really huge, complicated and interelated class.
+//It checks every object in a certain range to see if it is a desired target. Then chooses which of them is closest or highest priority. In the future I may implement choosing target based an health etc etc.
+//Also includes how long it takes to find a new target. How often it checks for a new target etc etc.
 public class Targeting : MonoBehaviour{
     public string[] targetByTags;
     public GameObject target;

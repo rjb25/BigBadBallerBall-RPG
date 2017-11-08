@@ -4,7 +4,10 @@ using UnityEngine;
 using System;
 
 public class Trigger : MonoBehaviour {
-
+    //Active is only used if trigger is currently active and was last frame.
+    //Activate function is executed if the condition is set to true from a false state.
+    //Inactive is the opposite of Active
+    //Deactivate is the opposite of Activate
     public Actor active;
     public Actor activate;
     public Actor deactivate;
@@ -15,12 +18,17 @@ public class Trigger : MonoBehaviour {
     private bool triggered = false;
     void Start()
     {
+        this.activate = activate ?? No.Nothing;
+        this.deactivate = deactivate ?? No.Nothing;
+        this.active = active ?? No.Nothing;
+        this.inactive = inactive ?? No.Nothing;
         ts = GetComponent<Targeting>();
         if (condition == null)
         {
             condition = () => { print("no condition"); return false; };
         }
     }
+    //Just a setter function
     public void Set(Actor activate = null, Actor deactivate = null, Actor active = null, Actor inactive = null)
     {
         this.activate = activate ?? No.Nothing;
@@ -31,6 +39,7 @@ public class Trigger : MonoBehaviour {
 
     void Update()
     {
+        //this is where the trigger functions are called.
         if (condition())
         {
             if (!triggered)

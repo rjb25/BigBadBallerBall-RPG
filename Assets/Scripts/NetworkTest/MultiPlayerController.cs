@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-
+//UNUSED inital testing for multiplayer
 public class MultiPlayerController : NetworkBehaviour
 {
     void Update()

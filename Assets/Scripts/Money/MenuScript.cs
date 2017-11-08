@@ -4,21 +4,21 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
+//This is a class that simply controls menu toggling.
 public class MenuScript : MonoBehaviour {
     public GameObject Menu;
     public GameObject Player;
     public NetworkManagerHUD NetworkHUD;
-    //name of button "Charger"   "price","level"
+    public Interact playerInteract;
+    public GameObject interactionGrid;
   
     public bool haveHud = false;
 
     // Use this for initialization
     public void Start()
     {
- 
+        playerInteract = Player.GetComponent<Interact>();
     NetworkHUD = GameObject.Find("Networking").GetComponent<NetworkManagerHUD>();
-
     }
     //BUTTONS ARE IN PURCHASES
     public void Toggle() {
@@ -36,9 +36,12 @@ public class MenuScript : MonoBehaviour {
             {
                 NetworkHUD.enabled = true;
             }
+
             AudioListener.pause = true;
             Time.timeScale = 0;
+            
             Menu.SetActive(true);
+            playerInteract.RefreshInteractables();
             Player.GetComponent<PlayerController>().enabled = false;
         }
     }

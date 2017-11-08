@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+//All the options for buing content.
+//This generates the buttons you see at the bottom when you hit ESC in game.
+//It handles what the buttons do, how much it costs to upgrade them, what upgrading effects, etc etc.
 public class Purchases : MonoBehaviour {
     public BalanceScript balance;
     public int Cheap = 1;
@@ -28,11 +31,13 @@ public class Purchases : MonoBehaviour {
         {
                    {"Gun", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) => {
-                    GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true);
-        gun.transform.parent = playerBody.transform;
-        gun.transform.localPosition = new Vector3(1f, 0, 1.5f);
+                    GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
+        gun.transform.parent = playerBody.transform.parent;
 
-        Create.AttachSpawner(gun, playerBody); }
+        Interactable interactable = gun.AddComponent<Interactable>();
+        interactable.moveable = true;
+
+        Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1)); }
     } },
 
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,

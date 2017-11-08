@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//OLD CLASS FROM BEFORE PROJECTILES WERE CENTRALIZED. I WILL HARVEST INTO ANOTHER CLASS AT SOME POINT SO LEAVE IT HERE.
 public class HealController : MonoBehaviour
 {
     public int collisionsAllowed = 1;

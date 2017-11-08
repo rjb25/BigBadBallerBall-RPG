@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-
+//This class controls health and death. Pretty straight forward.
 public class Health : MonoBehaviour
 {
 
@@ -59,6 +59,7 @@ public class Health : MonoBehaviour
             isDead = true;
 
                 //could call directly for better performance, but send message allows the most flexibility for now.
+                //this will call all functions named OnDeath on this object and its children.
                     BroadcastMessage("OnDeath");
 
             if (noBreak)

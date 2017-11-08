@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Adding this to anything decides how long it exists before disapearing. Usually for bullet disapearing.
 public class Duration : MonoBehaviour {
     public float duration = 5;
     public bool useDuration = true;

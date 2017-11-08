@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Class that makes the coins move whene they are dropped.
 public class DropScatter : MonoBehaviour {
     public int amount;
     public GameObject drop;

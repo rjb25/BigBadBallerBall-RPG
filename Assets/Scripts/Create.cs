@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
-
+//A series of functions used to create things. Basically coded prefabs.
 public class Create : MonoBehaviour
 {
-    //may need to call ScriptStart instead of Start due to the odd order of assignment
-    //This is my way of getting around prefabs and vanishing values in editor
+    //This is my way of getting around prefabs and vanishing values in editor. Also it allows for nested prefabs. I am not sure if I want all objects to be generated in this manner.
     //This is to be called by a random generator, or perhaps a create Gunman function
     //make the random functions (minus the spawner) all delegates, because they are all fairly the same object in new out, then you could randomize which of the functions are called. Etc etc manipulate however
     private static string[] shapes = { "sphere", "cube", "cylinder", "capsule" };
@@ -229,8 +228,21 @@ public class Create : MonoBehaviour
     }
     //amount should probably be moved to vars so it could be updated easily and accessed easily. Make higher worth have worth bar etc etc bounty yata yata. Plus it would be settable at make unit.
 
-    public static void AttachFixed(GameObject obj, GameObject to)
+    public static void AttachFixed(GameObject obj, GameObject to, Vector3 displacement)
     {
+        obj.transform.position = to.transform.position + (to.transform.rotation * displacement);
+        obj.transform.rotation = to.transform.rotation;
+        Variables vs = obj.GetComponent<Variables>();
+        if (vs)
+        {
+
+        }
+        else
+        {
+            vs = obj.AddComponent<Variables>();
+        }
+
+        vs.displacement = displacement;
         FixedJoint joint = obj.AddComponent<FixedJoint>();
         joint.connectedBody = to.GetComponent<Rigidbody>();
 
@@ -250,7 +262,7 @@ public class Create : MonoBehaviour
         SetScale(rail, 0.1f, 0.1f);
         return rail;
     }
-    public static GameObject Gun(List<string> targets, bool autoFire = false)
+    public static GameObject Gun(List<string> targets, bool autoFire = false, int reloadTime = 10, float level = 1)
     {
 
         GameObject rail = NewObject("cube");
@@ -276,7 +288,7 @@ public class Create : MonoBehaviour
         ModScale(projectile, mult: 0.1f);
         Duration ds = projectile.AddComponent<Duration>();
         ds.duration = 15f;
-        AddSpawner(rail, projectile, reloadTime: 10f, auto:autoFire);
+        AddSpawner(rail, projectile, reloadTime: reloadTime, auto:autoFire);
         SetScale(rail, 0.1f, 0.1f);
         return rail;
     }
@@ -340,12 +352,11 @@ public class Create : MonoBehaviour
         unit.transform.position = location;
         GameObject gun = Gun(new List<string>(OpposingFactions),autoFire: true);
         gun.transform.parent = unit.transform;
-        gun.transform.localPosition = new Vector3(0, 0, 1.5f);
         if (faction != "Player")
         {
             AddReward(body, amount: reward);
         }
-        AttachSpawner(gun, body);
+        AttachSpawner(gun, body, displacement: new Vector3(0, 0, 1.5f));
         return unit;
         //\rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
@@ -391,14 +402,14 @@ public class Create : MonoBehaviour
 
     }
     //may want isPlayers to be isSeperate. That way its easy to add shields and such to things. that need seperate collisions. Add rotate about and have velocity of (var) have rot of (var)
-    public static void AttachSpawner(GameObject spawner, GameObject body, GameObject kicked = null, GameObject kickedRot = null/*, bool isPlayers = false*/)
+    public static void AttachSpawner(GameObject spawner, GameObject body, GameObject kicked = null, GameObject kickedRot = null, Vector3 displacement = new Vector3()/*, bool isPlayers = false*/)
     {
         kicked = kicked ?? body;
         kickedRot = kickedRot ?? body;
         ToolController toolScript = spawner.GetComponent<ToolController>();
         toolScript.kickWhat = kicked.GetComponent<Rigidbody>();
         toolScript.kickedRot = kickedRot.GetComponent<Rigidbody>();
-        AttachFixed(spawner, body);
+        AttachFixed(spawner, body, displacement);
         
         /*
         if (isPlayers)

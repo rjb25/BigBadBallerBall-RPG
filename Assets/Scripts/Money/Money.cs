@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Coins check if player is colliding with them. If he is, they disapear and add to his balance.
+//This is the script to handle that behaviour.
 public class Money : MonoBehaviour {
 
     public int worth = 1;

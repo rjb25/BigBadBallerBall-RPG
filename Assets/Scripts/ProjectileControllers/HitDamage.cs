@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Damage applied by a projectile
 public class HitDamage : MonoBehaviour {
     public int damage = 1;
     private Sendable to;

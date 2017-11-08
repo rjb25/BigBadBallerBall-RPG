@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+//This class controls player movement and rotation relative to a target. 
+//Ask Jason on the phone or in person and I can explain further whichever part you need to know.
 public class AI : MonoBehaviour
 {
-    //this will eventually be broken back into AI classes.
     #region vars
     public float distance = 0;
     public int direction = 1;
@@ -22,7 +23,6 @@ public class AI : MonoBehaviour
     public Vector3 holdPoint;
     public Rigidbody rb;
     private Sendable sendScript;
-    public OnRegion holdRegion;
     public Trigger ts;
     public Vector3 basePoint;
 
@@ -43,24 +43,31 @@ public class AI : MonoBehaviour
         }
         rb = GetComponent<Rigidbody>();
         //The way to set triggers NOTE THIS IT IS REALLY IMPORTANT
+        //See Trigger.cs for more info
         ts = gameObject.AddComponent<Trigger>();
+        //this is the condition of the trigger. 
         ts.condition = () => Vector3.Magnitude(holdPoint - gameObject.transform.position) < holdRange;
+        //this is a setter function, you could also just set with ts.active = () => {blah(); blah();};
         ts.Set(active: () => Movement.Slow(rb:ms.rb, speed:ms.speed), inactive: () => ms.defaultMovement(Vector3.Normalize(holdPoint - gameObject.transform.position), ms.rb,ms.speed));
+        //name not really necessary
         ts.name = "hold motion trigger";
-        
+        //Only have this trigger active if hold is set.
         ts.enabled = hold;
 
     }
+    //Toggles between hold states
     public void SetHold(bool isHolding)
     {
         ts.enabled = isHolding;
         hold = isHolding;
     }
-    /*public void Forward()
+    //The initial hold setting. Adds a hold point
+    public void SetHold()
     {
-        
-        ms.Velocity(gameObject.transform.forward);
-    }*/
+        holdPoint = gameObject.transform.position;
+        hold = true;
+    }
+    //The function that is called to make gunners stay at a range. It sets movement direction of AI.
     void Kite(){
         float dist = Vector3.Distance(transform.position, targetScript.target.transform.position);
         if (dist > distance)
@@ -72,11 +79,7 @@ public class AI : MonoBehaviour
         }   
 
     }
-    public void SetHold()
-    {
-        holdPoint = gameObject.transform.position;
-        hold = true;
-    }
+    //The rest is just a bunch of conditions checked based on AI variables.
 void Update()
 {
         //if out of pursue range from base, move towards hold point.
@@ -115,9 +118,6 @@ void Update()
                 {
                     where = direction * forward;
                 }
-
-                
-                
             
             //Rotation Based on target
             if (pointSpeed > 0)
@@ -136,21 +136,13 @@ void Update()
                 }
             }
 
-           // 
+           
         }
         else
         {
 }
 
-        /*
-        if (where == Vector3.zero)
-        {
-            ms.SetMovement("none");
-        }
-        else
-        {
-            ms.SetMovement("accelerate");
-        }*/
+
         if (hold)
         {
             Vector3 difference = holdPoint - gameObject.transform.position;

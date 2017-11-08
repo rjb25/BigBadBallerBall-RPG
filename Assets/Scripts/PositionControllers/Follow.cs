@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//This is used for health bars. It makes an object be at another plus an offset.
 public class Follow : MonoBehaviour
 {
     public GameObject target;

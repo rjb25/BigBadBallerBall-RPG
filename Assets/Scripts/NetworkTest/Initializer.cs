@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+//UNUSED inital testing for mulitplayer
 public class Initializer : NetworkBehaviour {
     public override void OnStartLocalPlayer()
     {

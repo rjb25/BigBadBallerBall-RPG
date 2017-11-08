@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//This class handles object movement. It has static functions so that this could be called for various affects on any object.
 public class Movement : MonoBehaviour {
     public Rigidbody rb;
     public float speed = 9;

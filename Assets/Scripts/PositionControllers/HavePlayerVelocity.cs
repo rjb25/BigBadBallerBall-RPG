@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//UNUSED might still use it at some point though. Anything that used RotateAbout could benefit from this.
+//This was used for realistic collisions of objects that were using RotateAbout. Because their position is set, even if they are moving it is as if
+//they are simply appearing wherever they are every iteration. This adds the velocity effect to them. Could be adapted to include more than
+//just the player.
 public class HavePlayerVelocity : MonoBehaviour {
     private Rigidbody rb;
     private GameObject match;

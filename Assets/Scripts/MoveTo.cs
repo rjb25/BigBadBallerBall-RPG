@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-
+//Unused class for NavMesh testing
 public class MoveTo : MonoBehaviour
 {
 

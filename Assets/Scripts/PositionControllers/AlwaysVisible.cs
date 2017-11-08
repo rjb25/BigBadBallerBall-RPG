@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Used for health bars. Makes them always face the camera.
 public class AlwaysVisible : MonoBehaviour
 {
 

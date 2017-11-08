@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+//The class for controlling the player. WASD and arrow keys. The basic movement of player.
 public class PlayerController : MonoBehaviour
 {
 
@@ -13,14 +13,8 @@ public class PlayerController : MonoBehaviour
     private float moveHorizontal = 0;
 
     private Rigidbody rb;
-    private int count;// Reference to the UI's health bar.
+    private int count;
 
-    // The colour the damageImage is set to, to flash.
-
-    public void SpeedIncrease(float increase)
-    {
-        speed += baseSpeed + increase;
-    }
     public void OnDeath()
     {
         Application.LoadLevel(Application.loadedLevel);
@@ -54,6 +48,5 @@ public class PlayerController : MonoBehaviour
     {
 
         camScript.distance += Input.GetAxis("Mouse ScrollWheel") * 5;
-        //gameObject.transform.eulerAngles = new Vector3(0, rotationAboutYAxis, 0);
     }
 }

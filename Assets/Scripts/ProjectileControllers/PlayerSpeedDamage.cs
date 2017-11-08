@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-
+//The player has weird rotation so that they can have acceleration movement but not have to deal with being rotated by other objects.
+//This is a player specific class to allow for weapons to deal damage based on player movement and rotation speed.
+//It is not the same as impact damage.
 public class PlayerSpeedDamage : MonoBehaviour
 {
     public int minDamage = 0;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
+//This class contains any content that is made from the Create class at the start of the game.
 public class StartingUnits : MonoBehaviour {
     public Text playerText;
 	// Use this for initialization

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-
+//Adding this to a projectile will mean that whene the projectile hits something it will apply impact damage.
 public class ImpactDamage : MonoBehaviour
 {
     public int minDamage = 0;
     public float impactDamage = 1;
     private Sendable to;
     public Timer effectTimer;
+    //Recharge for damage. Swords can charge over time.
     public float wait = 4;
     private Projectile pro;
     void Start()

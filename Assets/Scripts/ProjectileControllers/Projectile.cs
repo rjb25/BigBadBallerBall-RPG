@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//obsolete will be implemented in create eapon on create class. and or create bullet of create class
+//Anything that is a projectile and disapears after a certain amount of collisions with opponent. Also contains some variables used by other classes.
 public class Projectile : MonoBehaviour {
+    //How many collisions the bullet will have till it is destroyed.
     public int collisionsAllowed = 1;
     private int collisionCount = 0;
+    //The following two variables are for things like vampire bullets, or bullets that fire the gun again when they hit. Just references to be used by other classes.
     public GameObject firer;
     public GameObject spawner;
+    //Used to allow for special ammo
     public float damageMult = 1;
+    //How far away the bullet will spawn from gun. Used it ToolController
     public float distance;
     public Sendable to;
     private void Start()

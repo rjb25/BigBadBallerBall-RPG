@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Adding this to a projectile will mean that the projectile now pushes away opponents on collision in a given radius.
 public class ExplosionEffect : MonoBehaviour {
     public float radius = 100.0F;
     public float power = 1000.0F;
