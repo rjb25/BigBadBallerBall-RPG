@@ -24,14 +24,13 @@ public class ToolController : MonoBehaviour
     public Trigger trs;
     public bool autoUse = false;
     public Rigidbody playerRotation;
-    public void ToggleAuto()
-    {
-        autoUse = !autoUse;
-        trs.enabled = autoUse;
-    }
+    public GameObject bulletList;
+
 
     private void Start()
     {
+
+        bulletList = GameObject.Find("BulletList");
         kickBy = transform;
         projectile = transform.GetChild(0).gameObject;
         playerRotation = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().playerRotation.GetComponent<Rigidbody>();
@@ -43,6 +42,11 @@ public class ToolController : MonoBehaviour
         trs.condition = () => Time.time > lastUse + reloadTime;
         trs.enabled = autoUse;
 
+    }
+    public void ToggleAuto()
+    {
+        autoUse = !autoUse;
+        trs.enabled = autoUse;
     }
     private void SetProjectile (){
         projectile = transform.GetChild(0).gameObject;
@@ -64,12 +68,14 @@ public class ToolController : MonoBehaviour
             ps.firer = gameObject;
             //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
             //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
-            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation,ps.firer.transform.parent.transform);
+            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation,bulletList.transform/*ps.firer.transform.parent.transform.parent.transform*/);
             if (!proj.activeSelf)
             {
                 proj.SetActive(true);
             }
-            Movement ms = proj.GetComponent<Movement>();
+            proj.GetComponent<Projectile>().fs = Faction.GetFactionScript(gameObject);
+            //Movement ms = proj.GetComponent<Movement>();
+
             /*
             ms.defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
             ms.speed += kickWhat.velocity.magnitude *2;

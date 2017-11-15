@@ -21,7 +21,13 @@ public class Faction : MonoBehaviour {
     }
     public static Faction GetFactionScript(GameObject go)
     {
-        Faction fs = go.GetComponent<Faction>();
+        Projectile ps = go.GetComponent<Projectile>();
+        if (ps && ps.fs && ps.firer)
+        {
+            return ps.fs;
+        }
+            Faction fs = go.GetComponent<Faction>();
+        
         if (!fs)
         {
             Transform parent = go.transform.parent;

@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour {
     //How far away the bullet will spawn from gun. Used it ToolController
     public float distance;
     public Sendable to;
+    public Faction fs;
     private void Start()
     {
 

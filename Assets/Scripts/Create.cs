@@ -261,6 +261,7 @@ public class Create : MonoBehaviour
         }
         else
         {
+
             print("already has loadout");
         }
         if (equip)
@@ -323,12 +324,13 @@ public class Create : MonoBehaviour
             loadout = es.available[name];
             loadout.SetActive(true);
             GameObject start = GetPrefab(name);
-            for (int i = 0; i < loadout.transform.childCount; i++)
+            for (int i = 0; i < start.transform.childCount; i++)
             {
                 GameObject Go = loadout.transform.GetChild(i).gameObject;
+                /*
                 if (loadout.transform.childCount == 2) {
                     print(loadout.transform.childCount + " " + loadout.name + loadout.transform.GetChild(0).name + loadout.transform.GetChild(1).name);
-                }
+                }*/
                 GameObject startGo = start.transform.GetChild(i).gameObject;
                 AttachFixed(Go, to, startGo.transform.localPosition);
             }
