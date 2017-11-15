@@ -11,6 +11,8 @@ public class Sendable : MonoBehaviour{
     public bool hitsBarriers = true;
     private void Start()
     {
+            Faction fs = Faction.GetFactionScript(gameObject);
+        targets = fs.enemies;
         affected = affected ?? targets;
     }
     public bool IsReceiver(GameObject other)

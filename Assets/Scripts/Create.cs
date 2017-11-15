@@ -69,17 +69,21 @@ public class Create : MonoBehaviour
         
     }
 
-    public static GameObject GetPrefab(string prefab)
+    public static GameObject GetPrefab(string prefab, bool instantiate = false)
     {
         string location = "Prefabs/" + prefab;
-        return Resources.Load(location, typeof(GameObject)) as GameObject;
+        GameObject nonexistent = Resources.Load(location, typeof(GameObject)) as GameObject;
+        if (instantiate == false)
+        {
+            return nonexistent;
+        }
+        else
+        {
+            return Instantiate(nonexistent);
+        }
 
     }
-
-    public static GameObject CreateRandomObject()
-    {
-        return NewObject(shapes[Random.Range(0, 3)]);
-    }
+    
     public static void SetColor(GameObject obj, Color color, string mode = "_Color")
     {
 
@@ -114,10 +118,9 @@ public class Create : MonoBehaviour
         script.velocity = velocity;
     }
 
-    public static Targeting AddTargeting(GameObject obj, string[] targets, string method = "nearest", float targetingSpeed = 3, int targetingRange = 100, float retargetingSpeed = 3, string newTargetOn = "", string waiting = "nothing")
+    public static Targeting AddTargeting(GameObject obj, string method = "nearest", float targetingSpeed = 3, int targetingRange = 100, float retargetingSpeed = 3, string newTargetOn = "", string waiting = "nothing")
     {
         Targeting ts = obj.AddComponent<Targeting>();
-        ts.targetByTags = targets;
         ts.targeting = method;
         ts.whileWaitingType = waiting;
         ts.targetingSpeed = targetingSpeed;
@@ -131,11 +134,9 @@ public class Create : MonoBehaviour
     //Needs major updating for new singular AI file.
     //Someway to allow these to be setters aswell?
 
-    public static void AddSendable(GameObject obj, List<string> behaviourTargets = null, List<string> affectedTargets = null)
+    public static void AddSendable(GameObject obj)
     {
         Sendable to = obj.AddComponent<Sendable>();
-        to.targets = behaviourTargets;
-        to.affected = affectedTargets;
     }
     public static void AddMovement(GameObject obj, float speed = 30, MoveDel movement = null)
     {
@@ -226,8 +227,128 @@ public class Create : MonoBehaviour
         AddHealth(center, health);
         return parent;
     }
-    //amount should probably be moved to vars so it could be updated easily and accessed easily. Make higher worth have worth bar etc etc bounty yata yata. Plus it would be settable at make unit.
 
+    //amount should probably be moved to vars so it could be updated easily and accessed easily. Make higher worth have worth bar etc etc bounty yata yata. Plus it would be settable at make unit.
+    public static void AddLoadout(string name, GameObject to, bool equip = false)
+    {
+
+        Equipment es = to.GetComponent<Equipment>();
+        if (!es)
+        {
+            es = to.AddComponent<Equipment>();
+        }
+        if (!es.available.ContainsKey(name))
+        {
+           
+            GameObject loadout = Instantiate(GetPrefab(name), to.transform.position, to.transform.rotation, to.transform.parent);
+            
+            es.NewAvailable(name, loadout);
+            
+            GetRefs(loadout);
+            /*
+            for (int i = 0; i < loadout.transform.childCount; i++)
+            {
+                GameObject Go = loadout.transform.GetChild(i).gameObject;
+
+                if (Go.GetComponent<IsRef>())
+                {
+                    GameObject oldGo = Go;
+                    Go = Instantiate(GetPrefab(Go.name), Go.transform.position, Go.transform.rotation, Go.transform.parent);
+                    Destroy(oldGo);
+                }
+            }*/
+            loadout.SetActive(false);
+        }
+        else
+        {
+            print("already has loadout");
+        }
+        if (equip)
+        {
+            es.currentNum = es.availableCount;
+            EquipLoadout(name, to);
+        }
+    }
+
+    //cannot find prefabs that are in folders currently. Due to GetPrefabs limitations.
+    //Could be done, simply add a directory to is ref. Then pass that to get prefab.
+    public static void GetRefs(GameObject parent)
+    {
+        
+        if (parent)
+        {
+            int length = parent.transform.childCount;
+            for (int i = 0; i < length; i++)
+            {
+                GameObject childRef = parent.transform.GetChild(i).gameObject;
+
+                GameObject child;
+                if (childRef.GetComponent<IsRef>())
+                {
+                    GameObject prefab = GetPrefab(childRef.name);
+                    if (prefab)
+                    {
+                        child = Instantiate(prefab, childRef.transform.position, childRef.transform.rotation, childRef.transform.parent);
+                        childRef.transform.parent = GameObject.Find("GlobalScripts").transform;
+                        Destroy(childRef);
+                    }
+                    else
+                    {
+                        child = null;
+                        print("could not find prefab reference");
+                    }
+                }
+                else
+                {
+                    child = childRef;
+                }
+                //Recursive check if children have children, then apply to them as well.
+                GetRefs(child);
+            }
+        }
+    }
+
+    public static void AddFaction(GameObject go, string faction = "Enemy")
+    {
+        Faction fs = go.AddComponent<Faction>();
+        fs.faction = faction;
+    }
+    public static void EquipLoadout(string name, GameObject to/*, string faction*/)
+    {
+        DequipLoadout(to);
+        Equipment es = to.GetComponent<Equipment>();
+        GameObject loadout;
+        if (es.available.ContainsKey(name))
+        {
+            loadout = es.available[name];
+            loadout.SetActive(true);
+            GameObject start = GetPrefab(name);
+            for (int i = 0; i < loadout.transform.childCount; i++)
+            {
+                GameObject Go = loadout.transform.GetChild(i).gameObject;
+                if (loadout.transform.childCount == 2) {
+                    print(loadout.transform.childCount + " " + loadout.name + loadout.transform.GetChild(0).name + loadout.transform.GetChild(1).name);
+                }
+                GameObject startGo = start.transform.GetChild(i).gameObject;
+                AttachFixed(Go, to, startGo.transform.localPosition);
+            }
+            es.current = loadout;
+        }
+        else
+        {
+            print("trying to equip loadout not posessed");
+        }
+        
+    }
+    public static void DequipLoadout(GameObject from)
+    {
+        GameObject current = from.GetComponent<Equipment>().current;
+        if (current)
+        {
+            current.SetActive(false);
+            //Destroy(current);
+        }
+    }
     public static void AttachFixed(GameObject obj, GameObject to, Vector3 displacement)
     {
         obj.transform.position = to.transform.position + (to.transform.rotation * displacement);
@@ -241,7 +362,21 @@ public class Create : MonoBehaviour
         {
             vs = obj.AddComponent<Variables>();
         }
-
+        FixedJoint already = obj.GetComponent<FixedJoint>();
+        if (already)
+        {
+            Destroy(already);
+        }
+        CenterMass center = obj.GetComponent<CenterMass>();
+        if (center)
+        {
+            center.center = to.transform;
+        }
+        ToolController ts = obj.GetComponent<ToolController>();
+        if (ts)
+        {
+            ts.SetHolder(to);
+        }
         vs.displacement = displacement;
         FixedJoint joint = obj.AddComponent<FixedJoint>();
         joint.connectedBody = to.GetComponent<Rigidbody>();
@@ -255,7 +390,7 @@ public class Create : MonoBehaviour
         GameObject rail = NewObject("cube");
         SetMaterial(rail, "Steel");
         AddRigidbody(rail,gravity: false);
-        AddSendable(rail, targets, targets);
+        AddSendable(rail);
 
         ImpactDamage ims = rail.AddComponent<ImpactDamage>();
         ims.impactDamage = 1;
@@ -270,7 +405,7 @@ public class Create : MonoBehaviour
         GameObject projectile = NewObject("sphere");
         SetMaterial(projectile, "Gun");
         AddRigidbody(projectile, 0.01f, gravity: false, noRot: true);
-        AddSendable(projectile, targets, targets);
+        AddSendable(projectile);
         AddProjectile(projectile, firer: rail, collisionsAllowed: 0, distance: 0.7f);
         /* tracking
         AddTargeting(projectile,  targets.ToArray(),targetingSpeed:-1f,targetingRange:1000, newTargetOn: "kill",waiting:"forward");
@@ -292,17 +427,16 @@ public class Create : MonoBehaviour
         SetScale(rail, 0.1f, 0.1f);
         return rail;
     }
-    public static GameObject Charger(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float acceleration = 15,  float speed = 10,int reward = 1, string ai = "charge", float level = 1)
+    public static GameObject Charger(Vector3 location, string faction = "Enemy", float acceleration = 15,  float speed = 10,int reward = 1, string ai = "charge", float level = 1)
     {
-            OpposingFactions = OpposingFactions ?? new string[] { "Player", "Character"};
 
         GameObject body = NewObject("sphere");
         body.tag = faction;
         SetMaterial(body, faction);
-        AddTargeting(body, OpposingFactions,  newTargetOn: "kill");
+        AddTargeting(body,  newTargetOn: "kill");
         AddAI(body, ai:ai, pointSpeed: -1);
         AddMovement(body,movement:Movement.Accelerate, speed:acceleration);
-        AddSendable(body, behaviourTargets: new List<string>(OpposingFactions));
+        AddSendable(body);
         AddProjectile(body);
         AddImpact(body);
         if (faction != "Player")
@@ -311,10 +445,12 @@ public class Create : MonoBehaviour
         }
 
         GameObject unit= MakeUnit(body, (faction + "Charger"), health: Mathf.FloorToInt(10 * level), frozen: false);
+        AddFaction(unit,faction);
         unit.transform.position = location;
         return unit;
 
     }
+
     public static GameObject Townhall(Vector3 location, string faction = "Player")
     {
 
@@ -331,6 +467,33 @@ public class Create : MonoBehaviour
 
         return body;
     }
+    public static GameObject Gunner(Vector3 location, string faction = "Enemy", float acceleration = 30, float speed = 10, float pointSpeed = 0.0001f, MoveDel movement = null, int reward = 1, int targetingRange = 1000, string ai = "kite", float level = 1)
+    {
+        //Next make it so that the bodies are grabbed from prefabs.
+        GameObject body = NewObject("sphere");
+        body.tag = faction;
+        SetMaterial(body, faction);
+
+        Targeting ts = AddTargeting(body, targetingRange: targetingRange, newTargetOn: "interval", targetingSpeed: -1, waiting: "hold");
+        AddAI(body, ai: ai, distance: 20, pointSpeed: pointSpeed);
+        AddMovement(body, movement: movement, speed: acceleration);
+        //This should be in movement to only disable movement if speed greater than max. This would mean things cant be hit far.
+        MaxSpeed ms = body.AddComponent<MaxSpeed>();
+        ms.maxSpeed = speed;
+
+        GameObject unit = MakeUnit(body, (faction + "Gunner"), health: Mathf.FloorToInt(10 * level));
+        unit.transform.position = location;
+        if (faction != "Player")
+        {
+            AddReward(body, amount: reward);
+        }
+
+        AddFaction(unit, faction);
+        AddLoadout("Gunny",body,true);
+        return unit;
+        //\rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+    }
+    /*
     public static GameObject Gunner(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float acceleration = 15, float speed = 10, float pointSpeed = 0.0001f,MoveDel movement = null, int reward = 1, int targetingRange = 1000, string ai = "kite", float level = 1)
     {
         OpposingFactions = OpposingFactions ?? new string[] { "Player", "Character" };
@@ -339,7 +502,7 @@ public class Create : MonoBehaviour
         body.tag = faction;
         SetMaterial(body, faction);
      
-        Targeting ts = AddTargeting(body, OpposingFactions,targetingRange:targetingRange, newTargetOn: "interval",targetingSpeed: -1,waiting: "hold");
+        Targeting ts = AddTargeting(body,targetingRange:targetingRange, newTargetOn: "interval",targetingSpeed: -1,waiting: "hold");
      AddAI(body, ai:ai, distance: 20,pointSpeed: pointSpeed);
         AddMovement(body, movement: movement, speed: acceleration);
         MaxSpeed ms = body.AddComponent<MaxSpeed>();
@@ -357,12 +520,13 @@ public class Create : MonoBehaviour
             AddReward(body, amount: reward);
         }
         AttachSpawner(gun, body, displacement: new Vector3(0, 0, 1.5f));
+        AddFaction(unit, faction);
         return unit;
         //\rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
        
         
-    }
+    }*/
     //different method for spot lights as rotation is involved.
     public static GameObject ALight(Vector3 position, Color? color = null, float range = 10, float intensity = 1f, float indirect = 0, Vector3 angle = new Vector3(), LightType? type = null)
     {

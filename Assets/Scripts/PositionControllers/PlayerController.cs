@@ -47,6 +47,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        camScript.distance += Input.GetAxis("Mouse ScrollWheel") * 5;
+        camScript.distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
     }
 }

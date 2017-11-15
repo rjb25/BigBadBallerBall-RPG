@@ -10,11 +10,18 @@ public class EnemyGenerator : MonoBehaviour {
     }
     void Repeating()
     {
-        //Create.RandomUnit(new Vector3(0f, 0.5f, 14f), "Enemy", null, level: Time.time / 50);
-        Create.Charger(new Vector3(0f, 0.5f, 14f), "Enemy", null, level: Time.timeSinceLevelLoad / 50);
-        Create.Gunner(new Vector3(0f, .5f, -14f), "Enemy", null, level: Time.timeSinceLevelLoad / 50);
+        Create.Charger(RandomPosition(), "Enemy", level: Time.timeSinceLevelLoad / 50);
+        GameObject to = Create.Gunner(RandomPosition(), "Enemy", level: Time.timeSinceLevelLoad / 50);
     }
     // Update is called once per frame
+    public Vector3 RandomPosition()
+    {
+        Vector2 direction = Random.insideUnitCircle;
+        float distance = Random.Range(0,30);
+        Vector2 position = (direction * distance)+(direction * 16);
+        Vector3 location = new Vector3(position.x,0.5f,position.y);
+        return location;
+    }
     void Update () {
 		
 	}

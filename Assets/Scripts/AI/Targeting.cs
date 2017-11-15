@@ -7,8 +7,9 @@ using System.Linq;
 //It checks every object in a certain range to see if it is a desired target. Then chooses which of them is closest or highest priority. In the future I may implement choosing target based an health etc etc.
 //Also includes how long it takes to find a new target. How often it checks for a new target etc etc.
 public class Targeting : MonoBehaviour{
-    public string[] targetByTags;
+    public List<string> targetByTags;
     public GameObject target;
+    public bool targetsTeam = false;
     public string targeting = "nearest";
     public float targetingSpeed = 3;
     public float retargetingSpeed = 1;
@@ -24,8 +25,18 @@ public class Targeting : MonoBehaviour{
     public AI ais;
     public Trigger wts;
     // switch case OK for now private delegate void targeting(GameObject[] objs);
+
     private void Start()
     {
+        Faction fs = Faction.GetFactionScript(gameObject);
+        if (targetsTeam)
+        {
+            targetByTags = fs.allies;
+        }
+        else
+        {
+            targetByTags = fs.enemies;
+        }
         lastTargetSet = Time.time;
         ts = gameObject.AddComponent<Trigger>();
         ais = GetComponent<AI>();
@@ -99,7 +110,7 @@ public void TargetAtSpeed()
         }
     }
     //this could be static if I so desired
-    public static GameObject GetTarget(string[] targetTags, GameObject obj, string targeting, float range)
+    public static GameObject GetTarget(List<string> targetTags, GameObject obj, string targeting, float range)
     {
         List<GameObject> gos = new List<GameObject>();
         foreach (string tag in targetTags)

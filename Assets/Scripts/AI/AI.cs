@@ -131,7 +131,13 @@ void Update()
                     Quaternion rotation = Quaternion.LookRotation(relativePos);
                     if (transform.rotation != rotation)
                     {
-                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * pointSpeed);
+                        //still happens in pause... Oops
+                        rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * pointSpeed);
+                        /*
+                        print(rotation.eulerAngles + " " + transform.rotation.eulerAngles);
+                        rb.AddTorque(rotation.eulerAngles - transform.rotation.eulerAngles);
+                        */
+                        transform.rotation = rotation;
                     }
                 }
             }

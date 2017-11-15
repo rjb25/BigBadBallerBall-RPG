@@ -7,12 +7,20 @@ public class Movement : MonoBehaviour {
     public float speed = 9;
     public float grip = 0.9f;
     public MoveDel defaultMovement;
+    public bool velocity = false;
     //public Vector3 holdPoint;
     // Use this for initialization
     void Start () {
        if(defaultMovement == null)
         {
-            defaultMovement = Accelerate;
+            if (velocity)
+            {
+                defaultMovement = Velocity;
+            }
+            else
+            {
+                defaultMovement = Accelerate;
+            }
         }
         rb = GetComponent<Rigidbody>();
     }

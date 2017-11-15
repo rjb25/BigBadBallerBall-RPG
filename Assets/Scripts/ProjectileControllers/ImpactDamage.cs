@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-//Adding this to a projectile will mean that whene the projectile hits something it will apply impact damage.
+//Adding this to a projectile will mean that when the projectile hits something it will apply impact damage.
 public class ImpactDamage : MonoBehaviour
 {
     public int minDamage = 0;

@@ -11,6 +11,7 @@ public class MenuScript : MonoBehaviour {
     public NetworkManagerHUD NetworkHUD;
     public Interact playerInteract;
     public GameObject interactionGrid;
+    public GameObject playerRotation;
   
     public bool haveHud = false;
 

@@ -21,7 +21,20 @@ public class Purchases : MonoBehaviour {
         public int level { get; set; }
         public Producer produce;
     }
+    /*
+     * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
+        gun.transform.parent = playerBody.transform.parent;
 
+        Interactable interactable = gun.AddComponent<Interactable>();
+        interactable.moveable = true;
+
+        Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1));*/
+        private void ZeroPrice(string name)
+        {
+            Inf item = buttons[name];
+            item.price = 0;
+            buttons[name] = item;
+        }
     private void Start()
     {
         playerBody = GameObject.Find("PlayerBody");
@@ -29,19 +42,20 @@ public class Purchases : MonoBehaviour {
         playerScript = gameObject.GetComponent<PlayerController>();
         buttons = new Dictionary<string, Inf>()
         {
-                   {"Gun", new Inf{price = 1, level = 1, upgrade = 1,
+                   {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
                 produce = (level) => {
-                    GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
-        gun.transform.parent = playerBody.transform.parent;
-
-        Interactable interactable = gun.AddComponent<Interactable>();
-        interactable.moveable = true;
-
-        Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1)); }
+                     Create.AddLoadout("Gunny",playerBody,true);
+                    ZeroPrice("Gun");
+                }
     } },
-
+                   {"Sniper", new Inf{price = 20, level = 1, upgrade = 1,
+                produce = (level) => {
+                     Create.AddLoadout("Snippy",playerBody,true);
+                    ZeroPrice("Sniper");
+                }
+    } },
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level) => Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player", new string[] { "Enemy" },level: level)
+                produce = (level) => Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player",level: level)
     } },
                 {"Light", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
@@ -55,11 +69,12 @@ public class Purchases : MonoBehaviour {
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
                 produce = (level ) =>Create.Townhall(gameObject.transform.forward * 2 + new Vector3(0,0.25f,0), "Player")
     } } ,
-            {"Sword", new Inf{price = 1, level = 1, upgrade = 1,
-            produce = (level) => print("yay sword" + level)
+            {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
+            produce = (level) =>{Create.AddLoadout("Swordy",playerBody,true);
+                                 ZeroPrice("Sword");
             } }
 
-        };
+        } };
         int count = 0;
         foreach (KeyValuePair<string, Inf> pair in buttons)
         {

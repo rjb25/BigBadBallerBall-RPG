@@ -4,6 +4,7 @@
 //Pretty much the gun controller.
 public class ToolController : MonoBehaviour
 {
+    public GameObject holder;
     public GameObject projectile;
     public GameObject buffedProjectile = null;
     public int kick = 0;
@@ -22,22 +23,29 @@ public class ToolController : MonoBehaviour
     public Transform kickBy;
     public Trigger trs;
     public bool autoUse = false;
+    public Rigidbody playerRotation;
     public void ToggleAuto()
     {
         autoUse = !autoUse;
         trs.enabled = autoUse;
     }
-        
+
     private void Start()
     {
+        kickBy = transform;
+        projectile = transform.GetChild(0).gameObject;
+        playerRotation = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().playerRotation.GetComponent<Rigidbody>();
         lastUse = Time.time;
         //SetBuffed(projectile, buffs);
-        
-            trs = gameObject.AddComponent<Trigger>();
-            trs.Set(activate: Use);
-            trs.condition = () => Time.time > lastUse + reloadTime;
-            trs.enabled = autoUse;
-        
+
+        trs = gameObject.AddComponent<Trigger>();
+        trs.Set(activate: Use);
+        trs.condition = () => Time.time > lastUse + reloadTime;
+        trs.enabled = autoUse;
+
+    }
+    private void SetProjectile (){
+        projectile = transform.GetChild(0).gameObject;
     }
     void OnDeath()
     {
@@ -45,6 +53,9 @@ public class ToolController : MonoBehaviour
     }
     public void Use()
     {
+        //should be done once, but im feeling lazy
+        //FIX
+        SetProjectile();
         if (Time.time > lastUse + reloadTime)
         {
             lastUse = Time.time;
@@ -53,20 +64,37 @@ public class ToolController : MonoBehaviour
             ps.firer = gameObject;
             //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
             //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
-            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation);
+            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation,ps.firer.transform.parent.transform);
             if (!proj.activeSelf)
             {
                 proj.SetActive(true);
             }
-            proj.GetComponent<Movement>().defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
+            Movement ms = proj.GetComponent<Movement>();
+            /*
+            ms.defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
+            ms.speed += kickWhat.velocity.magnitude *2;
+            */
             // Targets will be handled in each projectile. Heals vs bullets, makes more sense. SetTargets(bullet, targets)
 
             if (hasKick)
             {
-                ApplyKick(kickWhat, kickedRot, kickBy, randKick, kick, kickVert, rotKick, kickHor);
+                    ApplyKick(kickWhat, kickedRot, kickBy, randKick, kick, kickVert, rotKick, kickHor);
             }
         }
 
+    }
+    public void SetHolder(GameObject holder)
+    {
+        this.holder = holder;
+        kickWhat = holder.GetComponent<Rigidbody>();
+        if (kickWhat.name == "PlayerBody")
+        {
+            kickedRot = playerRotation;
+        }
+        else
+        {
+            kickedRot = kickWhat;
+        }
     }
     //Have Buff be an interface for something that modifies stats of an object. Either by adding scripts, setting variables or whatever.
     //Accepts a game object, returns a gameObject. The first buff to make is basic stats. Buffs damage and speed

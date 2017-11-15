@@ -86,9 +86,12 @@
     <Compile Include="Assets\Scripts\Create.cs" />
     <Compile Include="Assets\Scripts\Delegates.cs" />
     <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
+    <Compile Include="Assets\Scripts\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Faction.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Interact.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
+    <Compile Include="Assets\Scripts\IsRef.cs" />
     <Compile Include="Assets\Scripts\Money\BalanceScript.cs" />
     <Compile Include="Assets\Scripts\Money\DropScatter.cs" />
     <Compile Include="Assets\Scripts\Money\MenuScript.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="Assets\Scripts\Triggers\Always.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnKey.cs" />
     <Compile Include="Assets\Scripts\Triggers\Trigger.cs" />
+    <Compile Include="Assets\Scripts\Upgrade.cs" />
     <Compile Include="Assets\Scripts\Variables.cs" />
   </ItemGroup>
   <ItemGroup>
