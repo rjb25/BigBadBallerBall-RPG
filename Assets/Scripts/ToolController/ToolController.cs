@@ -22,9 +22,11 @@ public class ToolController : MonoBehaviour
     public Rigidbody kickedRot;
     public Transform kickBy;
     public Trigger trs;
+    public Trigger trs2;
     public bool autoUse = false;
     public Rigidbody playerRotation;
     public GameObject bulletList;
+    public bool noAmmo = false;
 
 
     private void Start()
@@ -32,7 +34,10 @@ public class ToolController : MonoBehaviour
 
         bulletList = GameObject.Find("BulletList");
         kickBy = transform;
-        projectile = transform.GetChild(0).gameObject;
+        if (!noAmmo)
+        {
+            projectile = transform.GetChild(0).gameObject;
+        }
         playerRotation = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().playerRotation.GetComponent<Rigidbody>();
         lastUse = Time.time;
         //SetBuffed(projectile, buffs);
@@ -41,12 +46,29 @@ public class ToolController : MonoBehaviour
         trs.Set(activate: Use);
         trs.condition = () => Time.time > lastUse + reloadTime;
         trs.enabled = autoUse;
+        if(holder.name == "PlayerBody")
+        {
+            ToggleAuto(false);
+            trs2 = gameObject.AddComponent<Trigger>();
+            trs2.Set(activate: Use, active: Use);
+            trs2.condition = () => Input.GetKey(KeyCode.Space);
+            
+        }
 
     }
-    public void ToggleAuto()
+    public void ToggleAuto(bool? set = null)
     {
-        autoUse = !autoUse;
-        trs.enabled = autoUse;
+        if (set == null)
+        {
+            autoUse = !autoUse;
+            trs.enabled = autoUse;
+        }
+        else
+        {
+            autoUse = (bool)set;
+            trs.enabled = (bool)set;
+        }
+
     }
     private void SetProjectile (){
         projectile = transform.GetChild(0).gameObject;
@@ -57,35 +79,39 @@ public class ToolController : MonoBehaviour
     }
     public void Use()
     {
-        //should be done once, but im feeling lazy
-        //FIX
-        SetProjectile();
         if (Time.time > lastUse + reloadTime)
         {
-            lastUse = Time.time;
-
-            Projectile ps = projectile.GetComponent<Projectile>();
-            ps.firer = gameObject;
-            //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
-            //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
-            GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation,bulletList.transform/*ps.firer.transform.parent.transform.parent.transform*/);
-            if (!proj.activeSelf)
+            
+                lastUse = Time.time;
+            if (!noAmmo)
             {
-                proj.SetActive(true);
+
+                //should be done once, but im feeling lazy
+                //FIX
+                SetProjectile();
+                Projectile ps = projectile.GetComponent<Projectile>();
+                ps.firer = gameObject;
+                //buffedprojectile. if buffed you will need to instantiate on buff change to save on performance then just delete the old buff each change.
+                //if projectile. Could have a sword using this class for reload time and kick. it would have collision as trigger and function as impact damage. NO THIS IS NOT QUITE RIGHT
+                GameObject proj = Instantiate(projectile, gameObject.transform.position + (transform.forward * ps.distance), gameObject.transform.rotation, bulletList.transform/*ps.firer.transform.parent.transform.parent.transform*/);
+                if (!proj.activeSelf)
+                {
+                    proj.SetActive(true);
+                }
+                proj.GetComponent<Projectile>().fs = Faction.GetFactionScript(gameObject);
+                //Movement ms = proj.GetComponent<Movement>();
             }
-            proj.GetComponent<Projectile>().fs = Faction.GetFactionScript(gameObject);
-            //Movement ms = proj.GetComponent<Movement>();
+                /*
+                ms.defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
+                ms.speed += kickWhat.velocity.magnitude *2;
+                */
+                // Targets will be handled in each projectile. Heals vs bullets, makes more sense. SetTargets(bullet, targets)
 
-            /*
-            ms.defaultMovement = projectile.GetComponent<Movement>().defaultMovement;
-            ms.speed += kickWhat.velocity.magnitude *2;
-            */
-            // Targets will be handled in each projectile. Heals vs bullets, makes more sense. SetTargets(bullet, targets)
-
-            if (hasKick)
-            {
+                if (hasKick)
+                {
                     ApplyKick(kickWhat, kickedRot, kickBy, randKick, kick, kickVert, rotKick, kickHor);
-            }
+                }
+            
         }
 
     }

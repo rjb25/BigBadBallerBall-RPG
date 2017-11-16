@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\AutoBalance.cs" />
     <Compile Include="Assets\Scripts\ClickableObject.cs" />
     <Compile Include="Assets\Scripts\Create.cs" />
+    <Compile Include="Assets\Scripts\DamageTransfer.cs" />
     <Compile Include="Assets\Scripts\Delegates.cs" />
     <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />

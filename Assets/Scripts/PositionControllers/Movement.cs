@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 //This class handles object movement. It has static functions so that this could be called for various affects on any object.
 public class Movement : MonoBehaviour {
     public Rigidbody rb;
     public float speed = 9;
+    public float maxSpeed = 10;
     public float grip = 0.9f;
     public MoveDel defaultMovement;
     public bool velocity = false;
@@ -24,11 +26,12 @@ public class Movement : MonoBehaviour {
         }
         rb = GetComponent<Rigidbody>();
     }
-
-
+    //Change to not be static
     public static void Slow(Vector3 direction = new Vector3(), Rigidbody rb = null, float speed = 0)
     {
-        rb.velocity *= Mathf.Max((100-speed),50)/100;
+        Vector3 vect = new Vector3(rb.velocity.x,0,rb.velocity.z) * Mathf.Max((100-speed),50)/100;
+        vect.y = rb.velocity.y;
+        rb.velocity = vect;
     }
     public static void None(Vector3 direction = new Vector3(), Rigidbody rb = null, float speed = 0)
     {
@@ -38,12 +41,13 @@ public class Movement : MonoBehaviour {
     {
         // print(direction);
             rb.GetComponent<Rigidbody>().velocity = direction * speed * Time.deltaTime * 30f;
-        
+            
 
     }
     public static void Accelerate(Vector3 direction = new Vector3(), Rigidbody rb = null, float speed = 0)
     {
-        rb.AddForce(direction * speed * Time.deltaTime * 30);
+            rb.AddForce(direction * speed * Time.deltaTime * 30);
+
     }
     //gonna require some serious checks to make sure this is ok.... set a point out in direction. ray cast up and down. whichever hits, get that point. position acordingly
     //https://forum.unity.com/threads/how-to-find-objects-height-above-terrain-mesh.2708/

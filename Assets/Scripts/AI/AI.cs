@@ -154,8 +154,14 @@ void Update()
             Vector3 difference = holdPoint - gameObject.transform.position;
             where = Vector3.Normalize(difference);
         }
-
-        ms.defaultMovement(where,ms.rb,ms.speed);
+        try
+        {
+            ms.defaultMovement(where, ms.rb, ms.speed);
+        }
+        catch (NullReferenceException ex)
+        {
+            Debug.Log(ms.name + ms.rb + gameObject.transform.parent.name);
+        }
     }
 void OnCollisionEnter(Collision collision)
     {//delegates are the answer if this section gets bogged down
@@ -169,6 +175,7 @@ void OnCollisionEnter(Collision collision)
     {
         if (charges)
         {
+            //print(sendScript);
             if (sendScript.IsReceiver(obj))
             {
                 Retreat();

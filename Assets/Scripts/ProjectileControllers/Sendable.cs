@@ -8,6 +8,7 @@ public class Sendable : MonoBehaviour{
     //make this a function class. for performance of AI being integrated
     public List<string> targets;
     public List<string> affected;
+    public bool hitsEquipment = true;
     public bool hitsBarriers = true;
     private void Start()
     {
@@ -17,7 +18,8 @@ public class Sendable : MonoBehaviour{
     }
     public bool IsReceiver(GameObject other)
     {
-        if (targets.Contains(other.gameObject.tag) || (hitsBarriers && other.gameObject.CompareTag("Barrier")))
+        string tag = other.gameObject.tag;
+        if (targets.Contains(tag) || (hitsEquipment && tag.Length > 9 && targets.Contains(tag.Substring(tag.Length-9))) || (hitsBarriers && other.gameObject.CompareTag("Barrier")))
         {
             return true;
         }

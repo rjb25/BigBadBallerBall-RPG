@@ -6,7 +6,8 @@ using UnityEngine.UI;
 //All the options for buing content.
 //This generates the buttons you see at the bottom when you hit ESC in game.
 //It handles what the buttons do, how much it costs to upgrade them, what upgrading effects, etc etc.
-public class Purchases : MonoBehaviour {
+public class Purchases : MonoBehaviour
+{
     public BalanceScript balance;
     public int Cheap = 1;
     private Health health;
@@ -29,22 +30,25 @@ public class Purchases : MonoBehaviour {
         interactable.moveable = true;
 
         Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1));*/
-        private void ZeroPrice(string name)
-        {
-            Inf item = buttons[name];
-            item.price = 0;
-            buttons[name] = item;
-        }
+    private void ZeroPrice(string name)
+    {
+        Inf item = buttons[name];
+        item.price = 0;
+        buttons[name] = item;
+    }
     private void Start()
     {
+
+
         playerBody = GameObject.Find("PlayerBody");
-        health = gameObject.GetComponent<Health>();
+        health = gameObject.GetComponentInParent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
         buttons = new Dictionary<string, Inf>()
         {
                    {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
                 produce = (level) => {
                      Create.AddLoadout("Gunny",playerBody,true);
+
                     ZeroPrice("Gun");
                 }
     } },
@@ -53,22 +57,23 @@ public class Purchases : MonoBehaviour {
                      Create.AddLoadout("Snippy",playerBody,true);
                     ZeroPrice("Sniper");
                 }
-    } },
+    } },/*
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) => Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player",level: level)
     } },
                 {"Light", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
-    } },
+    } },*/
                 {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) =>  health.TakeDamage(-25 - (level *10))
     } },
                 {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level) => playerScript.noBackwards = false
     } },
+                /*
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
                 produce = (level ) =>Create.Townhall(gameObject.transform.forward * 2 + new Vector3(0,0.25f,0), "Player")
-    } } ,
+    } } ,*/
             {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
             produce = (level) =>{Create.AddLoadout("Swordy",playerBody,true);
                                  ZeroPrice("Sword");
@@ -82,10 +87,10 @@ public class Purchases : MonoBehaviour {
             ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
             Button button = buttonObj.GetComponent<Button>();
             Text txt = buttonObj.GetComponentInChildren<Text>();
-            txt.text = "(" + pair.Value.upgrade + ")" +"lvl" + pair.Value.level + " " + pair.Key + "(" + pair.Value.price + ")";
+            txt.text = "(" + pair.Value.upgrade + ")" + "lvl" + pair.Value.level + " " + pair.Key + "(" + pair.Value.price + ")";
             buttonObj.transform.localScale = new Vector3(1, 1, 1);
             RectTransform rect = buttonObj.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(count*160,0);
+            rect.anchoredPosition = new Vector2(count * 160, 0);
 
             cs.leftClick = delegate { Buy(pair.Key); };
             cs.rightClick = delegate { Upgrade(pair.Key, txt); };
@@ -97,13 +102,13 @@ public class Purchases : MonoBehaviour {
     {
 
         Inf item = buttons[name];
-        
+
         if (balance.balance >= item.upgrade) //&& cheap contains name
         {
             balance.AddMoney(-item.upgrade);
             item.level++;
             item.upgrade += item.upgrade;
-            buttons[name] =  item;
+            buttons[name] = item;
             print("upgraded to level " + item.level);
             txt.text = "(" + item.upgrade + ")" + "lvl" + item.level + " " + name + "(" + item.price + ")";
         }

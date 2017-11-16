@@ -25,11 +25,8 @@ public class Equipment : MonoBehaviour {
     {
         if (availableCount > 0)
         {
-            print(currentNum);
             ++currentNum;
-            print(currentNum);
             currentNum %= availableCount;
-            print(currentNum+"after");
             Create.EquipLoadout(availableOrder[currentNum], gameObject);
         }
     }

@@ -24,7 +24,7 @@ public class ImpactDamage : MonoBehaviour
             if (to.IsReceiver(impact.gameObject))
             {
                 int damage = Mathf.Max(Mathf.FloorToInt(pro.damageMult * impactDamage * impact.relativeVelocity.magnitude), minDamage);
-                impact.collider.gameObject.GetComponent<Health>().TakeDamage(damage);
+                Health.Damage(impact.collider.gameObject, damage);
             }
         }
 

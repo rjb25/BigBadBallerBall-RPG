@@ -34,7 +34,24 @@ public class Health : MonoBehaviour
         }
 
     }
+    public static void Damage(GameObject to, int amount)
+    {
 
+        DamageTransfer ds = to.GetComponent<DamageTransfer>();
+        Health hs = to.GetComponent<Health>();
+        if (hs)
+        {
+            hs.TakeDamage(amount);
+        }
+        else if(ds)
+        {
+            ds.Transfer(amount);
+        }
+        else
+        {
+            print("object is tagged but has no damage handler" + to.name);
+        }
+    }
 
     public void TakeDamage(int amount)
     {
@@ -67,14 +84,9 @@ public class Health : MonoBehaviour
                 gameObject.SetActive(false);
             }
             else
-            {if (gameObject.name == "body")
-                {
-                    Destroy(gameObject.transform.parent.gameObject);
-                }
-                else
-                {
+            {
                     Destroy(gameObject);
-                }
+                
             }
         }
     }

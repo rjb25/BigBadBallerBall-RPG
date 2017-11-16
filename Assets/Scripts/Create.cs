@@ -194,15 +194,16 @@ public class Create : MonoBehaviour
         GameObject healthBox = GetPrefab("HealthBox");
         GameObject healthBar = Instantiate(healthBox);
         Follow followScript = healthBar.GetComponent<Follow>();
-        followScript.target = toWhat;
-        followScript.offset = new Vector3(0f, toWhat.transform.localScale.y, 0f);
+        GameObject body = toWhat.transform.Find("body").gameObject;
+        followScript.target = body;
+        followScript.offset = new Vector3(0f, body.transform.localScale.y, 0f);
         
         Health healthScript = toWhat.AddComponent<Health>();
         healthScript.maxHealth = health;
         healthScript.healthBox = healthBar.transform;
         SetScale(healthBar, 1,0.1f,0.1f);
         ModScale(healthBar, x: ((float)health) / 100);
-        healthBar.transform.parent = toWhat.transform.parent.transform;
+        healthBar.transform.parent = toWhat.transform;
 
     }
     public static GameObject MakeUnit(GameObject center, string name = "generic", int health = 100, int speed = 20, int maxSpeed = -1, bool frozen = true)
@@ -211,7 +212,7 @@ public class Create : MonoBehaviour
         GameObject parent = new GameObject(name);
 
         AddRigidbody(center,noRot:frozen);
-
+        
         center.name = "body";
         center.AddComponent<CenterMass>();
         //LOL the redundancy
@@ -222,9 +223,9 @@ public class Create : MonoBehaviour
             center.GetComponent<MaxSpeed>().maxSpeed = maxSpeed;
         }
         center.transform.parent = parent.transform;
-
-
-        AddHealth(center, health);
+        
+        AddHealth(parent, health);
+        center.AddComponent<DamageTransfer>();
         return parent;
     }
 
@@ -233,6 +234,7 @@ public class Create : MonoBehaviour
     {
 
         Equipment es = to.GetComponent<Equipment>();
+
         if (!es)
         {
             es = to.AddComponent<Equipment>();
@@ -241,10 +243,22 @@ public class Create : MonoBehaviour
         {
            
             GameObject loadout = Instantiate(GetPrefab(name), to.transform.position, to.transform.rotation, to.transform.parent);
-            
+ 
             es.NewAvailable(name, loadout);
             
             GetRefs(loadout);
+            for (int i = 0; i < loadout.transform.childCount; i++)
+            {
+                GameObject go = loadout.transform.GetChild(i).gameObject;
+
+                go.tag = to.tag;
+                DamageTransfer ds = go.GetComponent<DamageTransfer>();
+                if (!ds)
+                {
+                    ds = go.AddComponent<DamageTransfer>();
+                }
+
+            }
             /*
             for (int i = 0; i < loadout.transform.childCount; i++)
             {

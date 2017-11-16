@@ -253,6 +253,7 @@ Prefab:
     - {fileID: 114723863119479458, guid: b24482526d7abc4448f1b61b3a5902f9, type: 2}
     - {fileID: 54389223899238852, guid: b24482526d7abc4448f1b61b3a5902f9, type: 2}
     - {fileID: 114684675797669750, guid: b24482526d7abc4448f1b61b3a5902f9, type: 2}
+    - {fileID: 114257144796867214, guid: b24482526d7abc4448f1b61b3a5902f9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: b24482526d7abc4448f1b61b3a5902f9, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &65100669
@@ -560,6 +561,7 @@ MonoBehaviour:
   targets:
   - Enemy
   affected: []
+  hitsEquipment: 1
   hitsBarriers: 1
 --- !u!54 &120900355
 Rigidbody:
@@ -816,6 +818,7 @@ MonoBehaviour:
   targets:
   - Enemy
   affected: []
+  hitsEquipment: 1
   hitsBarriers: 1
 --- !u!54 &133894526
 Rigidbody:
@@ -2169,6 +2172,19 @@ GameObject:
   m_PrefabParentObject: {fileID: 1625020376896674, guid: b24482526d7abc4448f1b61b3a5902f9,
     type: 2}
   m_PrefabInternal: {fileID: 35215291}
+--- !u!114 &866062496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866062495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55b1a5a2e79ff048a62f6019b9f2249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hs: {fileID: 0}
+  percentage: 1
 --- !u!114 &866062497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2203,7 +2219,7 @@ Rigidbody:
   m_GameObject: {fileID: 866062495}
   serializedVersion: 2
   m_Mass: 2
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -2255,18 +2271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   match: {fileID: 782793860}
---- !u!114 &866062507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 866062495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd14abba49514741acac38e6c268787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 5
 --- !u!114 &866062508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2309,6 +2313,22 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   key: 9
+--- !u!114 &866062510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866062495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96213812798f17e4fa5bb945b28ed86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  speed: 30
+  maxSpeed: -1
+  grip: 0.9
+  velocity: 0
 --- !u!1 &924558166
 GameObject:
   m_ObjectHideFlags: 0
@@ -3332,6 +3352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1364012207}
   - component: {fileID: 1364012208}
+  - component: {fileID: 1364012209}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3370,6 +3391,22 @@ MonoBehaviour:
   enemies: []
   allies: []
   faction: Player
+--- !u!114 &1364012209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364012206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e410caa5c8f6ddd4ead6fc3273e46093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthBox: {fileID: 0}
+  healthSlider: {fileID: 1132050621}
+  noBreak: 1
 --- !u!1 &1383053816
 GameObject:
   m_ObjectHideFlags: 0

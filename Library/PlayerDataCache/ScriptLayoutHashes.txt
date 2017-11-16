@@ -132,7 +132,7 @@ daee3f9101cd2f76d49e11517908d2e7 Assembly-CSharp.dll:.HealController
 feb9e6162f02e52810b1a11333e24dfa Assembly-CSharp.dll:.Sendable
 8482d8ac5d83dbfa133bb619241a504c Assembly-CSharp.dll:.Interactable
 4d8a948d7f5ec0014c3d6f6e9c5a1ed7 Assembly-CSharp.dll:.Repulse
-56e075c0b6ed626c60fdb93e719a4d49 Assembly-CSharp.dll:.Projectile
+40f38a1573cdfded3d313853940169d4 Assembly-CSharp.dll:.Projectile
 3f8777b3e933ff1a1d82e104769063fe Assembly-CSharp.dll:.BombDamage
 ac7c4159e35c5aa7c21caf0081f4b303 Assembly-CSharp.dll:.MenuScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -172,7 +172,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 e04379475e02edb566cd5bbcd83979e9 Assembly-CSharp.dll:.OnKey
 39756890264352171f4ea6e4b9fdf4d2 Assembly-CSharp.dll:.Money
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Always
-182239c087953bb309fd03f44f63a14b Assembly-CSharp.dll:.ToolController
+10a450b0020861fec00e54e2feee2884 Assembly-CSharp.dll:.ToolController
 3d0483c48f490dc1d06d9a704fa30471 Assembly-CSharp.dll:.Variables
 3750b7d4d64a5eeaaba713c94db46706 Assembly-CSharp.dll:.MoveTo
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MultiPlayerController

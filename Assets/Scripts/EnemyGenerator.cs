@@ -23,6 +23,5 @@ public class EnemyGenerator : MonoBehaviour {
         return location;
     }
     void Update () {
-		
 	}
 }
