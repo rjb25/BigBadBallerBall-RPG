@@ -131,6 +131,7 @@
     <Compile Include="Assets\Scripts\Triggers\Always.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnKey.cs" />
     <Compile Include="Assets\Scripts\Triggers\Trigger.cs" />
+    <Compile Include="Assets\Scripts\Unit.cs" />
     <Compile Include="Assets\Scripts\Upgrade.cs" />
     <Compile Include="Assets\Scripts\Variables.cs" />
   </ItemGroup>

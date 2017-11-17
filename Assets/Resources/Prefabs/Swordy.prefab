@@ -27,7 +27,6 @@ GameObject:
   - component: {fileID: 114043092990321794}
   - component: {fileID: 114978571776076156}
   - component: {fileID: 114283976571774832}
-  - component: {fileID: 114609675251690562}
   - component: {fileID: 114065005349905250}
   - component: {fileID: 114403327601664620}
   - component: {fileID: 138079209022696434}
@@ -212,6 +211,7 @@ MonoBehaviour:
   targets:
   - Enemy
   affected: []
+  hitsEquipment: 1
   hitsBarriers: 1
 --- !u!114 &114403327601664620
 MonoBehaviour:
@@ -225,18 +225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displacement: {x: 0, y: 0, z: 0}
---- !u!114 &114609675251690562
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1236997477745634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbdc5dca9f2d22041a999cc7153cba82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {fileID: 0}
 --- !u!114 &114978571776076156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,6 +242,7 @@ MonoBehaviour:
   damageMult: 1
   distance: 0
   to: {fileID: 114349248330782658}
+  fs: {fileID: 0}
 --- !u!138 &138079209022696434
 FixedJoint:
   m_ObjectHideFlags: 1

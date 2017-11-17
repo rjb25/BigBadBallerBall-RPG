@@ -11,49 +11,8 @@ public class Create : MonoBehaviour
     //make the random functions (minus the spawner) all delegates, because they are all fairly the same object in new out, then you could randomize which of the functions are called. Etc etc manipulate however
     private static string[] shapes = { "sphere", "cube", "cylinder", "capsule" };
     #region basic
-    public static GameObject NewObject(string shape = "sphere")
-    {
-        GameObject obj;
-        switch (shape)
-        {
-            case "cube":
-                obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                break;
-            case "sphere":
-                obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                break;
-            case "capsule":
-                obj =  GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                break;
-            case "cylinder":
-                obj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                break;
-            case "empty":
-                obj = new GameObject("empty");
-                break;
-            default:
-                obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                break;
-           
-        }
-        //obj.SetActive(false);
-        return obj;
-    }
-    public static Rigidbody AddRigidbody(GameObject obj, float mass = 1, float angDrag = 0.05f, float drag = 0, bool gravity = true, bool kinetic = false, bool noRot = false)
-    {
-        Rigidbody rb = obj.AddComponent<Rigidbody>();
-        rb.mass = mass;
-        rb.angularDrag = angDrag;
-        rb.drag = drag;
-        rb.useGravity = gravity;
-        rb.isKinematic = kinetic;
-        
-        if (noRot)
-        {
-            rb.freezeRotation = true;
-        }
-        return rb;
-    }
+
+
 
     public static void SetScale(GameObject obj, float x = 1, float y = 1, float z = 1, float mult = 1)
     {
@@ -118,75 +77,8 @@ public class Create : MonoBehaviour
         script.velocity = velocity;
     }
 
-    public static Targeting AddTargeting(GameObject obj, string method = "nearest", float targetingSpeed = 3, int targetingRange = 100, float retargetingSpeed = 3, string newTargetOn = "", string waiting = "nothing")
-    {
-        Targeting ts = obj.AddComponent<Targeting>();
-        ts.targeting = method;
-        ts.whileWaitingType = waiting;
-        ts.targetingSpeed = targetingSpeed;
-        ts.targetingRange = targetingRange;
-        ts.retargetingSpeed = retargetingSpeed;
-        ts.newTargetOn = newTargetOn;
-        //Actor is a void delegate.
 
-        return ts;
-    }
-    //Needs major updating for new singular AI file.
-    //Someway to allow these to be setters aswell?
 
-    public static void AddSendable(GameObject obj)
-    {
-        Sendable to = obj.AddComponent<Sendable>();
-    }
-    public static void AddMovement(GameObject obj, float speed = 30, MoveDel movement = null)
-    {
-        Movement ms = obj.AddComponent<Movement>();
-        ms.speed = speed;
-        ms.defaultMovement= movement;
-    }
-    public static AI AddAI(GameObject obj, float distance = 0, int retreatDuration = 1, float chaseRange = -1, bool relative = false, string ai = "charge", bool onDeath = true, float pointSpeed = 0.1f, int pursueRange = 1000, Vector3 basePoint = new Vector3())
-    {
-        
-        AI ais = obj.AddComponent<AI>();
-        ais.pointSpeed = pointSpeed;
-        ais.retreatDuration = retreatDuration;
-        ais.basePoint = basePoint;
-        ais.pursueRange = pursueRange;
-        ais.distance = distance;
-        switch (ai)
-        {
-            case "hold":
-                ais.kites = false;
-                ais.charges = false;
-                ais.hold = true;
-                break;
-            case "charge":
-                ais.kites = false;
-                ais.charges = true;
-                ais.hold = false;
-                break;
-            case "kite":
-                ais.kites = true;
-                ais.charges = false;
-                ais.hold = false;
-                break;
-            default:
-                ais.kites = false;
-                ais.charges = false;
-                ais.hold = false;
-                break;
-        }
-
-        return ais;
-    }
-    public static void AddImpact(GameObject obj, int dmgMin = 0, int dmgMult = 1)
-    {
-        obj.AddComponent<ImpactDamage>();
-        ImpactDamage script = obj.GetComponent<ImpactDamage>();
-
-        script.minDamage = dmgMin;
-        script.impactDamage = dmgMult;
-    }
     #endregion
     #region assembling
     public static void AddHealth(GameObject toWhat,int  health = 50)
@@ -194,7 +86,7 @@ public class Create : MonoBehaviour
         GameObject healthBox = GetPrefab("HealthBox");
         GameObject healthBar = Instantiate(healthBox);
         Follow followScript = healthBar.GetComponent<Follow>();
-        GameObject body = toWhat.transform.Find("body").gameObject;
+        GameObject body = toWhat.GetComponent<Unit>().body;
         followScript.target = body;
         followScript.offset = new Vector3(0f, body.transform.localScale.y, 0f);
         
@@ -204,30 +96,8 @@ public class Create : MonoBehaviour
         SetScale(healthBar, 1,0.1f,0.1f);
         ModScale(healthBar, x: ((float)health) / 100);
         healthBar.transform.parent = toWhat.transform;
-
     }
-    public static GameObject MakeUnit(GameObject center, string name = "generic", int health = 100, int speed = 20, int maxSpeed = -1, bool frozen = true)
-    {
 
-        GameObject parent = new GameObject(name);
-
-        AddRigidbody(center,noRot:frozen);
-        
-        center.name = "body";
-        center.AddComponent<CenterMass>();
-        //LOL the redundancy
-        center.GetComponent<CenterMass>().center = center.transform;
-        if (maxSpeed >= 0)
-        {
-            center.AddComponent<MaxSpeed>();
-            center.GetComponent<MaxSpeed>().maxSpeed = maxSpeed;
-        }
-        center.transform.parent = parent.transform;
-        
-        AddHealth(parent, health);
-        center.AddComponent<DamageTransfer>();
-        return parent;
-    }
 
     //amount should probably be moved to vars so it could be updated easily and accessed easily. Make higher worth have worth bar etc etc bounty yata yata. Plus it would be settable at make unit.
     public static void AddLoadout(string name, GameObject to, bool equip = false)
@@ -257,20 +127,10 @@ public class Create : MonoBehaviour
                 {
                     ds = go.AddComponent<DamageTransfer>();
                 }
+                CenterMass cs = go.AddComponent<CenterMass>();
+                cs.center = to.transform;
 
             }
-            /*
-            for (int i = 0; i < loadout.transform.childCount; i++)
-            {
-                GameObject Go = loadout.transform.GetChild(i).gameObject;
-
-                if (Go.GetComponent<IsRef>())
-                {
-                    GameObject oldGo = Go;
-                    Go = Instantiate(GetPrefab(Go.name), Go.transform.position, Go.transform.rotation, Go.transform.parent);
-                    Destroy(oldGo);
-                }
-            }*/
             loadout.SetActive(false);
         }
         else
@@ -400,156 +260,57 @@ public class Create : MonoBehaviour
     }
     #endregion
     #region creators
-    
-    public static GameObject Sword(List<string> targets)
-    {
-        GameObject rail = NewObject("cube");
-        SetMaterial(rail, "Steel");
-        AddRigidbody(rail,gravity: false);
-        AddSendable(rail);
 
-        ImpactDamage ims = rail.AddComponent<ImpactDamage>();
-        ims.impactDamage = 1;
-        SetScale(rail, 0.1f, 0.1f);
-        return rail;
-    }
-    public static GameObject Gun(List<string> targets, bool autoFire = false, int reloadTime = 10, float level = 1)
+    public static GameObject Unit(Vector3 location, string bodyName, string faction, string loadout = "none", int reward = 1, float level = 1)
     {
-
-        GameObject rail = NewObject("cube");
-        SetMaterial(rail, "Gun");
-        GameObject projectile = NewObject("sphere");
-        SetMaterial(projectile, "Gun");
-        AddRigidbody(projectile, 0.01f, gravity: false, noRot: true);
-        AddSendable(projectile);
-        AddProjectile(projectile, firer: rail, collisionsAllowed: 0, distance: 0.7f);
-        /* tracking
-        AddTargeting(projectile,  targets.ToArray(),targetingSpeed:-1f,targetingRange:1000, newTargetOn: "kill",waiting:"forward");
-        AddAI(projectile,ai: "none",pointSpeed: 1,relative:true);
-        */
-        AddMovement(projectile, speed: 30f, movement: Movement.Velocity);
-        projectile.transform.SetParent( rail.transform,true);
-        projectile.AddComponent<Move>();
-       
-        AddRigidbody(rail, gravity: false);
-       
-        HitDamage hs = projectile.AddComponent<HitDamage>();
-        hs.damage = 20;
-        projectile.SetActive(false);
-        ModScale(projectile, mult: 0.1f);
-        Duration ds = projectile.AddComponent<Duration>();
-        ds.duration = 15f;
-        AddSpawner(rail, projectile, reloadTime: reloadTime, auto:autoFire);
-        SetScale(rail, 0.1f, 0.1f);
-        return rail;
-    }
-    public static GameObject Charger(Vector3 location, string faction = "Enemy", float acceleration = 15,  float speed = 10,int reward = 1, string ai = "charge", float level = 1)
-    {
-
-        GameObject body = NewObject("sphere");
+        GameObject bodyFab = GetPrefab(bodyName);
+        GameObject body = Instantiate(bodyFab,location,bodyFab.transform.rotation);
         body.tag = faction;
         SetMaterial(body, faction);
-        AddTargeting(body,  newTargetOn: "kill");
-        AddAI(body, ai:ai, pointSpeed: -1);
-        AddMovement(body,movement:Movement.Accelerate, speed:acceleration);
-        AddSendable(body);
-        AddProjectile(body);
-        AddImpact(body);
         if (faction != "Player")
         {
             AddReward(body, amount: reward);
         }
+        int health = Mathf.FloorToInt(10 * level);
 
-        GameObject unit= MakeUnit(body, (faction + "Charger"), health: Mathf.FloorToInt(10 * level), frozen: false);
+        GameObject unit = new GameObject(faction);
+        Unit us = unit.AddComponent<Unit>();
+        us.body = body;
+        body.transform.parent = unit.transform;
+        AddHealth(unit, health);
+        body.AddComponent<DamageTransfer>();
+
         AddFaction(unit,faction);
         unit.transform.position = location;
+        if (loadout != "none")
+        {
+            AddLoadout(loadout, body, true);
+        }
         return unit;
-
     }
 
     public static GameObject Townhall(Vector3 location, string faction = "Player")
     {
 
         GameObject parent = new GameObject(faction + " Townhall");
-        
-        GameObject body = NewObject("cube");
+
+        GameObject body = Instantiate(GetPrefab("Townhall"), location, new Quaternion(), parent.transform);
         body.name = "body";
         body.transform.parent = parent.transform;
         body.tag = faction;
-        SetMaterial(body, faction);
-        body.transform.position = location;
-        ModScale(body,mult:1f);
         AddHealth(body,150);
 
         return body;
     }
-    public static GameObject Gunner(Vector3 location, string faction = "Enemy", float acceleration = 30, float speed = 10, float pointSpeed = 0.0001f, MoveDel movement = null, int reward = 1, int targetingRange = 1000, string ai = "kite", float level = 1)
-    {
-        //Next make it so that the bodies are grabbed from prefabs.
-        GameObject body = NewObject("sphere");
-        body.tag = faction;
-        SetMaterial(body, faction);
 
-        Targeting ts = AddTargeting(body, targetingRange: targetingRange, newTargetOn: "interval", targetingSpeed: -1, waiting: "hold");
-        AddAI(body, ai: ai, distance: 20, pointSpeed: pointSpeed);
-        AddMovement(body, movement: movement, speed: acceleration);
-        //This should be in movement to only disable movement if speed greater than max. This would mean things cant be hit far.
-        MaxSpeed ms = body.AddComponent<MaxSpeed>();
-        ms.maxSpeed = speed;
-
-        GameObject unit = MakeUnit(body, (faction + "Gunner"), health: Mathf.FloorToInt(10 * level));
-        unit.transform.position = location;
-        if (faction != "Player")
-        {
-            AddReward(body, amount: reward);
-        }
-
-        AddFaction(unit, faction);
-        AddLoadout("Gunny",body,true);
-        return unit;
-        //\rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-    }
-    /*
-    public static GameObject Gunner(Vector3 location, string faction = "Enemy", string[] OpposingFactions = null, float acceleration = 15, float speed = 10, float pointSpeed = 0.0001f,MoveDel movement = null, int reward = 1, int targetingRange = 1000, string ai = "kite", float level = 1)
-    {
-        OpposingFactions = OpposingFactions ?? new string[] { "Player", "Character" };
-
-        GameObject body = NewObject("sphere");
-        body.tag = faction;
-        SetMaterial(body, faction);
-     
-        Targeting ts = AddTargeting(body,targetingRange:targetingRange, newTargetOn: "interval",targetingSpeed: -1,waiting: "hold");
-     AddAI(body, ai:ai, distance: 20,pointSpeed: pointSpeed);
-        AddMovement(body, movement: movement, speed: acceleration);
-        MaxSpeed ms = body.AddComponent<MaxSpeed>();
-        ms.maxSpeed = speed;
-        
-
-        
-        
-        GameObject unit = MakeUnit(body, (faction + "Gunner"), health: Mathf.FloorToInt(10 *level));
-        unit.transform.position = location;
-        GameObject gun = Gun(new List<string>(OpposingFactions),autoFire: true);
-        gun.transform.parent = unit.transform;
-        if (faction != "Player")
-        {
-            AddReward(body, amount: reward);
-        }
-        AttachSpawner(gun, body, displacement: new Vector3(0, 0, 1.5f));
-        AddFaction(unit, faction);
-        return unit;
-        //\rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
-       
-        
-    }*/
     //different method for spot lights as rotation is involved.
+    //This should use a prefab.
     public static GameObject ALight(Vector3 position, Color? color = null, float range = 10, float intensity = 1f, float indirect = 0, Vector3 angle = new Vector3(), LightType? type = null)
     {
 
 
         GameObject lightGameObject = new GameObject("The Light");
-        GameObject sphere = NewObject("sphere");
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         SetMaterial(sphere, "Emissive");
         SetColor(sphere, color ?? Color.white, "_EmissionColor");
 

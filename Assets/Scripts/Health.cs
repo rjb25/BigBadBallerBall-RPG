@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
     public int currentHealth;
     public Transform healthBox;// The current health the player has.
     public Slider healthSlider; // Whether the player is dead.
-    private float scaleMax;
+    private float scaleMax = 1;
     public bool noBreak = false;
 
 
