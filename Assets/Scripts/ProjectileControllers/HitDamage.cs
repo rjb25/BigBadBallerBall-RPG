@@ -17,7 +17,7 @@ public class HitDamage : MonoBehaviour {
         if (to.IsReceiver(impact.gameObject))
         {
             int theDamage = Mathf.FloorToInt(damage * pro.damageMult);
-            impact.gameObject.GetComponentInParent<Health>().TakeDamage(theDamage);
+            Health.Damage(impact.gameObject,theDamage);
         }
 
     }

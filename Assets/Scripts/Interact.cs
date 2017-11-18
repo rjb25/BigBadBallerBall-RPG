@@ -24,6 +24,7 @@ public class Interact : MonoBehaviour {
     {
         open = true;
         Vector3 explosionPos = transform.position;
+
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
         foreach (Collider hit in colliders)
         {
@@ -35,7 +36,15 @@ public class Interact : MonoBehaviour {
                 ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
                 Button button = buttonObj.GetComponent<Button>();
                 Text txt = buttonObj.GetComponentInChildren<Text>();
-                txt.text = hit.name;
+                if (hit.name == "PlayerBody")
+                {
+                    txt.text = "Inventory";
+                }
+                else
+                {
+                    txt.text = hit.name;
+                }
+                
                 cs.leftClick = () => { item.CloseInteractions(); item.GetInteractions(); };
                 //cs.rightClick = delegate { Upgrade(pair.Key, txt); };
             }

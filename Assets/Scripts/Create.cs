@@ -152,10 +152,14 @@ public class Create : MonoBehaviour
         if (parent)
         {
             int length = parent.transform.childCount;
+            GameObject[] children = new GameObject[length];
             for (int i = 0; i < length; i++)
             {
-                GameObject childRef = parent.transform.GetChild(i).gameObject;
-
+                children[i] = parent.transform.GetChild(i).gameObject;
+            }
+                for (int i = 0; i < length; i++)
+            {
+                GameObject childRef = children[i];
                 GameObject child;
                 if (childRef.GetComponent<IsRef>())
                 {
@@ -205,7 +209,7 @@ public class Create : MonoBehaviour
                     print(loadout.transform.childCount + " " + loadout.name + loadout.transform.GetChild(0).name + loadout.transform.GetChild(1).name);
                 }*/
                 GameObject startGo = start.transform.GetChild(i).gameObject;
-                AttachFixed(Go, to, startGo.transform.localPosition);
+                AttachFixed(Go, to, startGo.transform.localPosition,startGo.transform.rotation);
             }
             es.current = loadout;
         }
@@ -224,10 +228,12 @@ public class Create : MonoBehaviour
             //Destroy(current);
         }
     }
-    public static void AttachFixed(GameObject obj, GameObject to, Vector3 displacement)
+    public static void AttachFixed(GameObject obj, GameObject to, Vector3 displacement, Quaternion rotation = new Quaternion())
     {
         obj.transform.position = to.transform.position + (to.transform.rotation * displacement);
+        
         obj.transform.rotation = to.transform.rotation;
+        obj.transform.rotation *=rotation;
         Variables vs = obj.GetComponent<Variables>();
         if (vs)
         {

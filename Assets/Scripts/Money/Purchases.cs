@@ -22,6 +22,8 @@ public class Purchases : MonoBehaviour
     public GameObject menu;
     private GameObject playerBody;
     public Dictionary<string, Inf> items;
+    public Inventory invs;
+    public Interact ints;
 
     /*
      * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
@@ -40,8 +42,10 @@ public class Purchases : MonoBehaviour
     private void Start()
     {
         playerBody = GameObject.Find("PlayerBody");
+        ints = playerBody.GetComponent<Interact>();
         health = gameObject.GetComponentInParent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
+        invs = GetComponent<Inventory>();
         items = new Dictionary<string, Inf>()
         {
                    {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
@@ -55,6 +59,12 @@ public class Purchases : MonoBehaviour
                 produce = (level, from) => {
                      Create.AddLoadout("Snippy",playerBody,true);
                     ZeroPrice("Sniper");
+                }
+    } },
+                                      {"SwordyPlus", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level, from) => {
+                     Create.AddLoadout("SwordyPlus",playerBody,true);
+                    ZeroPrice("SwordyPlus");
                 }
     } },
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
@@ -115,14 +125,26 @@ public class Purchases : MonoBehaviour
 
 
     }
-    public void Buy(string name,GameObject from) //level
+    public void Buy(string name, GameObject from, bool asItem = false, bool free = false) //level
     {
         Inf item = items[name];
-        if (balance.balance >= item.price) //&& cheap contains name
+        int price = item.price;
+        if (free)
         {
-            balance.AddMoney(-item.price);
-            item.produce(item.level, from);
+            price = 0;
         }
-
+        if (balance.balance >= price) //&& cheap contains name
+        {
+            balance.AddMoney(-price);
+            if (asItem)
+            {
+                invs.Add(name);
+            }
+            else { 
+                item.produce(item.level, from);
+            }
+        }
+        ints.RefreshInteractables();
     }
+
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 //This class is currently under developement.
 //Once you select an object to interact with this generates its possible interactions.
+
 public class Interactable : MonoBehaviour {
 
     private GameObject interactionGrid;
@@ -13,16 +14,24 @@ public class Interactable : MonoBehaviour {
     public List<string> buyables;
     private Purchases ps;
     public bool moveable = false;
+    private Inventory invs;
 
     private Variables vs;
     void Start()
     {
+        
         vs = GetComponent<Variables>();
 
         interactable = gameObject;
         interactionGrid = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().interactionGrid;
         ps = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().Player.GetComponent<Purchases>();
+        invs = gameObject.GetComponent<Inventory>();
 
+    }
+    public void RefreshInteractions()
+    {
+        CloseInteractions();
+        GetInteractions();
     }
     public void CloseInteractions()
     {
@@ -33,16 +42,27 @@ public class Interactable : MonoBehaviour {
     }
     public void GetInteractions()
     {
-        foreach (string item in buyables)
+
+        foreach (string it in buyables)
         {
+            string item;
+            bool asItem = false;
+            if (it.Substring(it.Length - 3) == "Item")
+            {
+                item =it.Substring(0, it.Length-4);
+                asItem = true;
+            }
+            else
+            {
+                item = it;
+            }
             Inf itemInfo = ps.items[item];
             GameObject buttonObj = Instantiate(Create.GetPrefab("Grid Button"), interactionGrid.transform);
             ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
             Button button = buttonObj.GetComponent<Button>();
             Text txt = buttonObj.GetComponentInChildren<Text>();
             txt.text = item + "(" + itemInfo.price + ")";
-            cs.leftClick = delegate { ps.Buy(item,gameObject); };
-
+            cs.leftClick = delegate { ps.Buy(item,gameObject,asItem:asItem); };
         }
         
         ImpactDamage ids = interactable.GetComponent<ImpactDamage>();
@@ -87,7 +107,18 @@ public class Interactable : MonoBehaviour {
                 Create.AttachFixed(gameObject, attachedTo, new Vector3(x, y, z));
             };
         }
-
+        if (invs)
+        {
+            foreach (KeyValuePair<string, int> item in invs.items)
+            {
+                GameObject buttonObj = Instantiate(Create.GetPrefab("Grid Button"), interactionGrid.transform);
+                ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
+                Button button = buttonObj.GetComponent<Button>();
+                Text txt = buttonObj.GetComponentInChildren<Text>();
+                txt.text = "(" + item.Value + ")" + item.Key;
+                cs.leftClick = delegate { invs.Use(item.Key); RefreshInteractions(); };
+            }
+        }
 
     }
 }

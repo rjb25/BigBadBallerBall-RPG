@@ -1533,7 +1533,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  key: 27
+  key: 101
 --- !u!1 &499133993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,6 +2256,8 @@ MonoBehaviour:
   balance: {fileID: 650478860}
   Cheap: 1
   menu: {fileID: 1210300192}
+  invs: {fileID: 0}
+  ints: {fileID: 0}
 --- !u!4 &866062505 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4195366260020354, guid: b24482526d7abc4448f1b61b3a5902f9,
@@ -2284,8 +2286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e83ddf687efc104e85b50a8bf2227eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buyables:
-  - Townhall
+  buyables: []
   moveable: 0
 --- !u!114 &866062508
 MonoBehaviour:
@@ -2345,6 +2346,17 @@ MonoBehaviour:
   maxSpeed: -1
   grip: 0.9
   velocity: 0
+--- !u!114 &866062511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866062495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cbc45ad1b1d6d54fa9359cda524caaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &924558166
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,14 +35,15 @@ public class Health : MonoBehaviour
 
         DamageTransfer ds = to.GetComponent<DamageTransfer>();
         Health hs = to.GetComponent<Health>();
+        if (ds)
+        {
+            ds.Transfer(amount);
+        }else
         if (hs)
         {
             hs.TakeDamage(amount);
         }
-        else if(ds)
-        {
-            ds.Transfer(amount);
-        }
+     
         else
         {
             print("object is tagged but has no damage handler" + to.name);
