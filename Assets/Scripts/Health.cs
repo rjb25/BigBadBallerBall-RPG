@@ -16,9 +16,6 @@ public class Health : MonoBehaviour
     public Slider healthSlider; // Whether the player is dead.
     private float scaleMax = 1;
     public bool noBreak = false;
-
-
-   
     void Start()
     {
         currentHealth = maxHealth;
@@ -32,7 +29,6 @@ public class Health : MonoBehaviour
         {
             scaleMax = healthBox.localScale.x;
         }
-
     }
     public static void Damage(GameObject to, int amount)
     {
@@ -65,8 +61,10 @@ public class Health : MonoBehaviour
             }
             if(healthBox)
             {
-                float percentLost = ((float)amount) / maxHealth;
-
+                float percentLost = amount / (maxHealth + 0.001f);
+            print(scaleMax);
+            print(percentLost);
+            print(gameObject.name);
                 healthBox.localScale -= new Vector3(percentLost*scaleMax , 0f, 0f);
             }
 

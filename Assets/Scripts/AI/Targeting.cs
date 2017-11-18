@@ -49,7 +49,7 @@ public class Targeting : MonoBehaviour{
         wts.condition = () => waiting;
         wts.name = "waiting trigger";
         SetWaiting(whileWaitingType);
-        SetTarget();
+        Invoke("SetTarget", 0.1f);
     }
     //It does not have to be this way. I could make these conditions be set at a very high level. However for now this will work. THIS METHOD IS BEST FOR BULLET DUPLICATION THOUGH
     public void SetWaiting(string doWhileWaiting)
