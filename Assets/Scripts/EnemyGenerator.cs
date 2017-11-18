@@ -10,8 +10,11 @@ public class EnemyGenerator : MonoBehaviour {
     }
     void Repeating()
     {
-        Create.Unit(RandomPosition(), "ChargerBody", "Enemy", level: Time.timeSinceLevelLoad / 50);
-        Create.Unit(RandomPosition(), "KiterBody", "Enemy", "Gunny", level: Time.timeSinceLevelLoad / 50);
+        Create.Unit(RandomPosition(), "ChargerBody", "Enemy", level: 1);
+        if (Time.timeSinceLevelLoad / 50 > 30)
+        {
+            Create.Unit(RandomPosition(), "KiterBody", "Enemy", "Gunny", level: 1);
+        }
     }
     // Update is called once per frame
     public Vector3 RandomPosition()

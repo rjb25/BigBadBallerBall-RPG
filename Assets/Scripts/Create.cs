@@ -98,7 +98,6 @@ public class Create : MonoBehaviour
         healthBar.transform.parent = toWhat.transform;
     }
 
-
     //amount should probably be moved to vars so it could be updated easily and accessed easily. Make higher worth have worth bar etc etc bounty yata yata. Plus it would be settable at make unit.
     public static void AddLoadout(string name, GameObject to, bool equip = false)
     {
@@ -264,7 +263,8 @@ public class Create : MonoBehaviour
     public static GameObject Unit(Vector3 location, string bodyName, string faction, string loadout = "none", int reward = 1, float level = 1)
     {
         GameObject bodyFab = GetPrefab(bodyName);
-        GameObject body = Instantiate(bodyFab,location,bodyFab.transform.rotation);
+        GameObject body = Instantiate(bodyFab,bodyFab.transform.position,bodyFab.transform.rotation);
+        body.name = bodyName;
         body.tag = faction;
         SetMaterial(body, faction);
         if (faction != "Player")
@@ -289,19 +289,6 @@ public class Create : MonoBehaviour
         return unit;
     }
 
-    public static GameObject Townhall(Vector3 location, string faction = "Player")
-    {
-
-        GameObject parent = new GameObject(faction + " Townhall");
-
-        GameObject body = Instantiate(GetPrefab("Townhall"), location, new Quaternion(), parent.transform);
-        body.name = "body";
-        body.transform.parent = parent.transform;
-        body.tag = faction;
-        AddHealth(body,150);
-
-        return body;
-    }
 
     //different method for spot lights as rotation is involved.
     //This should use a prefab.

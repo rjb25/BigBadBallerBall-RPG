@@ -10,6 +10,8 @@ public class Interactable : MonoBehaviour {
 
     private GameObject interactionGrid;
     private GameObject interactable;
+    public List<string> buyables;
+    private Purchases ps;
     public bool moveable = false;
 
     private Variables vs;
@@ -19,6 +21,8 @@ public class Interactable : MonoBehaviour {
 
         interactable = gameObject;
         interactionGrid = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().interactionGrid;
+        ps = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().Player.GetComponent<Purchases>();
+
     }
     public void CloseInteractions()
     {
@@ -29,6 +33,17 @@ public class Interactable : MonoBehaviour {
     }
     public void GetInteractions()
     {
+        foreach (string item in buyables)
+        {
+            Inf itemInfo = ps.items[item];
+            GameObject buttonObj = Instantiate(Create.GetPrefab("Grid Button"), interactionGrid.transform);
+            ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
+            Button button = buttonObj.GetComponent<Button>();
+            Text txt = buttonObj.GetComponentInChildren<Text>();
+            txt.text = item + "(" + itemInfo.price + ")";
+            cs.leftClick = delegate { ps.Buy(item,gameObject); };
+
+        }
         
         ImpactDamage ids = interactable.GetComponent<ImpactDamage>();
         if (ids)
@@ -45,7 +60,7 @@ public class Interactable : MonoBehaviour {
         {
 
         }
-        if (true)
+        if (moveable)
         {
             GameObject v3Obj = Instantiate(Create.GetPrefab("Vector3 Input"), interactionGrid.transform);
             GameObject buttonObj = v3Obj.transform.Find("Button").gameObject;

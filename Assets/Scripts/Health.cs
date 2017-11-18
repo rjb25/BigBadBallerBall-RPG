@@ -62,9 +62,6 @@ public class Health : MonoBehaviour
             if(healthBox)
             {
                 float percentLost = amount / (maxHealth + 0.001f);
-            print(scaleMax);
-            print(percentLost);
-            print(gameObject.name);
                 healthBox.localScale -= new Vector3(percentLost*scaleMax , 0f, 0f);
             }
 

@@ -11,7 +11,7 @@ public class RotationController : MonoBehaviour
 
     public float sensitivityX = 9;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();

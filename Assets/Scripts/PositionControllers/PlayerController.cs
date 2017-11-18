@@ -24,7 +24,13 @@ public class PlayerController : MonoBehaviour
     {
     camScript = GameObject.Find("Main Camera").GetComponent<RotateAbout>();
         ms = GetComponent<Movement>();
-}
+        Invoke("StartingWeapon",1);
+    }
+    void StartingWeapon()
+    {
+
+        Create.AddLoadout("Swordy", gameObject, true);
+    }
 
     void FixedUpdate()
     {

@@ -6,6 +6,13 @@ using UnityEngine.UI;
 //All the options for buing content.
 //This generates the buttons you see at the bottom when you hit ESC in game.
 //It handles what the buttons do, how much it costs to upgrade them, what upgrading effects, etc etc.
+public struct Inf
+{
+    public int price;
+    public int upgrade;
+    public int level { get; set; }
+    public Producer produce;
+}
 public class Purchases : MonoBehaviour
 {
     public BalanceScript balance;
@@ -14,14 +21,8 @@ public class Purchases : MonoBehaviour
     private PlayerController playerScript;
     public GameObject menu;
     private GameObject playerBody;
-    Dictionary<string, Inf> buttons;
-    public struct Inf
-    {
-        public int price;
-        public int upgrade;
-        public int level { get; set; }
-        public Producer produce;
-    }
+    public Dictionary<string, Inf> items;
+
     /*
      * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
         gun.transform.parent = playerBody.transform.parent;
@@ -32,56 +33,55 @@ public class Purchases : MonoBehaviour
         Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1));*/
     private void ZeroPrice(string name)
     {
-        Inf item = buttons[name];
+        Inf item = items[name];
         item.price = 0;
-        buttons[name] = item;
+        items[name] = item;
     }
     private void Start()
     {
-
-
         playerBody = GameObject.Find("PlayerBody");
         health = gameObject.GetComponentInParent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
-        buttons = new Dictionary<string, Inf>()
+        items = new Dictionary<string, Inf>()
         {
                    {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
-                produce = (level) => {
+                produce = (level, from) => {
                      Create.AddLoadout("Gunny",playerBody,true);
 
                     ZeroPrice("Gun");
                 }
     } },
                    {"Sniper", new Inf{price = 20, level = 1, upgrade = 1,
-                produce = (level) => {
+                produce = (level, from) => {
                      Create.AddLoadout("Snippy",playerBody,true);
                     ZeroPrice("Sniper");
                 }
-    } },/*
+    } },
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level) => Create.Charger(gameObject.transform.position + new Vector3(0f, 5f, 0f), "Player",level: level)
+                produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "ChargerBody", "Player",level: level)
     } },
                 {"Light", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
-    } },*/
+                produce = (level,from) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
+    } },
                 {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level) =>  health.TakeDamage(-25 - (level *10))
+                produce = (level,from) =>  health.TakeDamage(-25 - (level *10))
     } },
                 {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level) => playerScript.noBackwards = false
+                produce = (level,from) => playerScript.noBackwards = false
     } },
-                /*
+                
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level ) =>Create.Townhall(gameObject.transform.forward * 2 + new Vector3(0,0.25f,0), "Player")
-    } } ,*/
+                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
+    } } ,
             {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
-            produce = (level) =>{Create.AddLoadout("Swordy",playerBody,true);
+            produce = (level,from) =>{Create.AddLoadout("Swordy",playerBody,true);
                                  ZeroPrice("Sword");
             } }
 
         } };
+        /*
         int count = 0;
-        foreach (KeyValuePair<string, Inf> pair in buttons)
+        foreach (KeyValuePair<string, Inf> pair in items)
         {
             GameObject buttonObj = Instantiate(Create.GetPrefab("Button"), menu.transform);
             ClickableObject cs = buttonObj.AddComponent<ClickableObject>();
@@ -96,32 +96,32 @@ public class Purchases : MonoBehaviour
             cs.rightClick = delegate { Upgrade(pair.Key, txt); };
             count++;
 
-        }
+        }*/
     }
     public void Upgrade(string name, Text txt) //level
     {
 
-        Inf item = buttons[name];
+        Inf item = items[name];
 
         if (balance.balance >= item.upgrade) //&& cheap contains name
         {
             balance.AddMoney(-item.upgrade);
             item.level++;
             item.upgrade += item.upgrade;
-            buttons[name] = item;
+            items[name] = item;
             print("upgraded to level " + item.level);
             txt.text = "(" + item.upgrade + ")" + "lvl" + item.level + " " + name + "(" + item.price + ")";
         }
 
 
     }
-    public void Buy(string name) //level
+    public void Buy(string name,GameObject from) //level
     {
-        Inf item = buttons[name];
+        Inf item = items[name];
         if (balance.balance >= item.price) //&& cheap contains name
         {
             balance.AddMoney(-item.price);
-            item.produce(item.level);
+            item.produce(item.level, from);
         }
 
     }

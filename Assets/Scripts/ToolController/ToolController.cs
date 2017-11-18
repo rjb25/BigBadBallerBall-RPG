@@ -24,7 +24,7 @@ public class ToolController : MonoBehaviour
     public Trigger trs;
     public Trigger trs2;
     public bool autoUse = false;
-    public Rigidbody playerRotation;
+    private Rigidbody playerRotation;
     public GameObject bulletList;
     public bool noAmmo = false;
 
@@ -38,8 +38,7 @@ public class ToolController : MonoBehaviour
         {
             projectile = transform.GetChild(0).gameObject;
         }
-        playerRotation = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().playerRotation.GetComponent<Rigidbody>();
-        lastUse = Time.time;
+        lastUse = Time.time-reloadTime;
         //SetBuffed(projectile, buffs);
 
         trs = gameObject.AddComponent<Trigger>();
@@ -52,7 +51,7 @@ public class ToolController : MonoBehaviour
             trs2 = gameObject.AddComponent<Trigger>();
             trs2.Set(activate: Use, active: Use);
             trs2.condition = () => Input.GetKey(KeyCode.Space);
-            
+            kickedRot = holder.GetComponent<RotateWithVelocity>().match.gameObject.GetComponent<Rigidbody>();
         }
 
     }
@@ -119,31 +118,26 @@ public class ToolController : MonoBehaviour
     {
         this.holder = holder;
         kickWhat = holder.GetComponent<Rigidbody>();
-        if (kickWhat.name == "PlayerBody")
-        {
-            kickedRot = playerRotation;
-        }
-        else
-        {
+
             kickedRot = kickWhat;
-        }
+
     }
     //Have Buff be an interface for something that modifies stats of an object. Either by adding scripts, setting variables or whatever.
     //Accepts a game object, returns a gameObject. The first buff to make is basic stats. Buffs damage and speed
-   
-   /* public void SetBuffed(GameObject projectile, IBuff[] buffs)
-    { 
-       buffedProjectile = projectile;
-if (buffs)
-        {
-            foreach(IBuff buff in buffs){
-            buff(buffedProjectile);
-            }
-        }
 
-      }
-       
-    }*/
+    /* public void SetBuffed(GameObject projectile, IBuff[] buffs)
+     { 
+        buffedProjectile = projectile;
+ if (buffs)
+         {
+             foreach(IBuff buff in buffs){
+             buff(buffedProjectile);
+             }
+         }
+
+       }
+
+     }*/
     /*
     public void SetTargets(GameObject projectile, string[] targets)
     {
@@ -153,16 +147,18 @@ if (buffs)
         }
     }
     */
-
-    public static void ApplyKick(Rigidbody kickWhat, Rigidbody kickRot,Transform kickBy, bool frandKick = false, int fkick = 0, int fkickVert = 0, int frotKick = 0, int fkickHor = 0)
+    public static int RandomSign(){
+            return (int)((Random.Range(0, 2) - 0.5) * 2);
+        }
+public static void ApplyKick(Rigidbody kickWhat, Rigidbody kickRot,Transform kickBy, bool frandKick = false, int fkick = 0, int fkickVert = 0, int frotKick = 0, int fkickHor = 0)
     {
-       
+  
         if (frandKick)
         {
             fkick = Mathf.FloorToInt(Random.value * fkick);
             fkickVert = Mathf.FloorToInt(Random.value * fkickVert);
-            frotKick = Mathf.FloorToInt(Random.value * frotKick);
-            fkickHor = Mathf.FloorToInt(Random.value * fkickHor);
+            frotKick = Mathf.FloorToInt(Random.value * frotKick) * RandomSign();
+            fkickHor = Mathf.FloorToInt(Random.value * fkickHor) * RandomSign();
         }
         if (fkick != 0)
         {
