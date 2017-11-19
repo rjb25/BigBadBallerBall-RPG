@@ -1433,7 +1433,6 @@ GameObject:
   - component: {fileID: 484952678}
   - component: {fileID: 484952679}
   - component: {fileID: 484952680}
-  - component: {fileID: 484952675}
   m_Layer: 0
   m_Name: GlobalScripts
   m_TagString: Untagged
@@ -1441,17 +1440,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &484952675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 484952674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5f794cb838705d439e0a9b4e7101f46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &484952676
 Transform:
   m_ObjectHideFlags: 0
@@ -2258,6 +2246,7 @@ MonoBehaviour:
   menu: {fileID: 1210300192}
   invs: {fileID: 0}
   ints: {fileID: 0}
+  interactableScript: {fileID: 0}
 --- !u!4 &866062505 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4195366260020354, guid: b24482526d7abc4448f1b61b3a5902f9,
@@ -2286,7 +2275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e83ddf687efc104e85b50a8bf2227eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buyables: []
+  buyables:
+  - TownhallItem
   moveable: 0
 --- !u!114 &866062508
 MonoBehaviour:
@@ -2736,7 +2726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1092762910
 Light:
   m_ObjectHideFlags: 0
@@ -3381,6 +3371,8 @@ GameObject:
   - component: {fileID: 1364012207}
   - component: {fileID: 1364012208}
   - component: {fileID: 1364012209}
+  - component: {fileID: 1364012211}
+  - component: {fileID: 1364012210}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3435,6 +3427,30 @@ MonoBehaviour:
   healthBox: {fileID: 0}
   healthSlider: {fileID: 1132050621}
   noBreak: 1
+--- !u!114 &1364012210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364012206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738e4a47dc902a04999a461a838d4240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reload: 1
+--- !u!114 &1364012211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364012206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f794cb838705d439e0a9b4e7101f46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 0
 --- !u!1 &1383053816
 GameObject:
   m_ObjectHideFlags: 0

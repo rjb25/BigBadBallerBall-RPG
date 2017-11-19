@@ -292,6 +292,7 @@ public class Create : MonoBehaviour
         {
             AddLoadout(loadout, body, true);
         }
+        unit.AddComponent<Modifiers>();
         return unit;
     }
 

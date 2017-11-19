@@ -27,23 +27,24 @@ public class ToolController : MonoBehaviour
     private Rigidbody playerRotation;
     public GameObject bulletList;
     public bool noAmmo = false;
+    public Modifiers ms;
 
 
     private void Start()
     {
-
+        ms = GetComponentInParent<Modifiers>();
         bulletList = GameObject.Find("BulletList");
         kickBy = transform;
         if (!noAmmo)
         {
             projectile = transform.GetChild(0).gameObject;
         }
-        lastUse = Time.time-reloadTime;
+        lastUse = Time.time-reloadTime*ms.reload;
         //SetBuffed(projectile, buffs);
 
         trs = gameObject.AddComponent<Trigger>();
         trs.Set(activate: Use);
-        trs.condition = () => Time.time > lastUse + reloadTime;
+        trs.condition = () => Time.time > lastUse + reloadTime *ms.reload;
         trs.enabled = autoUse;
         if(holder.name == "PlayerBody")
         {
@@ -78,7 +79,7 @@ public class ToolController : MonoBehaviour
     }
     public void Use()
     {
-        if (Time.time > lastUse + reloadTime)
+        if (Time.time > lastUse + (reloadTime*ms.reload))
         {
             
                 lastUse = Time.time;

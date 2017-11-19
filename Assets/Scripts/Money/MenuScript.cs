@@ -37,13 +37,14 @@ public class MenuScript : MonoBehaviour {
             {
                 NetworkHUD.enabled = true;
             }
-
+            /*
             AudioListener.pause = true;
             Time.timeScale = 0;
-            
+
+            Player.GetComponent<PlayerController>().enabled = false;
+            */
             Menu.SetActive(true);
             playerInteract.RefreshInteractables();
-            Player.GetComponent<PlayerController>().enabled = false;
         }
     }
 

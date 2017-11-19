@@ -47,7 +47,7 @@ public class Interactable : MonoBehaviour {
         {
             string item;
             bool asItem = false;
-            if (it.Substring(it.Length - 3) == "Item")
+            if (it.Length > 4 && it.Substring(it.Length - 4) == "Item")
             {
                 item =it.Substring(0, it.Length-4);
                 asItem = true;

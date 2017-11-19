@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\IsRef.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\Modifiers.cs" />
     <Compile Include="Assets\Scripts\Money\BalanceScript.cs" />
     <Compile Include="Assets\Scripts\Money\DropScatter.cs" />
     <Compile Include="Assets\Scripts\Money\MenuScript.cs" />

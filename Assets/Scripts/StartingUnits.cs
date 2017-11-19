@@ -11,7 +11,7 @@ public class StartingUnits : MonoBehaviour {
         //Create nonStatic = GameObject.Find("GlobalScripts").GetComponent<Create>();
         //Create.Gunner(new Vector3(0f, 0.5f, -14f));
 
-        Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, intensity: 3);
+        Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 3f), color: Color.white, intensity: 3, range: 15);
         //nonStatic.Sound("boop", altLocation: light, times: 5, volume: 0.1f);
         StartCoroutine(PlayerMessage(" ",10f));
         /*

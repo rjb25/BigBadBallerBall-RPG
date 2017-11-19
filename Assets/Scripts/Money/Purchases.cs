@@ -24,6 +24,7 @@ public class Purchases : MonoBehaviour
     public Dictionary<string, Inf> items;
     public Inventory invs;
     public Interact ints;
+    public Interactable interactableScript;
 
     /*
      * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
@@ -70,8 +71,11 @@ public class Purchases : MonoBehaviour
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "ChargerBody", "Player",level: level)
     } },
+                {"Gunner", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "KiterBody",  "Player", "Gunny",level: level)
+    } },
                 {"Light", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) => Create.ALight(gameObject.transform.position + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
+                produce = (level,from) => Create.ALight(gameObject.transform.position+ (gameObject.transform.forward * 6) + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
     } },
                 {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) =>  health.TakeDamage(-25 - (level *10))
@@ -82,6 +86,10 @@ public class Purchases : MonoBehaviour
                 
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
                 produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
+    } } ,
+                {"Wall", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level,from) => { GameObject wall = Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level:15);
+                                                        wall.transform.rotation = playerBody.transform.rotation; }
     } } ,
             {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
             produce = (level,from) =>{Create.AddLoadout("Swordy",playerBody,true);
