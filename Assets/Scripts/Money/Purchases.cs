@@ -87,7 +87,7 @@ public class Purchases : MonoBehaviour
     } },
 
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
+                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:1); }
     } } ,
                 {"Wall", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => { GameObject wall = Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level:15);
@@ -161,6 +161,7 @@ public class Purchases : MonoBehaviour
             }
         }
         ints.RefreshInteractables();
+        from.GetComponent<Interactable>().RefreshInteractions();
     }
 
 }

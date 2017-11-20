@@ -71,19 +71,21 @@ public class Health : MonoBehaviour
         {
             isDead = true;
 
-                //could call directly for better performance, but send message allows the most flexibility for now.
-                //this will call all functions named OnDeath on this object and its children.
-                    BroadcastMessage("OnDeath");
+            //could call directly for better performance, but send message allows the most flexibility for now.
+            //this will call all functions named OnDeath on this object and its children.
 
-            if (noBreak)
+            BroadcastMessage("OnDeath");
+
+            gameObject.SetActive(false);
+            if (!noBreak)
             {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                    Destroy(gameObject);
+                Invoke("DestroyGameObject", 2);
                 
             }
         }
+    }
+    private void DestroyGameObject()
+    {
+        Destroy(gameObject);
     }
 }

@@ -15,6 +15,8 @@ public class Interactable : MonoBehaviour {
     private Purchases ps;
     public bool moveable = false;
     private Inventory invs;
+    private GameObject gs;
+    private Interact ints;
 
     private Variables vs;
     void Start()
@@ -23,10 +25,23 @@ public class Interactable : MonoBehaviour {
         vs = GetComponent<Variables>();
 
         interactable = gameObject;
-        interactionGrid = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().interactionGrid;
-        ps = GameObject.Find("GlobalScripts").GetComponent<MenuScript>().Player.GetComponent<Purchases>();
+        gs = GameObject.Find("GlobalScripts");
+        interactionGrid = gs.GetComponent<MenuScript>().interactionGrid;
+        GameObject player = gs.GetComponent<MenuScript>().Player;
+        ints = player.GetComponent<Interact>();
+        ps =player.GetComponent<Purchases>();
         invs = gameObject.GetComponent<Inventory>();
 
+    }
+    public void ReInteractables() {
+
+        ints.RefreshInteractables();
+    }
+
+    public void OnDeath()
+    {
+        Invoke("ReInteractables", 0.1f);
+        CloseInteractions();
     }
     public void RefreshInteractions()
     {
