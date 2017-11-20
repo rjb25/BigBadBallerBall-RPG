@@ -26,77 +26,139 @@ public class Purchases : MonoBehaviour
     public Interact ints;
     public Interactable interactableScript;
 
-    /*
-     * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
+    
+	/*GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
         gun.transform.parent = playerBody.transform.parent;
-
-        Interactable interactable = gun.AddComponent<Interactable>();
+	
+		Interactable interactable = gun.AddComponent<Interactable>();
         interactable.moveable = true;
-
-        Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1));*/
+		
+			
+		Create.AttachSpawner(gun, playerBody,displacement: new Vector3(1, 0, 1));
+	
+	*/
     private void ZeroPrice(string name)
     {
-        Inf item = items[name];
-        item.price = 0;
-        items[name] = item;
+       Inf item = items[name];
+       item.price = 0;
+       items[name] = item;
     }
-    private void Start()
+    public void OnGUI()
     {
         playerBody = GameObject.Find("PlayerBody");
         ints = playerBody.GetComponent<Interact>();
         health = gameObject.GetComponentInParent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
         invs = GetComponent<Inventory>();
-        items = new Dictionary<string, Inf>()
-        {
-                   {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
-                produce = (level, from) => {
-                     Create.AddLoadout("Gunny",playerBody,true);
 
-                    ZeroPrice("Gun");
-                }
-    } },
-                   {"Sniper", new Inf{price = 20, level = 1, upgrade = 1,
-                produce = (level, from) => {
-                     Create.AddLoadout("Snippy",playerBody,true);
-                    ZeroPrice("Sniper");
-                }
-    } },
-                                      {"SwordyPlus", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level, from) => {
-                     Create.AddLoadout("SwordyPlus",playerBody,true);
-                    ZeroPrice("SwordyPlus");
-                }
-    } },
-                {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "ChargerBody", "Player",level: level)
-    } },
-                {"Gunner", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "KiterBody",  "Player", "Gunny",level: level)
-    } },
-                {"Light", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) => Create.ALight(gameObject.transform.position+ (gameObject.transform.forward * 6) + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
-    } },
-                {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) =>  health.TakeDamage(-25 - (level *10))
-    } },
-                {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) => playerScript.noBackwards = false
-    } },
-                
-                {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
-    } } ,
-                {"Wall", new Inf{price = 1, level = 1, upgrade = 1,
-                produce = (level,from) => { GameObject wall = Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level:15);
-                                                        wall.transform.rotation = playerBody.transform.rotation; }
-    } } ,
-            {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
-            produce = (level,from) =>{Create.AddLoadout("Swordy",playerBody,true);
-                                 ZeroPrice("Sword");
-            } }
+		if(GUI.Button(new Rect(10, 60, 100, 30), "Gun")){
+			items = new Dictionary<string, Inf> () {
+				new Inf {price = 10, level = 1, upgrade = 1, produce = (level, from) => {
+						Create.AddLoadout ("Gunny", playerBody, true);
+						ZeroPrice ("Gun");
+					}
+			
+				}
+			};
+		}
+			
 
-        } };
+			if(GUI.Button(new Rect(10, 100, 100, 30), "Sniper")){
+			//items = new Dictionary<string, Inf> () {
+			
+				new Inf {price = 20, level = 1, upgrade = 1,
+					produce = (level, from) => {
+						Create.AddLoadout ("Snippy", playerBody, true);
+						ZeroPrice ("Sniper");
+					}
+			} ;
+			//};
+		}
+
+		if(GUI.Button(new Rect(10, 140, 100, 30), "SwordyPlus")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 5, level = 1, upgrade = 1,
+					produce = (level, from) => {
+						Create.AddLoadout ("SwordyPlus", playerBody, true);
+						ZeroPrice ("SwordyPlus");
+					}
+			} ;
+			//};
+		}
+
+		if(GUI.Button(new Rect(10, 180, 100, 30), "Charger")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 1, level = 1, upgrade = 1,
+					produce = (level, from) => Create.Unit (from.transform.position + new Vector3 (0f, 2f, 0f), "ChargerBody", "Player", level: level)
+			} ;
+			//};
+		}
+
+
+		if(GUI.Button(new Rect(10, 220, 100, 30), "Gunner")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 5, level = 1, upgrade = 1,
+					produce = (level, from) => Create.Unit (from.transform.position + new Vector3 (0f, 2f, 0f), "KiterBody", "Player", "Gunny", level: level)
+			};
+			//};
+		}
+
+		if(GUI.Button(new Rect(10, 260, 100, 30), "Light")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 1, level = 1, upgrade = 1,
+					produce = (level, from) => Create.ALight (gameObject.transform.position + (gameObject.transform.forward * 6) + new Vector3 (0f, 5f, 0f), color: Color.red, range: 10 + (level * 2), intensity: 1 + level, indirect: level / 50)
+			};
+			//};
+		}
+
+		if(GUI.Button(new Rect(10, 300, 100, 30), "Light")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 1, level = 1, upgrade = 1,
+					produce = (level, from) => health.TakeDamage (-25 - (level * 10))
+			};
+			//};
+		}
+
+		if(GUI.Button(new Rect(10, 340, 100, 30), "Backwards")){
+			//items = new Dictionary<string, Inf> () {
+				new Inf {price = 1, level = 1, upgrade = 1,
+					produce = (level, from) => playerScript.noBackwards = false
+			};
+			//};
+		}
+
+		if(GUI.Button(new Rect(120, 340, 100, 30), "Townhall")){
+			//items = new Dictionary<string, Inf> () {  
+				new Inf {price = 5, level = 1, upgrade = 1,
+					produce = (level, from) => {
+						Create.Unit (gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level: 15);
+					}
+			};
+			//}; 
+		}
+
+		if(GUI.Button(new Rect(10, 380, 100, 30), "Wall")){
+			//items = new Dictionary<string, Inf> () {  
+				new Inf {price = 1, level = 1, upgrade = 1,
+					produce = (level, from) => {
+						GameObject wall = Create.Unit (gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level: 15);
+						wall.transform.rotation = playerBody.transform.rotation;
+					}
+			};
+			//}; 
+		}
+		if(GUI.Button(new Rect(120, 380, 100, 30), "Wall")){
+			//items = new Dictionary<string, Inf> () {  
+				new Inf {price = 0, level = 1, upgrade = 1,
+					produce = (level, from) => {
+						Create.AddLoadout ("Swordy", playerBody, true);
+						ZeroPrice ("Sword");
+					} 
+			};
+
+			//};
+		}
+		
         /*
         int count = 0;
         foreach (KeyValuePair<string, Inf> pair in items)
@@ -116,6 +178,7 @@ public class Purchases : MonoBehaviour
 
         }*/
     }
+
     public void Upgrade(string name, Text txt) //level
     {
 
@@ -127,8 +190,8 @@ public class Purchases : MonoBehaviour
             item.level++;
             item.upgrade += item.upgrade;
             items[name] = item;
-            print("upgraded to level " + item.level);
-            txt.text = "(" + item.upgrade + ")" + "lvl" + item.level + " " + name + "(" + item.price + ")";
+           // print("upgraded to level " + item.level);
+            txt.text = name;
         }
 
 
