@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
     public float speed;
     //private bool isHost = false;
     public bool noBackwards = true;
-    private RotateAbout camScript;
+    public RotateAbout camScript;
     private float moveHorizontal = 0;
     private int count;
+    public float maxCamera = 0.5f;
     private Movement ms;
 
     public void OnDeath()
@@ -45,7 +46,16 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        float  newDistance = camScript.distance - Input.GetAxis("Mouse ScrollWheel") * 5;
+        if (newDistance < 0.5f)
+        {
+            newDistance = 0.5f;
+        }
+        if(newDistance > maxCamera)
+        {
 
-        camScript.distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
+            newDistance = maxCamera;
+        }
+        camScript.distance =newDistance;
     }
 }

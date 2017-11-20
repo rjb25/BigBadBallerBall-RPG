@@ -96,6 +96,9 @@ public class Purchases : MonoBehaviour
                         {"Contact Damage Upgrade", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => { ms.HitDamagePlus += 10; }
     } } ,
+                          {"Scroll Range Upgrade", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level,from) => { playerScript.maxCamera += 2; }
+    } } ,
             {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
             produce = (level,from) =>{Create.AddLoadout("Swordy",playerBody,true);
                                  ZeroPrice("Sword");
