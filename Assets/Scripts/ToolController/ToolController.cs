@@ -99,6 +99,7 @@ public class ToolController : MonoBehaviour
                     proj.SetActive(true);
                 }
                 proj.GetComponent<Projectile>().fs = Faction.GetFactionScript(gameObject);
+                CopyComponent.Copy(ms,proj);
                 //Movement ms = proj.GetComponent<Movement>();
             }
                 /*

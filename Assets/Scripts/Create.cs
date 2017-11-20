@@ -326,13 +326,12 @@ public class Create : MonoBehaviour
 
 
     //Make a master projectile creator for randomization. Takes list of behaviours to add, and randomizes their inputs. SetProjectileAspects
-    public static void AddProjectile(GameObject obj, GameObject firer = null, GameObject spawner = null, int collisionsAllowed = -1, float damageMult = 1, float distance = 1)
+    public static void AddProjectile(GameObject obj, GameObject firer = null, GameObject spawner = null, int collisionsAllowed = -1, float distance = 1)
     {
         Projectile ps = obj.AddComponent<Projectile>();
         ps.firer = firer;
         ps.spawner = spawner;
         ps.collisionsAllowed = collisionsAllowed;
-        ps.damageMult = damageMult;
         ps.distance = distance;
 
     }

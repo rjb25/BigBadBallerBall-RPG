@@ -5,7 +5,8 @@
 public class PlayerSpeedDamage : MonoBehaviour
 {
     public int minDamage = 0;
-    public float damageMultiplier = 1;
+    public float 
+        iplier = 1;
     public float rotationDmgMult = 1;
     public float velocityDmgMult = 1;
     public bool onlyPlayerVelocity = true;
@@ -39,7 +40,7 @@ public class PlayerSpeedDamage : MonoBehaviour
                 relativeVelocity = Vector3.Magnitude(playerVelocity.velocity - collision.GetComponent<Rigidbody>().velocity);
             }
             
-            int damage = Mathf.Max(Mathf.FloorToInt(damageMultiplier * (relativeVelocity * velocityDmgMult + playerRotation.angularVelocity.magnitude * rotationDmgMult)), minDamage);
+            int damage = Mathf.Max(Mathf.FloorToInt((relativeVelocity * velocityDmgMult + playerRotation.angularVelocity.magnitude * rotationDmgMult)), minDamage);
             collision.gameObject.GetComponentInParent<Health>().TakeDamage(damage);
         }
 

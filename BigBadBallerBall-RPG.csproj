@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\AI\Targeting.cs" />
     <Compile Include="Assets\Scripts\AutoBalance.cs" />
     <Compile Include="Assets\Scripts\ClickableObject.cs" />
+    <Compile Include="Assets\Scripts\CopyComponent.cs" />
     <Compile Include="Assets\Scripts\Create.cs" />
     <Compile Include="Assets\Scripts\DamageTransfer.cs" />
     <Compile Include="Assets\Scripts\Delegates.cs" />

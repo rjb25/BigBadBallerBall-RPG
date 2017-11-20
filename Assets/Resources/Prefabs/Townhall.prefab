@@ -114,4 +114,5 @@ MonoBehaviour:
   - Gunner
   - Wall
   - LightItem
+  - Contact Damage Upgrade
   moveable: 0

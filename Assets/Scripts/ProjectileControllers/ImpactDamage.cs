@@ -2,7 +2,6 @@
 //Adding this to a projectile will mean that when the projectile hits something it will apply impact damage.
 public class ImpactDamage : MonoBehaviour
 {
-    public int minDamage = 0;
     public float impactDamage = 1;
     private Sendable to;
     public Timer effectTimer;
@@ -23,7 +22,7 @@ public class ImpactDamage : MonoBehaviour
         {
             if (to.IsReceiver(impact.gameObject))
             {
-                int damage = Mathf.Max(Mathf.FloorToInt(pro.damageMult * impactDamage * impact.relativeVelocity.magnitude), minDamage);
+                int damage = Mathf.Max(Mathf.FloorToInt(impactDamage * impact.relativeVelocity.magnitude));
                 Health.Damage(impact.collider.gameObject, damage);
             }
         }

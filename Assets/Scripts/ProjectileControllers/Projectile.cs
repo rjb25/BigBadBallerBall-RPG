@@ -9,8 +9,6 @@ public class Projectile : MonoBehaviour {
     //The following two variables are for things like vampire bullets, or bullets that fire the gun again when they hit. Just references to be used by other classes.
     public GameObject firer;
     public GameObject spawner;
-    //Used to allow for special ammo
-    public float damageMult = 1;
     //How far away the bullet will spawn from gun. Used it ToolController
     public float distance;
     public Sendable to;

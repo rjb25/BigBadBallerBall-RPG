@@ -25,6 +25,7 @@ public class Purchases : MonoBehaviour
     public Inventory invs;
     public Interact ints;
     public Interactable interactableScript;
+    public Modifiers ms;
 
     /*
      * GameObject gun = Create.Gun( new List<string>(new string[]{"Enemy" }),autoFire: true, level: level);
@@ -47,6 +48,7 @@ public class Purchases : MonoBehaviour
         health = gameObject.GetComponentInParent<Health>();
         playerScript = gameObject.GetComponent<PlayerController>();
         invs = GetComponent<Inventory>();
+        ms = GetComponentInParent<Modifiers>();
         items = new Dictionary<string, Inf>()
         {
                    {"Gun", new Inf{price = 10, level = 1, upgrade = 1,
@@ -83,13 +85,16 @@ public class Purchases : MonoBehaviour
                 {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => playerScript.noBackwards = false
     } },
-                
+
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
                 produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
     } } ,
                 {"Wall", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => { GameObject wall = Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level:15);
                                                         wall.transform.rotation = playerBody.transform.rotation; }
+    } } ,
+                        {"Contact Damage Upgrade", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level,from) => { ms.HitDamagePlus += 10; }
     } } ,
             {"Sword", new Inf{price = 0, level = 1, upgrade = 1,
             produce = (level,from) =>{Create.AddLoadout("Swordy",playerBody,true);
