@@ -9,11 +9,13 @@ public class DropScatter : MonoBehaviour {
     public float velocity = 1;
 
 	public void OnDeath () {
-		for(int i = 0; i< amount; i++)
-        {
-            GameObject dropped = Instantiate(drop, transform.position + offset, Quaternion.identity);
-            Rigidbody rb = dropped.GetComponent<Rigidbody>();
-            rb.AddForce(Random.insideUnitSphere * velocity, ForceMode.Impulse);
-        }
+        Vector3 dropLocation = GetComponent<Unit>().body.transform.position;
+            for (int i = 0; i < amount; i++)
+            {
+                GameObject dropped = Instantiate(drop, dropLocation + offset, Quaternion.identity);
+                Rigidbody rb = dropped.GetComponent<Rigidbody>();
+                rb.AddForce(Random.insideUnitSphere * velocity, ForceMode.Impulse);
+            }
+        
     }
 }

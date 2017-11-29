@@ -73,21 +73,32 @@ public class Purchases : MonoBehaviour
                 {"Charger", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "ChargerBody", "Player",level: level)
     } },
-                {"Gunner", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level,from) => Create.Unit(from.transform.position + new Vector3(0f, 2f, 0f), "KiterBody",  "Player", "Gunny",level: level)
+                {"Turret", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level,from) => { GameObject gunner = Create.Unit(gameObject.transform.position+ (gameObject.transform.forward * 6), "TurretBody",  "Player", "Gunny",level: 10);
+                gunner.GetComponent<Modifiers>().reload = 5f;}
     } },
-                {"Light", new Inf{price = 1, level = 1, upgrade = 1,
+                {"Sniper Turret", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level,from) => { GameObject gunner = Create.Unit(gameObject.transform.position+ (gameObject.transform.forward * 6), "TurretBody",  "Player", "Snippy",level: 10);
+                gunner.GetComponent<Modifiers>().reload = 1f;}
+    } },
+                {"DimLight", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => Create.ALight(gameObject.transform.position+ (gameObject.transform.forward * 6) + new Vector3(0f, 5f, 0f), color: Color.red, range: 10+(level*2), intensity:1+level,indirect:level/50)
+    } },
+                {"Light", new Inf{price = 5, level = 1, upgrade = 1,
+                produce = (level,from) => Create.ALight(gameObject.transform.position+ (gameObject.transform.forward * 6) + new Vector3(0f, 8f, 0f), color: Color.white, range: 20+(level*2), intensity:3+level,indirect:level/50)
     } },
                 {"Heal", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) =>  health.TakeDamage(-25 - (level *10))
+    } },
+                {"Repair", new Inf{price = 1, level = 1, upgrade = 1,
+                produce = (level,from) =>  from.GetComponentInParent<Health>().TakeDamage(-25 - (level *10))
     } },
                 {"Backwards", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => playerScript.noBackwards = false
     } },
 
                 {"Townhall", new Inf{price = 5, level = 1, upgrade = 1,
-                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:1); }
+                produce = (level,from) => { Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 6), "TownHall", "Player", level:15); }
     } } ,
                 {"Wall", new Inf{price = 1, level = 1, upgrade = 1,
                 produce = (level,from) => { GameObject wall = Create.Unit(gameObject.transform.position + (gameObject.transform.forward * 3), "Wall", "Player", level:15);

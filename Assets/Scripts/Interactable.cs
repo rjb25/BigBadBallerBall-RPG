@@ -17,8 +17,8 @@ public class Interactable : MonoBehaviour {
     private Inventory invs;
     private GameObject gs;
     private Interact ints;
-
     private Variables vs;
+    public ScrollRect list;
     void Start()
     {
         
@@ -48,10 +48,10 @@ public class Interactable : MonoBehaviour {
         CloseInteractions();
         GetInteractions();
     }
-    public void CloseInteractions()
+    public static void CloseInteractions()
     {
         var children = new List<GameObject>();
-        foreach (Transform child in interactionGrid.transform) children.Add(child.gameObject);
+        foreach (Transform child in GameObject.Find("GlobalScripts").GetComponent<MenuScript>().interactionGrid.transform) children.Add(child.gameObject);
         children.ForEach(child => Destroy(child));
 
     }
@@ -134,7 +134,6 @@ public class Interactable : MonoBehaviour {
                 cs.leftClick = delegate { invs.Use(item.Key); RefreshInteractions(); };
             }
         }
-
     }
 }
     //AddInteractions

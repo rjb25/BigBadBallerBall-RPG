@@ -119,7 +119,7 @@ public void TargetAtSpeed()
         {
             gos.AddRange(GameObject.FindGameObjectsWithTag(tag));
         }
-        List<GameObject> theGos = gos.Where((go => (go.transform.position - obj.transform.position).sqrMagnitude < range*range)).ToList();
+        List<GameObject> theGos = gos.Where((go => (go.transform.position - obj.transform.position).sqrMagnitude < range*range && !go.GetComponent<IsEquipment>())).ToList();
 
 
         switch (targeting)

@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 114627387961582882}
   - component: {fileID: 114234873323654644}
   - component: {fileID: 114099726184638470}
+  - component: {fileID: 114664223494612796}
   m_Layer: 0
   m_Name: ChargerBody
   m_TagString: Enemy
@@ -96,8 +97,8 @@ Rigidbody:
   m_GameObject: {fileID: 1878021425073632}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 4
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -141,10 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612daba56326b1a4787a8545f5c456e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamage: 0
   impactDamage: 1
   effectTimer: {fileID: 0}
-  wait: 4
+  wait: 0.5
 --- !u!114 &114234873323654644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -163,7 +163,7 @@ MonoBehaviour:
   targetingSpeed: 0.1
   retargetingSpeed: 1
   retargetOnInterval: 1
-  targetingRange: 100
+  targetingRange: 100000
   lastTargetSet: 0
   newTargetOn: kill
   whileWaitingType: nothing
@@ -183,10 +183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7b3cd7f0e5c0c4db3537807b0b148d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitsAllowed: -1
   collisionsAllowed: -1
+  collisionCount: 0
   firer: {fileID: 0}
   spawner: {fileID: 0}
-  damageMult: 1
   distance: 1
   to: {fileID: 0}
   fs: {fileID: 0}
@@ -205,6 +206,18 @@ MonoBehaviour:
   affected: []
   hitsEquipment: 1
   hitsBarriers: 1
+--- !u!114 &114664223494612796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878021425073632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05c6353d85179646a955f1ee0de3251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 10
 --- !u!114 &114893768786768924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,8 +230,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 54066132387266628}
-  speed: 15
-  maxSpeed: 10
+  speed: 70
+  maxSpeed: -1
   grip: 0.9
   velocity: 0
 --- !u!135 &135986664508179644

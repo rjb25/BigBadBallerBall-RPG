@@ -217,7 +217,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3cf9ee51ca5fe4aac0cd4db2e92551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holder: {fileID: 0}
   projectile: {fileID: 1006635248430114}
   buffedProjectile: {fileID: 0}
   kick: 1000
@@ -272,7 +273,11 @@ MonoBehaviour:
   kickedRot: {fileID: 0}
   kickBy: {fileID: 0}
   trs: {fileID: 0}
+  trs2: {fileID: 0}
   autoUse: 0
+  bulletList: {fileID: 0}
+  noAmmo: 0
+  ms: {fileID: 0}
 --- !u!114 &114278502334542850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,7 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbdc5dca9f2d22041a999cc7153cba82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 0}
+  relativePos: {x: 0, y: 0, z: 0}
 --- !u!114 &114467707501138442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -311,6 +316,7 @@ MonoBehaviour:
   - Enemy
   affected:
   - Enemy
+  hitsEquipment: 1
   hitsBarriers: 1
 --- !u!114 &114711407566086194
 MonoBehaviour:
@@ -334,12 +340,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7b3cd7f0e5c0c4db3537807b0b148d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitsAllowed: 1
   collisionsAllowed: 0
+  collisionCount: 0
   firer: {fileID: 0}
   spawner: {fileID: 0}
-  damageMult: 1
   distance: 0.7
   to: {fileID: 114467707501138442}
+  fs: {fileID: 0}
 --- !u!114 &114837597093981414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,6 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 54585420108894448}
   speed: 30
+  maxSpeed: 10
   grip: 0.9
   velocity: 0
 --- !u!114 &114845504889783284
@@ -368,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   pro: {fileID: 114756484754168434}
+  ms: {fileID: 0}
 --- !u!135 &135762927556993756
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -89,11 +89,13 @@
     <Compile Include="Assets\Scripts\Delegates.cs" />
     <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
+    <Compile Include="Assets\Scripts\ExtraGravity.cs" />
     <Compile Include="Assets\Scripts\Faction.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Interact.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\Inventory.cs" />
+    <Compile Include="Assets\Scripts\IsEquipment.cs" />
     <Compile Include="Assets\Scripts\IsRef.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\Modifiers.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Assets\Scripts\Money\MenuScript.cs" />
     <Compile Include="Assets\Scripts\Money\Money.cs" />
     <Compile Include="Assets\Scripts\Money\Purchases.cs" />
+    <Compile Include="Assets\Scripts\Money\ScoreScript.cs" />
     <Compile Include="Assets\Scripts\MoveTo.cs" />
     <Compile Include="Assets\Scripts\NetworkTest\Initializer.cs" />
     <Compile Include="Assets\Scripts\NetworkTest\MultiPlayerController.cs" />
@@ -116,7 +119,6 @@
     <Compile Include="Assets\Scripts\PositionControllers\Orbiter.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\RotateAbout.cs" />
-    <Compile Include="Assets\Scripts\PositionControllers\RotateWithVelocity.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\RotationController.cs" />
     <Compile Include="Assets\Scripts\ProjectileControllers\BombDamage.cs" />
     <Compile Include="Assets\Scripts\ProjectileControllers\Duration.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Assets\Scripts\ProjectileControllers\Sendable.cs" />
     <Compile Include="Assets\Scripts\RandomTerrain.cs" />
     <Compile Include="Assets\Scripts\Repulse.cs" />
+    <Compile Include="Assets\Scripts\ScriptForMenu.cs" />
     <Compile Include="Assets\Scripts\StartingUnits.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\ToolController\ToolController.cs" />

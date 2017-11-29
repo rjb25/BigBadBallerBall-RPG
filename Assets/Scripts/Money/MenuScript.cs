@@ -20,6 +20,9 @@ public class MenuScript : MonoBehaviour {
     {
         playerInteract = Player.GetComponent<Interact>();
     NetworkHUD = GameObject.Find("Networking").GetComponent<NetworkManagerHUD>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     //BUTTONS ARE IN PURCHASES
     public void Toggle() {
@@ -31,6 +34,8 @@ public class MenuScript : MonoBehaviour {
             Time.timeScale = 1;
             Menu.SetActive(false);
             Player.GetComponent<PlayerController>().enabled = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else{
             if (haveHud)
@@ -40,10 +45,12 @@ public class MenuScript : MonoBehaviour {
             /*
             AudioListener.pause = true;
             Time.timeScale = 0;
-
-            Player.GetComponent<PlayerController>().enabled = false;
             */
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Player.GetComponent<PlayerController>().enabled = false;
             Menu.SetActive(true);
+            Interactable.CloseInteractions();
             playerInteract.RefreshInteractables();
         }
     }

@@ -16,8 +16,18 @@ public class Health : MonoBehaviour
     public Slider healthSlider; // Whether the player is dead.
     private float scaleMax = 1;
     public bool noBreak = false;
+    private Faction fs;
+    private ScoreScript ss;
+    public GameObject body;
     void Start()
     {
+        fs = GetComponent < Faction > ();
+
+        if (!fs)
+        {
+            fs = GetComponentInParent<Faction>();
+        }
+        ss  = GameObject.Find("PlayerScore").GetComponent<ScoreScript>();
         currentHealth = maxHealth;
 
         if (healthSlider)
@@ -75,7 +85,10 @@ public class Health : MonoBehaviour
             //this will call all functions named OnDeath on this object and its children.
 
             BroadcastMessage("OnDeath");
-
+            if(fs.faction == "Enemy")
+            {
+                ss.AddScore(1);
+            }
             gameObject.SetActive(false);
             if (!noBreak)
             {

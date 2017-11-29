@@ -69,8 +69,7 @@ public class Create : MonoBehaviour
         {
             Drop = GetPrefab("Coin");
         }
-        obj.AddComponent<DropScatter>();
-        DropScatter script = obj.GetComponent<DropScatter>();
+        DropScatter script = obj.AddComponent<DropScatter>();
         script.amount = amount;
         script.drop = Drop;
         script.offset = offset;
@@ -110,7 +109,7 @@ public class Create : MonoBehaviour
         }
         if (!es.available.ContainsKey(name))
         {
-           
+            GameObject start = GetPrefab(name);
             GameObject loadout = Instantiate(GetPrefab(name), to.transform.position, to.transform.rotation, to.transform.parent);
  
             es.NewAvailable(name, loadout);
@@ -118,6 +117,8 @@ public class Create : MonoBehaviour
             GetRefs(loadout);
             for (int i = 0; i < loadout.transform.childCount; i++)
             {
+                Quaternion startRot = start.transform.GetChild(i).gameObject.transform.rotation;
+                Vector3 startPos = start.transform.GetChild(i).gameObject.transform.position;
                 GameObject go = loadout.transform.GetChild(i).gameObject;
 
                 go.tag = to.tag;
@@ -126,9 +127,10 @@ public class Create : MonoBehaviour
                 {
                     ds = go.AddComponent<DamageTransfer>();
                 }
+                go.AddComponent<IsEquipment>();
                 CenterMass cs = go.AddComponent<CenterMass>();
-                cs.center = to.transform;
-
+                cs.relativePos = Quaternion.Inverse(startRot) * (startPos*-1);
+                
             }
             loadout.SetActive(false);
         }
@@ -191,7 +193,7 @@ public class Create : MonoBehaviour
         Faction fs = go.AddComponent<Faction>();
         fs.faction = faction;
     }
-    public static void EquipLoadout(string name, GameObject to/*, string faction*/)
+    public static void EquipLoadout(string name, GameObject to)
     {
         DequipLoadout(to);
         Equipment es = to.GetComponent<Equipment>();
@@ -248,11 +250,6 @@ public class Create : MonoBehaviour
         {
             Destroy(already);
         }
-        CenterMass center = obj.GetComponent<CenterMass>();
-        if (center)
-        {
-            center.center = to.transform;
-        }
         ToolController ts = obj.GetComponent<ToolController>();
         if (ts)
         {
@@ -273,10 +270,6 @@ public class Create : MonoBehaviour
         body.name = bodyName;
         body.tag = faction;
         SetMaterial(body, faction);
-        if (faction != "Player")
-        {
-            AddReward(body, amount: reward);
-        }
         int health = Mathf.FloorToInt(10 * level);
 
         GameObject unit = new GameObject(faction);

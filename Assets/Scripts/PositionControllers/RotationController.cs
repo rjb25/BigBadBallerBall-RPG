@@ -9,7 +9,7 @@ public class RotationController : MonoBehaviour
 
     public bool keys = false;
 
-    public float sensitivityX = 9;
+    public float sensitivityX = 4.5f;
 
     public Rigidbody rb;
     private void Start()
@@ -22,14 +22,17 @@ public class RotationController : MonoBehaviour
         if (!keys)
         {
             rotationAboutYAxis = Input.GetAxis("Mouse X") * sensitivityX;
+
+            //rotationAboutXAxis = Input.GetAxis("Mouse Y") * sensitivityX;
         }
         else
         {
             rotationAboutYAxis = Input.GetAxis("Horizontal") * sensitivityX;
+            //rotationAboutXAxis = 0;
         }
-   
-        rb.AddTorque(new Vector3(0f,rotationAboutYAxis,0f)*sensitivityX);
-        //print(string.Format("{0} angular ball",rb.angularVelocity));
-        //gameObject.transform.eulerAngles = new Vector3(0, rotationAboutYAxis, 0);
+        
+        //transform.localEulerAngles += new Vector3(1, 0, 0) * sensitivityX * rotationAboutXAxis;
+        rb.AddTorque(Vector3.up *sensitivityX * Input.GetAxis("Mouse X"));
+        //rb.AddRelativeTorque(new Vector3(1,0,0) * sensitivityX * rotationAboutXAxis);
     }
 }

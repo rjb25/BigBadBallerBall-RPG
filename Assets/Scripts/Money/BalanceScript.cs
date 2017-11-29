@@ -10,11 +10,11 @@ public class BalanceScript : MonoBehaviour {
     void Start()
     {
         bal = GetComponent<Text>();
-        bal.text = balance.ToString();
+        bal.text = "BALANCE: " + balance.ToString();
     }
 	public void AddMoney (int amount) {
         balance += amount;
-        bal.text = balance.ToString();
+        bal.text = "BALANCE: " + balance.ToString();
 	}
 
 }

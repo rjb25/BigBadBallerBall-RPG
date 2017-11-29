@@ -34,6 +34,7 @@ public class ToolController : MonoBehaviour
     {
         ms = GetComponentInParent<Modifiers>();
         bulletList = GameObject.Find("BulletList");
+        
         kickBy = transform;
         if (!noAmmo)
         {
@@ -48,11 +49,12 @@ public class ToolController : MonoBehaviour
         trs.enabled = autoUse;
         if(holder.name == "PlayerBody")
         {
+            PlayerController ps = holder.GetComponent<PlayerController>();
             ToggleAuto(false);
             trs2 = gameObject.AddComponent<Trigger>();
             trs2.Set(activate: Use, active: Use);
-            trs2.condition = () => Input.GetKey(KeyCode.Space);
-            kickedRot = holder.GetComponent<RotateWithVelocity>().match.gameObject.GetComponent<Rigidbody>();
+            trs2.condition = () => Input.GetMouseButtonDown(0) && ps.enabled;
+            kickedRot = holder.GetComponent<Rigidbody>();
         }
 
     }

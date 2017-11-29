@@ -118,6 +118,7 @@ MonoBehaviour:
   - Enemy
   affected:
   - Enemy
+  hitsEquipment: 1
   hitsBarriers: 1
 --- !u!114 &114398376377357256
 MonoBehaviour:
@@ -132,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 54094053300575852}
   speed: 30
+  maxSpeed: 10
   grip: 0.9
   velocity: 1
 --- !u!114 &114505316698316870
@@ -145,12 +147,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7b3cd7f0e5c0c4db3537807b0b148d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionsAllowed: 0
+  hitsAllowed: 1
+  collisionsAllowed: 1
+  collisionCount: 0
   firer: {fileID: 0}
   spawner: {fileID: 0}
-  damageMult: 1
   distance: 0.7
   to: {fileID: 114270196298371102}
+  fs: {fileID: 0}
 --- !u!114 &114582639717527078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   pro: {fileID: 114505316698316870}
+  ms: {fileID: 0}
 --- !u!114 &114736045989488090
 MonoBehaviour:
   m_ObjectHideFlags: 1

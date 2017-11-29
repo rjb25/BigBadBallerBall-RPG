@@ -27,7 +27,6 @@ GameObject:
   - component: {fileID: 114349814582531216}
   - component: {fileID: 114891885795443050}
   - component: {fileID: 114746748052887408}
-  - component: {fileID: 114256371629368386}
   - component: {fileID: 114912103397668466}
   - component: {fileID: 114948320957777984}
   m_Layer: 8
@@ -116,18 +115,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7508574, y: 5.9142447, z: 0.97894174}
   m_Center: {x: -0.15231171, y: 1.053648, z: 0.010529137}
---- !u!114 &114256371629368386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1829154369232024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbdc5dca9f2d22041a999cc7153cba82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {fileID: 0}
 --- !u!114 &114349814582531216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612daba56326b1a4787a8545f5c456e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamage: 15
   impactDamage: 1
   effectTimer: {fileID: 0}
   wait: -1
@@ -182,10 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7b3cd7f0e5c0c4db3537807b0b148d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitsAllowed: -1
   collisionsAllowed: -1
+  collisionCount: 0
   firer: {fileID: 0}
   spawner: {fileID: 0}
-  damageMult: 1
   distance: 0
   to: {fileID: 114471077084315004}
   fs: {fileID: 0}
@@ -203,7 +190,7 @@ MonoBehaviour:
   holder: {fileID: 0}
   projectile: {fileID: 0}
   buffedProjectile: {fileID: 0}
-  kick: -2000
+  kick: -8000
   rotKick: 0
   kickVert: 0
   kickHor: 0
@@ -219,6 +206,7 @@ MonoBehaviour:
   autoUse: 0
   bulletList: {fileID: 0}
   noAmmo: 1
+  ms: {fileID: 0}
 --- !u!114 &114948320957777984
 MonoBehaviour:
   m_ObjectHideFlags: 1
