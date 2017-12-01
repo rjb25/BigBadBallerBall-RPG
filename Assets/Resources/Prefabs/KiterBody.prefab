@@ -98,7 +98,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &114099726184638470
 MonoBehaviour:
@@ -119,13 +119,15 @@ MonoBehaviour:
   charges: 0
   movesFacing: 0
   hold: 0
-  pointSpeed: 0.001
+  pointSpeed: 0.0001
   reholding: 0
   holdRange: 0.01
   holdPoint: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   ts: {fileID: 0}
   basePoint: {x: 0, y: 0, z: 0}
+  stability: 0.001
+  useNav: 0
   pursueRange: 1000
 --- !u!114 &114234873323654644
 MonoBehaviour:
@@ -166,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 54066132387266628}
-  speed: 30
-  maxSpeed: 10
+  speed: 15
+  maxSpeed: -1
   grip: 0.9
   velocity: 0
 --- !u!135 &135986664508179644

@@ -7,7 +7,7 @@ public class EnemyGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startTime = Time.time;
-        InvokeRepeating("MakeCharger", 15f, 7f);
+        InvokeRepeating("MakeCharger", 1f, 7f);
 
         InvokeRepeating("MakeHeavy", 60f, 45f);
 
@@ -15,7 +15,7 @@ public class EnemyGenerator : MonoBehaviour {
     }
     void MakeCharger()
     {
-        GameObject charger = Create.Unit(RandomPosition(), "ChargerBody", "Enemy", level: 1);
+        GameObject charger = Create.Unit(RandomPosition(), "CommanderBody", "Enemy", level: 1);
         Create.AddReward(charger);
     }
     public void MakeHeavy()

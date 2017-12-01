@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+
+using UnityEngine.AI;
 //This class controls player movement and rotation relative to a target. 
 //Ask Jason on the phone or in person and I can explain further whichever part you need to know.
 public class AI : MonoBehaviour
@@ -25,13 +27,16 @@ public class AI : MonoBehaviour
     private Sendable sendScript;
     public Trigger ts;
     public Vector3 basePoint;
+    public float stability = 1;
+    public NavMeshPath path;
+    public bool useNav = false;
 
     public int pursueRange = 10;
 
     //public Actor noTarget;
     #endregion
     public void Start(){
-       
+        path =   new NavMeshPath();
         ms = GetComponent<Movement>();
         //noTarget = Forward;
         targetScript = GetComponent<Targeting>();
@@ -82,6 +87,7 @@ public class AI : MonoBehaviour
     //The rest is just a bunch of conditions checked based on AI variables.
 void Update()
 {
+
         //if out of pursue range from base, move towards hold point.
         Vector3 baseDistance = basePoint - gameObject.transform.position;
         hold = baseDistance.sqrMagnitude > pursueRange * pursueRange;
@@ -99,7 +105,19 @@ void Update()
                 }
 
                 Vector3 forward;
-
+                if (useNav)
+                {
+                NavMesh.CalculatePath(transform.position, targetScript.target.transform.position, NavMesh.AllAreas, path);
+                if (path.corners.Length > 1)
+                {
+                    forward = path.corners[1] - transform.position;
+                }
+                else
+                {
+                    forward = transform.forward;
+                }
+            }
+                else
                 if (movesFacing)
                 {
 
@@ -110,6 +128,7 @@ void Update()
 
                     forward = Vector3.Normalize(relativePos);
                 }
+        
                 if (!relative)
                 {
                     where = direction * Vector3.Normalize(Vector3.Scale(forward, new Vector3(1, 0, 1)));
@@ -129,16 +148,14 @@ void Update()
                 else
                 {
                     Quaternion rotation = Quaternion.LookRotation(relativePos);
-                    if (transform.rotation != rotation)
-                    {
-                        //still happens in pause... Oops
-                        rotation = Quaternion.Slerp(transform.rotation, rotation, Time.time * pointSpeed);
-                        /*
-                        print(rotation.eulerAngles + " " + transform.rotation.eulerAngles);
-                        rb.AddTorque(rotation.eulerAngles - transform.rotation.eulerAngles);
-                        */
-                        transform.rotation = rotation;
-                    }
+                    float angleDiff = Mathf.DeltaAngle(transform.rotation.eulerAngles.y, rotation.eulerAngles.y);
+                        rb.AddTorque(new Vector3(0,pointSpeed * 100 * Mathf.DeltaAngle(transform.rotation.eulerAngles.y, rotation.eulerAngles.y),0));
+                    Vector3 temp = rb.angularVelocity;
+                    print(angleDiff);
+                    print(Mathf.Min((Mathf.Abs(angleDiff) / (180 * stability)) + 0.1f, 1));
+                    rb.angularVelocity *= Mathf.Min((Mathf.Abs(angleDiff)/(180*stability))+ 0.1f,1);
+
+                    
                 }
             }
 
@@ -154,6 +171,7 @@ void Update()
             Vector3 difference = holdPoint - gameObject.transform.position;
             where = Vector3.Normalize(difference);
         }
+        
         try
         {
             ms.defaultMovement(where, ms.rb, ms.speed);

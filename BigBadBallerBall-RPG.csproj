@@ -135,6 +135,7 @@
     <Compile Include="Assets\Scripts\StartingUnits.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\ToolController\ToolController.cs" />
+    <Compile Include="Assets\Scripts\TorqueLookRotation.cs" />
     <Compile Include="Assets\Scripts\Triggers\Always.cs" />
     <Compile Include="Assets\Scripts\Triggers\OnKey.cs" />
     <Compile Include="Assets\Scripts\Triggers\Trigger.cs" />

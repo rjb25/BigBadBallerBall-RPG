@@ -138,6 +138,7 @@ a414b86a4a787fab39473e8b5e14f436 Assembly-CSharp.dll:.Sendable
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.IsEquipment
 3844b61b0c14e6dc2f18f127ca8f0cd8 Assembly-CSharp.dll:.Projectile
 3f8777b3e933ff1a1d82e104769063fe Assembly-CSharp.dll:.BombDamage
+6d42adb5bdc0563f4450cbca229d6c4a Assembly-CSharp.dll:.ScriptForMenu
 ac7c4159e35c5aa7c21caf0081f4b303 Assembly-CSharp.dll:.MenuScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -181,10 +182,11 @@ e04379475e02edb566cd5bbcd83979e9 Assembly-CSharp.dll:.OnKey
 7c6fb094f5246b8f18656fe8bd7cfc58 Assembly-CSharp.dll:.ScoreScript
 635ca125ef30f171dcf69a40704dbd6a Assembly-CSharp.dll:.ToolController
 3d0483c48f490dc1d06d9a704fa30471 Assembly-CSharp.dll:.Variables
-3750b7d4d64a5eeaaba713c94db46706 Assembly-CSharp.dll:.MoveTo
+ae62e636b5599c6cf0e67f90989d9700 Assembly-CSharp.dll:.MoveTo
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MultiPlayerController
 6480170519136d9a5bf0b7087b8bd72d Assembly-CSharp.dll:.DropScatter
-3dfdf56ed9d051647937f4255aa575f9 Assembly-CSharp.dll:.AI
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TorqueLookRotation
+6533af428421ddfda0fdb6f825788d03 Assembly-CSharp.dll:.AI
 81411ecd373a8ef110527c3f6907e21b Assembly-CSharp.dll:.ExplosionEffect
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Create
 8fedb20f679d3e9c188be2828074e2ba Assembly-CSharp.dll:.Orbiter
