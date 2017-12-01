@@ -21,8 +21,8 @@ public class MenuScript : MonoBehaviour {
         playerInteract = Player.GetComponent<Interact>();
     NetworkHUD = GameObject.Find("Networking").GetComponent<NetworkManagerHUD>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
     //BUTTONS ARE IN PURCHASES
     public void Toggle() {

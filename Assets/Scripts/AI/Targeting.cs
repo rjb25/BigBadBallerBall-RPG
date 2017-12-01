@@ -24,8 +24,6 @@ public class Targeting : MonoBehaviour{
     public Movement ms;
     public AI ais;
     public Trigger wts;
-    // switch case OK for now private delegate void targeting(GameObject[] objs);
-
     private void Start()
     {
 
@@ -181,8 +179,6 @@ public void SetTarget()
                 priority = curPriority;
             }
         }
-        //if set to really low priority, ignore them. (High number for priority means do way later)
-
             if (priority < 1000)
             {
                 return highestPriority;

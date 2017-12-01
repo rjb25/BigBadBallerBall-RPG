@@ -6,12 +6,9 @@ using System;
 public class Movement : MonoBehaviour {
     public Rigidbody rb;
     public float speed = 9;
-    public float maxSpeed = 10;
     public float grip = 0.9f;
     public MoveDel defaultMovement;
     public bool velocity = false;
-    //public Vector3 holdPoint;
-    // Use this for initialization
     void Start () {
        if(defaultMovement == null)
         {
@@ -49,11 +46,6 @@ public class Movement : MonoBehaviour {
             rb.AddForce(direction * speed * Time.deltaTime * 30);
 
     }
-    //gonna require some serious checks to make sure this is ok.... set a point out in direction. ray cast up and down. whichever hits, get that point. position acordingly
-    //https://forum.unity.com/threads/how-to-find-objects-height-above-terrain-mesh.2708/
-    public static void Teleport(Vector3 direction = new Vector3(), Rigidbody rb = null, float speed = 0) {
 
-        rb.gameObject.transform.position += direction * speed *30;
-    }
 
 }

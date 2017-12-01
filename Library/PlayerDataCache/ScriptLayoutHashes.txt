@@ -138,6 +138,7 @@ a414b86a4a787fab39473e8b5e14f436 Assembly-CSharp.dll:.Sendable
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.IsEquipment
 3844b61b0c14e6dc2f18f127ca8f0cd8 Assembly-CSharp.dll:.Projectile
 3f8777b3e933ff1a1d82e104769063fe Assembly-CSharp.dll:.BombDamage
+68281fb9f29477b9ab951c046cb69fc6 Assembly-CSharp.dll:.ScriptForMenu
 ac7c4159e35c5aa7c21caf0081f4b303 Assembly-CSharp.dll:.MenuScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
