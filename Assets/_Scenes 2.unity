@@ -350,7 +350,7 @@ Prefab:
         type: 2}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 861de98f01c1b1641b8285f30e1167a3,
+      objectReference: {fileID: 13400000, guid: 11c1362d860e1274fb30d75045341a4e,
         type: 2}
     - target: {fileID: 114684675797669750, guid: b24482526d7abc4448f1b61b3a5902f9,
         type: 2}
@@ -364,6 +364,11 @@ Prefab:
     - target: {fileID: 114257144796867214, guid: b24482526d7abc4448f1b61b3a5902f9,
         type: 2}
       propertyPath: noBreak
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 135531719132898924, guid: b24482526d7abc4448f1b61b3a5902f9,
+        type: 2}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -2503,14 +2508,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 866062495}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &866062503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2548,6 +2553,31 @@ Transform:
   m_PrefabParentObject: {fileID: 4195366260020354, guid: b24482526d7abc4448f1b61b3a5902f9,
     type: 2}
   m_PrefabInternal: {fileID: 35215291}
+--- !u!114 &866062506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866062495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3902df378c45bf041bfe241f579584e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kick: 100
+  rotKick: 0
+  kickVert: 0
+  kickHor: 0
+  hasKick: 1
+  randKick: 0
+  reloadTime: 0.1
+  lastUse: 0
+  kickWhat: {fileID: 866062502}
+  kickedRot: {fileID: 866062502}
+  kickBy: {fileID: 1961342395}
+  trs: {fileID: 0}
+  trs2: {fileID: 0}
+  autoUse: 0
 --- !u!114 &866062507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2616,8 +2646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96213812798f17e4fa5bb945b28ed86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  speed: 220
+  rb: {fileID: 866062502}
+  speed: 20
   maxSpeed: -1
   grip: 0.9
   velocity: 0
@@ -3203,7 +3233,7 @@ TerrainCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1105548562}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 11c1362d860e1274fb30d75045341a4e, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 22e80031e2771f5488a4337c3bb48ef9, type: 2}
   m_EnableTreeColliders: 1
