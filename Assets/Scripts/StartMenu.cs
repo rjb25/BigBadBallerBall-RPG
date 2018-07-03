@@ -50,7 +50,7 @@ public class StartMenu : MonoBehaviour
     public void StartGame()
     {
         print("called");
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("_Scenes");
     }
     public void ExitGame()
     {

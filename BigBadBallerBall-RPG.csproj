@@ -14,6 +14,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.1.1f1</UnityVersion>
@@ -50,47 +51,58 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DestroyIfDuplicate.cs" />
+    <Compile Include="Assets\DontDestroy.cs" />
     <Compile Include="Assets\Scripts\AI\AI.cs" />
     <Compile Include="Assets\Scripts\AI\Priority.cs" />
     <Compile Include="Assets\Scripts\AI\Targeting.cs" />
+    <Compile Include="Assets\Scripts\Alliances.cs" />
+    <Compile Include="Assets\Scripts\ApplyMenuSettings.cs" />
     <Compile Include="Assets\Scripts\AutoBalance.cs" />
     <Compile Include="Assets\Scripts\ClickableObject.cs" />
     <Compile Include="Assets\Scripts\CopyComponent.cs" />
     <Compile Include="Assets\Scripts\Create.cs" />
+    <Compile Include="Assets\Scripts\CursorImage.cs" />
     <Compile Include="Assets\Scripts\DamageTransfer.cs" />
     <Compile Include="Assets\Scripts\Delegates.cs" />
+    <Compile Include="Assets\Scripts\DestroyIfDuplicate.cs" />
+    <Compile Include="Assets\Scripts\DualDisplay.cs" />
     <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Expand.cs" />
     <Compile Include="Assets\Scripts\ExtraGravity.cs" />
     <Compile Include="Assets\Scripts\Faction.cs" />
+    <Compile Include="Assets\Scripts\Fade.cs" />
+    <Compile Include="Assets\Scripts\FindByFaction.cs" />
+    <Compile Include="Assets\Scripts\GameState.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Interact.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
@@ -98,6 +110,8 @@
     <Compile Include="Assets\Scripts\IsEquipment.cs" />
     <Compile Include="Assets\Scripts\IsRef.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\JoystickInput.cs" />
+    <Compile Include="Assets\Scripts\LoadCarryOver.cs" />
     <Compile Include="Assets\Scripts\Modifiers.cs" />
     <Compile Include="Assets\Scripts\Money\BalanceScript.cs" />
     <Compile Include="Assets\Scripts\Money\DropScatter.cs" />
@@ -110,6 +124,7 @@
     <Compile Include="Assets\Scripts\NetworkTest\MultiPlayerController.cs" />
     <Compile Include="Assets\Scripts\No.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\AlwaysVisible.cs" />
+    <Compile Include="Assets\Scripts\PositionControllers\CamController.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\CenterMass.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\Follow.cs" />
     <Compile Include="Assets\Scripts\PositionControllers\HavePlayerVelocity.cs" />
@@ -130,9 +145,14 @@
     <Compile Include="Assets\Scripts\ProjectileControllers\Projectile.cs" />
     <Compile Include="Assets\Scripts\ProjectileControllers\Sendable.cs" />
     <Compile Include="Assets\Scripts\RandomTerrain.cs" />
+    <Compile Include="Assets\Scripts\Reference.cs" />
     <Compile Include="Assets\Scripts\Repulse.cs" />
+    <Compile Include="Assets\Scripts\SaveGame.cs" />
     <Compile Include="Assets\Scripts\ScriptForMenu.cs" />
+    <Compile Include="Assets\Scripts\ShowMenu.cs" />
     <Compile Include="Assets\Scripts\StartingUnits.cs" />
+    <Compile Include="Assets\Scripts\StartMenu.cs" />
+    <Compile Include="Assets\Scripts\TestFuncs.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\ToolController\ToolController.cs" />
     <Compile Include="Assets\Scripts\TorqueLookRotation.cs" />

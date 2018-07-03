@@ -7,13 +7,14 @@ public class PlayerController : MonoBehaviour
     
     //private bool isHost = false;
     public bool noBackwards = true;
-    public RotateAbout camScript;
+    public CamController camScript;
     private float moveHorizontal = 0;
     private int count;
     public float maxCamera = 0.5f;
     private Movement ms;
     public float sensitivity = 1.0f;
     public Rigidbody rb;
+    public Transform cam;
 
     public void OnDeath()
     {
@@ -24,15 +25,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-    camScript = GameObject.Find("Main Camera").GetComponent<RotateAbout>();
+        cam = GameObject.Find("Main Camera").transform;
+    camScript = GameObject.Find("Main Camera").GetComponent<CamController>();
         ms = GetComponent<Movement>();
-        Invoke("StartingWeapon",1);
     }
-    void StartingWeapon()
-    {
 
-        Create.AddLoadout("Swordy", gameObject, true);
-    }
 
     void FixedUpdate()
     {
@@ -45,13 +42,13 @@ public class PlayerController : MonoBehaviour
         float moveV = Input.GetAxis("Vertical");
 
         float moveH = Input.GetAxis("Horizontal");
-        Vector3 forward = transform.forward * moveV;
-        Vector3 right = transform.right * moveH;
+        Vector3 forward = cam.forward * moveV;
+        Vector3 right = cam.right * moveH;
         Vector3 direction = Vector3.Normalize((forward + right) * 0.5f);
         //rb.AddTorque(Vector3.up * 4.5f * Input.GetAxis("Mouse X"));
-        float mouse = Input.GetAxis("Mouse X");
-            rb.angularVelocity += Vector3.up * sensitivity * mouse ;
-        
+        //float mouse = Input.GetAxis("Mouse X");
+       // rb.angularVelocity += Vector3.up * sensitivity * mouse ;
+
         ms.defaultMovement(direction, ms.rb, ms.speed);
         
     }
